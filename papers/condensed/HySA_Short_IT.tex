@@ -1,0 +1,265 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[provide=*,italian]{babel}
+\usepackage{lmodern}
+\usepackage[protrusion=true,expansion=false]{microtype}
+\usepackage[a4paper, top=1.85cm, bottom=1.85cm, left=1.65cm, right=1.65cm, columnsep=0.65cm]{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\definecolor{linkblue}{RGB}{20, 70, 140}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkblue,
+    citecolor=linkblue,
+    urlcolor=linkblue,
+    pdftitle={HySA: Architettura Semantica Ibrida (Edizione Condensata)},
+    pdfauthor={Francesco Mariani}
+}
+
+\newtheorem{proposizione}{Proposizione}
+\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}
+
+\title{\vspace{-1.05cm}\textbf{\Large HySA: Architettura Semantica Ibrida \\ \large Preservare l'Astrazione Polisemantica mediante Tensori di Sovrapposizione Contrastivi, \\ Inode Monosemantici e Temperatura Topologica \texorpdfstring{($T_t$)}{(Tt)}}}
+
+\author{
+    \textbf{Francesco Mariani} \quad \textit{Architetto di Sistemi Indipendente} \\
+    Umbria, Italia \quad \texttt{fratorials@gmail.com} \quad {\footnotesize DOI: \href{https://doi.org/10.5281/zenodo.23456159}{\texttt{10.5281/zenodo.23456159}}}
+}
+
+\date{\vspace{-0.4cm}\small Ottobre 2026}
+
+\begin{document}
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{center}
+        \vspace{-0.4cm}
+        \textit{``L'industria dell'IA vede il polisemantismo come una condanna... ma forse è la benedizione che ha reso possibile l'intelligenza.''}
+        \vspace{0.2cm}
+    \end{center}
+    \begin{abstract}
+      \small
+      \noindent La ricerca contemporanea nell'ambito dell'\textit{Interpretabilità Meccanicistica} descrive il polisemantismo neuronale come un artefatto indesiderato della compressione ad alta dimensione (\textit{Ipotesi di Sovrapposizione}), dedicando ingenti risorse computazionali a decomporre le rappresentazioni latenti in dizionari di direzioni puramente monosemantiche tramite Sparse Autoencoder (SAE). In questo lavoro proponiamo un cambio di paradigma fondamentale: \textbf{il polisemantismo non è un difetto da estirpare, ma il prerequisito geometrico dell'intelligenza associativa e del ragionamento analogico.} Un neurone puramente monosemantico possiede zero gradi di libertà associativi ($\mathcal{R}(u)=0$): privo di canali relazionali laterali, funziona come una rigida cella deterministica di lookup. Al contrario, le unità polisemantiche si co-attivano su concetti isomorfi (es. \texttt{IP}, \texttt{DNS}, \texttt{Pagine Bianche}, \texttt{Numero di Telefono}) per comprimere istanze eterogenee in schemi strutturali di ordine superiore. Per disaccoppiare il ragionamento associativo fluido dalla memoria fattuale rigorosa senza ricorrere a colli di bottiglia seriali (che distruggono l'astrazione contestuale) o duplicazioni parallele (che comportano ridondanza computazionale), introduciamo l'architettura \textbf{HySA (Hybrid Semantic Architecture)}, un modello unificato delimitato dalla semanticità neuronale. HySA formalizza quattro contributi centrali: (1) i \textbf{Tensori di Sovrapposizione Contrastivi} ($I_n$), che isolano politopi di feature multi-concetto tramite risposte di aspettativa dell'intera rete su dati contrastivi; (2) l'\textbf{Indicizzazione tramite Inode Monosemantici}, che ancora i letterali atomici (\texttt{8.8.8.8}, \texttt{24}, \texttt{JOHN}) su un registro metrico ortogonale $\mathcal{F}_{\mathrm{mono}}$ interrogato tramite operatori di confine on-demand; (3) l'\textbf{Ipersfera Semantica}, governata da temperature duali di regime ($T_p, T_m$) unificate dalla \textbf{Temperatura Topologica} ($T_t$); e (4) il \textbf{Gradiente di Compressione} ($\Delta q$), analizzato come un paesaggio di potenziale termodinamico il cui minimo stazionario identifica il \textbf{Punto Critico} ($P_c$) che bilancia creatività e determinismo fattuale. Valutata su una varietà sintetica duale $32 \times 32$ e validata empiricamente sullo stream residuo di \texttt{EleutherAI/pythia-70m} ($D=512$), HySA dimostra che gli schemi relazionali polisemantici raggiungono un'elevata convergenza coseno ($\ge 0.893$), mentre la verifica metrica di confine elimina le allucinazioni fattuali prive di ancoraggio, intercettando la deriva non verificata mediante \textit{Errori Semantici} deterministici (\textit{Semantic Faults}).
+      \vspace{0.15cm}
+    \end{abstract}
+  \end{@twocolumnfalse}
+]
+
+\begin{figure*}[t]
+    \centering
+    \IfFileExists{fig1_imprinted_tensors.pdf}{
+        \includegraphics[width=0.98\textwidth]{fig1_imprinted_tensors.pdf}
+    }{
+        \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 1: Tensori di Sovrapposizione Contrastivi]} \vspace{0.8cm}}}
+    }
+    \vspace{-0.15cm}
+    \caption{\textbf{Tensori di Sovrapposizione Contrastivi ($I_n$) e Query Semantiche Algebriche sul Benchmark $32 \times 32$.} Le Colonne 1--4 mostrano le rappresentazioni polisemantiche apprese da un collo di bottiglia a 4 neuroni. Ciascun tensore cattura primitive geometriche multiple. La Colonna 5 isola l'invariante strutturale condiviso tramite intersezione di Hadamard ($I_1 \odot I_2$). La Colonna 6 estrae la divergenza differenziale tramite sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), dimostrando l'isolamento algebrico delle feature senza distruggere la connettività polisemantica.}
+    \label{fig:imprinted_tensors}
+\end{figure*}
+
+\section{Introduzione: La Dicotomia Epistemologica}
+Nelle reti neurali artificiali profonde, le singole unità esibiscono costantemente una \textit{selettività mista}~\cite{rigotti2013importance, elhage2022toy}. La comunità dell'interpretabilità meccanicistica ha storicamente attribuito questo fenomeno all'\textit{Ipotesi di Sovrapposizione}~\cite{elhage2022toy}: i modelli comprimono un numero di feature molto maggiore rispetto alle dimensioni disponibili ($M \gg D$), costringendo feature non ortogonali a condividere rappresentazioni. Di conseguenza, notevoli sforzi sono stati profusi nell'addestramento di \textit{Sparse Autoencoder} (SAE)~\cite{bricken2023monosemanticity, templeton2024scaling} per proiettare le attivazioni su dizionari di direzioni monosemantiche isolate.
+
+Tuttavia, questa ricerca della purezza monosemantica trascura una fondamentale suddivisione epistemologica tra \textbf{Intelligenza} e \textbf{Memoria}:
+\begin{itemize}[leftmargin=*, itemsep=1.5pt, topsep=1.5pt]
+    \item \textbf{Le Unità Polisemantiche ($N_p$) Generano Intelligenza:} Si consideri un'unità interna che si co-attiva sui prompt \texttt{Indirizzo IP}, \texttt{DNS}, \texttt{Elenco Pagine Bianche} e \texttt{Numero di Telefono}. L'interpretabilità standard diagnostica questa unità come rumorosa o contaminata. In realtà, tale neurone ha compresso molteplici entità eterogenee in uno schema relazionale unificato: \textit{il concetto astratto di risoluzione da identità a indirizzo}. Le connessioni associative tra domini altrimenti distanti costituiscono il fondamento strutturale dell'analogia, della generalizzazione e dell'intelligenza cognitiva.
+    \item \textbf{Le Unità Monosemantiche ($N_m$) Forniscono Memoria:} Al contrario, le unità che codificano letterali fattuali atomici e rigidi---come l'indirizzo IP \texttt{8.8.8.8}, l'intero CIDR \texttt{24} o il nome utente \texttt{JOHN}---possiedono zero connessioni associative intrinseche ($\mathcal{R}(u)=0$). Esattamente come una voce statica in una rubrica, un'unità monosemantica isolata è priva di gradi di libertà relazionali; non può compiere autonomamente sintesi analogiche o generalizzazioni. Tuttavia, essa è \textbf{rigorosamente deterministica}. Questa assenza di sfocatura associativa rende le rappresentazioni monosemantiche insostituibili per la conservazione della verità e la verifica fattuale.
+\end{itemize}
+
+I moderni LLM allucinano perché le loro architetture intrecciano entrambi i regimi all'interno di matrici di peso dense e omogenee~\cite{geva2021transformer}. Durante la backpropagation, i gradienti associativi interpolano continuamente attraverso fatti immutabili, inducendo il modello a trattare costanti e identificatori univoci come token plastici e probabilistici, soggetti a deriva stocastica.
+
+\begin{definizione}[Rango Relazionale delle Unità Semantiche]
+Sia $u$ un'unità neuronale e sia $\Omega$ lo spazio dei concetti semantici. Definiamo l'insieme di feature associate $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$, dove $\theta > 0$ è una soglia di attivazione statisticamente significativa. Il \textbf{Rango Relazionale} $\mathcal{R}(u)$ è la cardinalità delle traiettorie associative a coppie abilitate dall'unità:
+\begin{equation}
+    \mathcal{R}(u) = \binom{|\mathcal{C}(u)|}{2} = \frac{|\mathcal{C}(u)| (|\mathcal{C}(u)| - 1)}{2}
+\end{equation}
+Un'unità puramente monosemantica $u_{\mathrm{mono}}$ con $|\mathcal{C}(u_{\mathrm{mono}})| = 1$ ha rango relazionale nullo: $\mathcal{R}(u_{\mathrm{mono}}) = 0$. Di conseguenza, un'architettura limitata esclusivamente a neuroni monosemantici non può eseguire proiezioni analogiche continue senza un grafo relazionale esterno.
+\end{definizione}
+
+\section{Architettura dei Sistemi: Euristiche OS vs. Geometria di Hilbert}
+Per progettare architetture cognitive che non collassino in estremi disfunzionali, traiamo ispirazione dall'ingegneria dei sistemi operativi (OS). I sistemi operativi hanno risolto la dicotomia tra esecuzione dinamica e integrità persistente gestendo buffer fluidi di esecuzione nella memoria RAM e blocchi immutabili ancorati a puntatori rigidi di metadati (\textbf{Inode}) nei filesystem.
+
+In HySA traduciamo queste euristiche di sistema in costrutti geometrici formali nello spazio di Hilbert latente $\mathcal{S} \subset \mathbb{R}^D$, come riassunto nella Tabella~\ref{tab:terminology}.
+
+\begin{table}[t]
+\centering
+\caption{Mappatura delle Euristiche dei Sistemi Operativi sui Costrutti Geometrici Formali in HySA.}
+\label{tab:terminology}
+\vspace{0.12cm}
+\scriptsize
+\setlength{\tabcolsep}{2.0pt}
+\begin{tabular}{@{}p{1.9cm}p{2.2cm}p{3.9cm}@{}}
+\toprule
+\textbf{Termine di Sistema} & \textbf{Costrutto Formale} & \textbf{Funzione Architetturale in HySA} \\ \midrule
+\textbf{Inode} ($N_m / \mu_k$) & Centroide $\mu_k \in S^{D-1} \subset \mathbb{R}^D$ & Ancora metrica ortogonale con $\emptyset$ gradi associativi, associata al letterale $\mathbf{v}_k$. \\[3pt]
+\textbf{Filesystem} & Varietà Metrica $\mathcal{F}_{\mathrm{mono}}$ & Registro indicizzato ($\{\mu_k\}_{k=1}^M$, $100\%$ precisione) interrogato on-demand. \\[3pt]
+\textbf{Query / API} & Operatore di Confine $Q$ & Condizione metrica deterministica che proietta gli stati fluidi su letterali certificati. \\[3pt]
+\textbf{Page Fault} & \textbf{Errore Semantico} ($\bot_{\mathrm{Fault}}$) & Eccezione esplicita sollevata quando $d^* > T_t$, bloccando l'allucinazione. \\[3pt]
+\textbf{Temperatura} & Intorno Metrico $\mathcal{B}(\mu_k, T_t)$ & Volume metrico multidimensionale di tolleranza attorno al centroide concettuale. \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\section{Tensori di Sovrapposizione Contrastivi \texorpdfstring{($I_n$)}{(In)}}
+Un neurone isolato in un layer intermedio genera unicamente un'attivazione scalare $z_n \in \mathbb{R}$. Per comprendere il politopo multi-concetto codificato da un'unità polisemantica, la sua semantica strutturale deve essere estratta tramite l'aspettativa dell'intera rete su dati contrastivi.
+
+Sia $\mathcal{X}^+$ un dataset contenente gli invarianti target condivisi (es. loop geometrici circolari o query di risoluzione identità-indirizzo), e sia $\mathcal{X}^-$ un dataset di baseline negativo. Sia $\Phi_{\mathrm{net}}(X \mid n)$ la risposta dell'intera rete condizionata all'unità attiva $n$. Formalizziamo il \textbf{Tensore di Sovrapposizione Contrastivo} $I_n$ come:
+\begin{equation}
+\begin{aligned}
+    I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \Bigg[ & \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) \\
+    & - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \Bigg]
+\end{aligned}
+\label{eq:imprinted_tensor}
+\end{equation}
+dove $z_{k,n}$ è l'attivazione dell'unità $n$ per l'input $X_k$, $\gamma \in [0, 1]$ è un coefficiente di soppressione ed $\eta > 0$ è uno stabilizzatore numerico. La normalizzazione del picco con rettificazione proietta $I_n$ nel cono semi-definito positivo: $I_n \leftarrow \mathrm{ReLU}(I_n) / (\max(I_n) + \eta)$.
+
+Come illustrato nella Figura~\ref{fig:imprinted_tensors}, le operazioni algebriche operano direttamente su questi tensori:
+\begin{align}
+    I_{\mathrm{condiviso}} &= I_A \odot I_B \quad &&\text{(Invariante)} \\
+    I_{\mathrm{diff}} &= \mathrm{ReLU}(I_A - \gamma I_B) \quad &&\text{(Differenziale)}
+\end{align}
+
+\section{Macro-Architettura: Né Seriale Né Parallela}
+In che modo $N_p$ ed $N_m$ devono essere interconnessi?
+\begin{itemize}[leftmargin=*, itemsep=1.5pt, topsep=1.5pt]
+    \item \textbf{Né Seriale ($N_p \to N_m$ o $N_m \to N_p$):} Collocare un layer monosemantico a valle comprime prematuramente le rappresentazioni relazionali continue in categorie rigide. Anteporlo a monte rimuove il contesto relazionale prima che l'astrazione polisemantica possa emergere.
+    \item \textbf{Né Parallelo ($N_p \parallel N_m$):} Eseguire due reti indipendenti in parallelo raddoppia i parametri e il consumo computazionale ($2\times \mathrm{FLOPs}$), richiedendo teste di arbitraggio euristiche.
+\end{itemize}
+In \textbf{HySA}, il modello opera su un \textbf{Singolo Substrato Unificato} nello spazio di Hilbert $\mathcal{S} \subset \mathbb{R}^D$. Il ragionamento fluido propaga nativamente attraverso i layer $N_p$ sotto la temperatura $T_p$. Quando la generazione raggiunge posizioni di token fattuali, il sistema interroga l'Operatore di Confine Metrico $Q(h_t, \mathcal{F}_{\mathrm{mono}}, T_t)$ on-demand.
+
+\section{L'Ipersfera Semantica e le Temperature Duali \texorpdfstring{($T_p, T_m, T_t$)}{(Tp, Tm, Tt)}}
+Anziché applicare la temperatura come divisore scalare post-hoc sulla softmax finale, HySA definisce la temperatura su base geometrica come \textbf{l'intorno metrico multidimensionale del neurone nello spazio latente}: l'\textbf{Ipersfera Semantica}.
+
+La dinamica è governata da due distinti regimi termici:
+\begin{enumerate}[leftmargin=*, itemsep=1.5pt, topsep=1.5pt]
+    \item \textbf{Temperatura Polisemantica ($T_p$):} Controlla l'esplorazione browniana continua lungo le varietà relazionali.
+    \item \textbf{Temperatura Monosemantica ($T_m$):} Definisce la rigidità radiale intrinseca e la precisione del centroide atomico $\mu_k$.
+\end{enumerate}
+Questi regimi sono unificati nella \textbf{Temperatura Topologica} ($T_t$), che delimita la palla metrica chiusa $\mathcal{B}(\mu_k, T_t)$:
+\begin{equation}
+    \mathcal{B}(\mu_k, T_t) = \left\{ x \in \mathcal{S} \;\middle|\; \| x - \mu_k \|_2 \le T_t(T_p, T_m) \right\}
+\end{equation}
+Formalizzata tramite un accoppiamento saturante ($\alpha \in (0, 1)$):
+\begin{equation}
+    T_t(T_p, T_m) = T_m \left( 1 + \alpha \tanh\left( \frac{T_p}{T_m} \right) \right)
+\end{equation}
+Sulla sfera unitaria $S^{D-1}$, la distanza euclidea $\ell_2$ è in corrispondenza biunivoca con la deviazione angolare: $\|x - \mu_k\|_2 = \sqrt{2(1 - \cos\theta)}$.
+
+\begin{definizione}[Operatore di Confine Metrico $Q$]
+Data una traiettoria latente $h \in \mathcal{S}$, il registro $\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}$ e la soglia $T_t$, siano $k^* = \arg\min_k \|h - \mu_k\|_2$ e $d^* = \|h - \mu_{k^*}\|_2$. L'operatore $Q$ restituisce:
+\begin{equation}
+    Q(h, \mathcal{F}_{\mathrm{mono}}, T_t) = 
+    \begin{cases} 
+      (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{se } d^* \le T_t \\ 
+      (\mathrm{FAULT}, \bot) & \text{se } d^* > T_t 
+    \end{cases}
+\end{equation}
+Geometricamente, la regione di decisione di ciascun Inode è la \textbf{Cella di Voronoi troncata dalla palla metrica}, $\mathcal{D}_k = \mathrm{Vor}(\mu_k) \cap \mathcal{B}(\mu_k, T_t)$, che assicura una partizione disgiunta e univoca dello spazio latente quasi ovunque.
+\end{definizione}
+
+\begin{figure*}[t]
+    \centering
+    \IfFileExists{fig2_phase_transition.pdf}{
+        \includegraphics[width=0.98\textwidth]{fig2_phase_transition.pdf}
+    }{
+        \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 2: Transizioni Termodinamiche e Punto Critico]} \vspace{0.8cm}}}
+    }
+    \vspace{-0.15cm}
+    \caption{\textbf{Transizione di Fase Volumetrica in Alta Dimensione, Punto Critico ($P_c$) e Verifica Fattuale in HySA.} \textbf{(a)} Transizione di fase a gradino tra il Volume Polisemantico Libero $\mathcal{V}_p$ e il Volume di Vincolo Monosemantico $\mathcal{V}_m$ in alta dimensione ($D=32$). \textbf{(b)} Il paesaggio di potenziale del Gradiente di Compressione ($\Delta q = N_p / (N_m \cdot M)$), che evidenzia il Punto Critico stazionario $P_c$ sotto $\beta = T_t/q$, bilanciando la deriva associativa non vincolata e la saturazione da sovra-indicizzazione. \textbf{(c)} Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce una rapida corruzione ($>80\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti \textit{Errori Semantici} (\textit{Semantic Faults}).}
+    \label{fig:phase_transition}
+\end{figure*}
+
+\section{Gradiente di Compressione \texorpdfstring{($\Delta q$)}{(Delta q)}, Determinismo \texorpdfstring{($\beta$)}{(beta)} e Punto Critico \texorpdfstring{($P_c$)}{(Pc)}}
+Come deve essere ripartita la capacità tra unità polisemantiche ($N_p$) e centroidi monosemantici ($N_m$)? Definiamo il \textbf{Gradiente di Compressione} ($\Delta q$) come:
+\begin{equation}
+    \Delta q = \frac{N_p}{N_m \cdot M}
+\end{equation}
+dove $M$ è la cardinalità dei letterali indicizzati. Data la capacità effettiva $q = f(N_p, N_m)$, definiamo il \textbf{Grado di Determinismo} ($\beta$) come:
+\begin{equation}
+    \beta = \frac{T_t}{q}
+\end{equation}
+Mappando $\beta$ rispetto a $\Delta q$ si ottiene un potenziale termodinamico convesso $\mathcal{E}(\Delta q)$ (Figura~\ref{fig:phase_transition}b):
+\begin{equation}
+    \mathcal{E}(\Delta q) = \frac{\lambda_{\mathrm{drift}}}{\Delta q} + \lambda_{\mathrm{rigid}} (\Delta q - 1)^2 + \beta_0
+\end{equation}
+Poiché $\frac{\partial^2 \mathcal{E}}{\partial (\Delta q)^2} = \frac{2 \lambda_{\mathrm{drift}}}{(\Delta q)^3} + 2 \lambda_{\mathrm{rigid}} > 0$ $\forall \Delta q > 0$, il potenziale è strettamente convesso e ammette un unico minimo globale stazionario che definisce il \textbf{Punto Critico} ($P_c$):
+\begin{equation}
+    \left. \frac{\partial \mathcal{E}}{\partial \Delta q} \right|_{P_c} = 0 \implies P_c = \arg\min_{\Delta q} \mathcal{E}(\Delta q)
+\end{equation}
+\begin{enumerate}[leftmargin=*, itemsep=1.5pt, topsep=1.5pt]
+    \item \textbf{A sinistra di $P_c$ ($\Delta q \ll 1$, Deriva Associativa Non Vincolata):} $N_p$ domina senza un'adeguata indicizzazione monosemantica. Le traiettorie deviano liberamente su varietà non ancorate, causando allucinazioni fattuali.
+    \item \textbf{A destra di $P_c$ ($\Delta q \gg 1$, Saturazione Sovra-Indicizzata):} $N_m$ domina. Il volume dei vincoli $\mathcal{V}_m \propto M \cdot (T_t)^D$ satura il volume latente $\mathcal{V}_{\mathrm{tot}}$, congelando il modello in una rigida tabella di lookup.
+    \item \textbf{Al Punto Critico ($P_c$):} Il sistema raggiunge l'equilibrio termodinamico ottimale. L'astrazione polisemantica generalizza su relazioni isomorfe mentre gli Inode monosemantici garantiscono la verifica deterministica.
+\end{enumerate}
+
+In alta dimensione ($D \gg 1$), la frazione di volume occupata dai vincoli monosemantici manifesta una netta \textbf{Transizione di Fase Volumetrica}: $\frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t / R)^D}$.
+
+\enlargethispage{\baselineskip}
+\section{Validazione Sperimentale}
+Validiamo HySA su due scenari sperimentali complementari:
+\begin{enumerate}[leftmargin=*, itemsep=1.5pt, topsep=1.5pt]
+    \item \textbf{Benchmark Sintetico $32 \times 32$:} Un collo di bottiglia a 4 neuroni addestrato su matrici binarie a doppia natura (loop geometrici condivisi + checksum di $2 \times 2$ pixel). Come mostrato in Figura~\ref{fig:imprinted_tensors} e Figura~\ref{fig:phase_transition}c, le query algebriche ($I_1 \odot I_2$ e $\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolano gli invarianti strutturali, mentre HySA mantiene lo \textbf{$0.0\%$ di corruzione dei letterali fattuali} su 400 iterazioni con $T_p \in [0.05, 2.5]$.
+    \item \textbf{Validazione su Transformer Reale (\texttt{Pythia-70M}):} L'analisi dello stream residuo al Layer 3 ($D=512$) di \texttt{EleutherAI/pythia-70m} conferma che schemi isomorfi (\texttt{DNS}, \texttt{Instradamento IP}, \texttt{Pagine Bianche}, \texttt{Elenco Telefonico}) convergono su un sottospazio polisemantico condiviso con similarità coseno comprese tra $\mathbf{0.893}$ e $\mathbf{0.973}$ (Tabella~\ref{tab:pythia}). Indicizzando gli Inode normalizzati in $\mathcal{F}_{\mathrm{mono}}$ su $S^{511}$ con soglia $T_t = 0.46$, HySA conferma con successo le query fattuali valide (\texttt{8.8.8.8}, \texttt{24}, \texttt{JOHN}, porte \texttt{22}/\texttt{80}, con $d^* \in [0.089, 0.430] \le T_t$, Tabella~\ref{tab:factual_benchmark}), mentre rigetta la query non indicizzata sui sensori speleologici sollevando un \textit{Errore Semantico} deterministico ($d^* = 0.497 > T_t$, arrestando l'allucinazione).
+\end{enumerate}
+
+\begin{table}[t]
+\centering
+\caption{Similarità Coseno al Layer 3 dei Concetti Isomorfi in $N_p$ (\texttt{Pythia-70M}, $D=512$).}
+\label{tab:pythia}
+\vspace{0.1cm}
+\scriptsize
+\setlength{\tabcolsep}{2.0pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Concetto} & \textbf{DNS} & \textbf{Instr. IP} & \textbf{Pag. Bianche} & \textbf{Elenco Tel.} \\ \midrule
+\textbf{DNS} & $1.000$ & $0.961$ & $0.973$ & $0.893$ \\
+\textbf{Instr. IP} & $0.961$ & $1.000$ & $0.940$ & $0.916$ \\
+\textbf{Pag. Bianche} & $0.973$ & $0.940$ & $1.000$ & $0.903$ \\
+\textbf{Elenco Tel.} & $0.893$ & $0.916$ & $0.903$ & $1.000$ \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Benchmark di Verifica Fattuale su \texttt{EleutherAI/pythia-70m} ($D=512$, $T_t=0.46$).}
+\label{tab:factual_benchmark}
+\vspace{0.1cm}
+\scriptsize
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{@{}p{1.35cm}p{1.25cm}p{0.8cm}p{2.25cm}p{1.85cm}@{}}
+\toprule
+\textbf{Concetto} & \textbf{Output $N_p$} & \textbf{Dist. $d^*$} & \textbf{Stato HySA} & \textbf{Output Certificato} \\ \midrule
+\texttt{SSH\_PORT} & \texttt{' 1'} (\textbf{Alluc.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Esatto) \\
+\texttt{HTTP\_PORT} & \texttt{' used'} (\textbf{Alluc.}) & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (Esatto) \\
+\texttt{PUBLIC\_IP} & \texttt{' used'} (\textbf{Alluc.}) & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (Esatto) \\
+\texttt{SUBNET} & \texttt{' 0'} (\textbf{Alluc.}) & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (Esatto) \\
+\texttt{ADMIN} & \texttt{' the'} (\textbf{Alluc.}) & $0.0889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' JOHN'} (Esatto) \\ \midrule
+\texttt{UNINDEXED} & \texttt{' a'} (\textbf{Nons.}) & $0.4973$ & \textbf{SEMANTIC FAULT} & \textbf{[BLOCCO]} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\section{Conclusione}
+\textbf{HySA} dimostra che il polisemantismo è il motore fondamentale dell'intelligenza neurale ($N_p$), mentre la monosemia custodisce la memoria fattuale ($N_m$). Unificando entrambi i regimi nell'Ipersfera Semantica ($T_t$) al Punto Critico ($P_c$), i modelli coniugano generalizzazione creativa e verifica deterministica rigorosa.
+
+\begin{thebibliography}{9}
+\footnotesize
+\bibitem{rigotti2013importance} M.~Rigotti \textit{et al.}, ``The importance of mixed selectivity in complex cognitive tasks,'' \textit{Nature}, vol.~497, pp.~585--590, 2013.
+\bibitem{fusi2016why} S.~Fusi, E.~K.~Miller, and M.~Rigotti, ``Why neurons mix: high dimensionality for higher cognition,'' \textit{Curr. Opin. Neurobiol.}, vol.~37, pp.~66--74, 2016.
+\bibitem{elhage2022toy} N.~Elhage \textit{et al.}, ``Toy models of superposition,'' \textit{Transformer Circuits Thread}, 2022.
+\bibitem{bricken2023monosemanticity} T.~Bricken \textit{et al.}, ``Towards monosemanticity: Decomposing language models with dictionary learning,'' \textit{Transformer Circuits Thread}, 2023.
+\bibitem{templeton2024scaling} A.~Templeton \textit{et al.}, ``Scaling monosemanticity: Extracting interpretable features from Claude 3 Sonnet,'' \textit{Transformer Circuits Thread}, 2024.
+\bibitem{geva2021transformer} M.~Geva \textit{et al.}, ``Transformer feed-forward layers are key-value memories,'' in \textit{Proc. EMNLP}, pp.~5484--5495, 2021.
+\bibitem{meng2022locating_rome} K.~Meng \textit{et al.}, ``Locating and editing factual associations in GPT,'' in \textit{Proc. NeurIPS}, pp.~17359--17372, 2022.
+\bibitem{khandelwal2020knn_lm} U.~Khandelwal \textit{et al.}, ``Generalization through memorization: Nearest neighbor language models,'' in \textit{Proc. ICLR}, 2020.
+\bibitem{kahneman2011thinking} D.~Kahneman, \textit{Pensieri lenti e veloci}, Mondadori, 2011.
+\end{thebibliography}
+
+\end{document}

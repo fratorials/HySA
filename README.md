@@ -6,7 +6,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![Paper: 12-Page Extended](https://img.shields.io/badge/Paper-12--Page%20Extended%20Edition-success.svg)](hysapaper_extended_singlecolumn.pdf)
+[![Paper: 12-Page Extended](https://img.shields.io/badge/Paper-12--Page%20Extended%20Edition-success.svg)](papers/extended/HySA_Extended_EN.pdf)
+[![Paper: 4-Page Condensed](https://img.shields.io/badge/Paper-4--Page%20Condensed%20Edition-blue.svg)](papers/condensed/HySA_Short_EN.pdf)
 
 ---
 
@@ -94,13 +95,13 @@ $$\frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t
 ## 📊 Experimental Results
 
 ### Figure 1: Contrastive Superposition Tensors & Algebraic Queries ($32 \times 32$ Manifold)
-![Figure 1: Imprinted Tensors](fig1_imprinted_tensors.png)
+![Figure 1: Imprinted Tensors](assets/fig1_imprinted_tensors.png)
 *Learned polysemantic representations in a 4-neuron bottleneck. Hadamard intersection ($I_1 \odot I_2$) isolates shared circular loops; rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates differential features without destroying polysemantic connectivity.*
 
 ---
 
 ### Figure 2: Volume Phase Transition, Critical Point ($P_c$), and Factual Verification
-![Figure 2: Phase Transition & Critical Point](fig2_phase_transition.png)
+![Figure 2: Phase Transition & Critical Point](assets/fig2_phase_transition.png)
 * **(a) Volume Phase Transition:** High-dimensional step-function transition ($D=32$) between $\mathcal{V}_p$ and $\mathcal{V}_m$.
 * **(b) Thermodynamic Landscape:** Convex potential $\mathcal{E}(\Delta q)$ identifying the stationary Critical Point $P_c$ under $\beta = T_t/q$.
 * **(c) Factual Verification Benchmark:** Unconstrained decoding suffers $>80\%$ literal corruption under rising $T_p$, whereas HySA maintains **$0.0\%$ corruption** on confirmed queries, intercepting drift as explicit Semantic Faults.
@@ -108,7 +109,7 @@ $$\frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t
 ---
 
 ### Figure 3: Semantic Hypersphere Radial Geometry, Architecture, and Pythia-70M Probing
-![Figure 3: Semantic Hypersphere & Architecture](fig3_hypersphere_geometry.png)
+![Figure 3: Semantic Hypersphere & Architecture](assets/fig3_hypersphere_geometry.png)
 * **(a) Semantic Hypersphere $\mathcal{B}(\mu_k, T_t)$:** Radial concept vectors (`GATTO`, `KG`, `MACCHINA`) centered on Inode `CAT`. Interrogated trajectories within $T_t$ trigger confirmation; drifting trajectories trigger Semantic Faults.
 * **(b) Unified Macro-Architecture:** Fluid $N_p$ reasoning executes on-demand metric verification via operator $Q$ on registry $N_m$.
 * **(c) Empirical Residual Stream Distances on Pythia-70M:** Layer 3 probing confirms factual queries fall strictly below $T_t = 0.46$, while unindexed speleological telemetry triggers an explicit fault ($d = 0.497 > T_t$).
@@ -182,42 +183,74 @@ source venv/bin/activate
 
 # Install dependencies
 pip install --upgrade pip
-pip install torch torchvision numpy matplotlib transformers accelerate transformer_lens
+pip install -r requirements.txt
 ```
 
 ### 2. Run Experiments & Generate Figures
 ```bash
-# Run the synthetic 32x32 benchmark (generates Figure 1 & Figure 2)
-python3 run_experiment.py
+# Run the synthetic 32x32 benchmark (generates Figure 1 & Figure 2 in papers/figures/)
+python3 src/run_synthetic_benchmark.py
 
 # Run real-world transformer probing on Pythia-70M
-python3 hysa_pythia.py
+python3 src/run_pythia_validation.py
 
 # Generate high-resolution Figure 3
-python3 generate_fig3.py
+python3 src/generate_figures.py
 ```
 
 ### 3. Compile LaTeX Manuscripts
 ```bash
 # Compile Flagship 12-page Extended English edition (single-column)
-pdflatex -interaction=nonstopmode hysapaper_extended_singlecolumn.tex
-pdflatex -interaction=nonstopmode hysapaper_extended_singlecolumn.tex
+cd papers/extended
+pdflatex -interaction=nonstopmode HySA_Extended_EN.tex
+pdflatex -interaction=nonstopmode HySA_Extended_EN.tex
 
 # Compile Flagship 12-page Extended Italian edition (single-column)
-pdflatex -interaction=nonstopmode hysapaper_extended_ita.tex
-pdflatex -interaction=nonstopmode hysapaper_extended_ita.tex
+pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
+pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
 
 # Compile 4-page Condensed English Conference Short-Paper (two-column)
-pdflatex -interaction=nonstopmode hysapaper.tex
-pdflatex -interaction=nonstopmode hysapaper.tex
+cd ../condensed
+pdflatex -interaction=nonstopmode HySA_Short_EN.tex
+pdflatex -interaction=nonstopmode HySA_Short_EN.tex
 
 # Compile 4-page Condensed Italian Conference Short-Paper (two-column)
-pdflatex -interaction=nonstopmode hysapaper_ita.tex
-pdflatex -interaction=nonstopmode hysapaper_ita.tex
+pdflatex -interaction=nonstopmode HySA_Short_IT.tex
+pdflatex -interaction=nonstopmode HySA_Short_IT.tex
+```
 
-# Compile 8-page Extended English Two-Column Reference edition
-pdflatex -interaction=nonstopmode hysapaper_extended.tex
-pdflatex -interaction=nonstopmode hysapaper_extended.tex
+---
+
+## 📁 Repository Structure
+
+```text
+HySA/
+├── README.md                      # Overview, paradigm shift, BibTeX citation
+├── LICENSE                        # MIT License
+├── requirements.txt               # Reproducible dependencies
+├── .gitignore                     # Ignores LaTeX builds, venv, and large archives
+│
+├── papers/                        # 📄 Official Manuscripts & Vector Figures
+│   ├── figures/                   # Shared vector PDF figures (Fig 1, 2, 3)
+│   ├── extended/                  # 12-page Flagship Journal Editions
+│   │   ├── HySA_Extended_EN.pdf   # English Flagship
+│   │   ├── HySA_Extended_IT.pdf   # Italian Flagship
+│   │   └── HySA_Extended_TwoColumn_EN.pdf # 8-page 2-Column Reference
+│   └── condensed/                 # 4-page Conference Short-Papers
+│       ├── HySA_Short_EN.pdf      # English Short Paper (NeurIPS/ICLR style)
+│       └── HySA_Short_IT.pdf      # Italian Short Paper
+│
+├── src/                           # 🧠 Python Source Code
+│   ├── run_synthetic_benchmark.py # Synthetic 32x32 manifold bottleneck experiment
+│   ├── run_pythia_validation.py   # EleutherAI/pythia-70m residual stream probing
+│   └── generate_figures.py        # High-resolution vector plot generator
+│
+├── assets/                        # 🖼️ High-resolution PNGs for README / Web
+│   ├── fig1_imprinted_tensors.png
+│   ├── fig2_phase_transition.png
+│   └── fig3_hypersphere_geometry.png
+│
+└── drafts/                        # 📝 Historical notes and text drafts
 ```
 
 ---
