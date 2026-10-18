@@ -125,7 +125,7 @@ Per progettare architetture cognitive che non collassino in estremi disfunzional
 
 In HySA traduciamo queste euristiche di sistema in costrutti geometrici formali nello spazio di Hilbert latente $\mathcal{S} \subset \mathbb{R}^D$, come riassunto nella Tabella~\ref{tab:systems_mapping}.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{Mappatura delle Euristiche dei Sistemi Operativi sui Costrutti Geometrici Formali in HySA.}
 \label{tab:systems_mapping}
@@ -291,7 +291,9 @@ La procedura completa di inferenza e verifica metrica è formalizzata nell'Algor
     \item Calcolo del Confine Topologico: $T_t \leftarrow T_m \left( 1 + \alpha \tanh(T_p / T_m) \right)$
     \item Normalizzazione del vettore di stato: $q \leftarrow h_t / \|h_t\|_2$
     \item Ricerca dell'Inode monosemantico più vicino:
-    $$k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2$$
+    \[
+    k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2
+    \]
     \item \textbf{se} $d^* \le T_t$ \textbf{allora} \hfill \textit{// Entro l'Ipersfera Semantica}
     \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
         \item Assegna il letterale atomico certificato: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
@@ -339,7 +341,7 @@ Verifichiamo se concetti di schema isomorfi convergano su un sottospazio polisem
     \item \textbf{Elenco Telefonico:} \textit{``A telecom lookup index that maps a subscriber name to a target number is''}
 \end{enumerate}
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{Similarità Coseno tra Schemi Isomorfi in $N_p$ (\texttt{Pythia-70M}, Layer 3, $D=512$).}
 \label{tab:pythia_cosine}

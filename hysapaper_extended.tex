@@ -122,11 +122,11 @@ In cognitive psychology, Dual-Process Theory~\cite{kahneman2011thinking, evans20
 
 \section{Systems Architecture: OS Heuristics vs. Formal Hilbert Geometry}
 
-To design cognitive architectures that do not collapse into all-or-nothing extremes, we draw inspiration from operating system (OS) engineering. Operating systems resolved the conflict between dynamic program execution and persistent data integrity decades ago: memory address spaces provide fluid execution buffers, while filesystems manage immutable data blocks anchored by rigid metadata index pointers (**Inodes**).
+To design cognitive architectures that do not collapse into all-or-nothing extremes, we draw inspiration from operating system (OS) engineering. Operating systems resolved the conflict between dynamic program execution and persistent data integrity decades ago: memory address spaces provide fluid execution buffers, while filesystems manage immutable data blocks anchored by rigid metadata index pointers (\textbf{Inodes}).
 
 In HySA, we translate these systems heuristics into formal geometric constructs within the latent Hilbert space $\mathcal{S} \subset \mathbb{R}^D$, as summarized in Table~\ref{tab:systems_mapping}.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{Mapping Operating System Heuristics to Formal Geometric Constructs in HySA.}
 \label{tab:systems_mapping}
@@ -233,11 +233,11 @@ If the interrogated trajectory lies inside $\mathcal{B}(\mu_k, T_t)$, HySA deter
 \end{figure*}
 
 \subsection{Compression Gradient (\texorpdfstring{$\Delta q$}{Delta q}), Determinism (\texorpdfstring{$\beta$}{beta}), and the Critical Point (\texorpdfstring{$P_c$}{Pc})}
-How should computational capacity be balanced between polysemantic units ($N_p$) and monosemantic centroids ($N_m$)? We define the **Compression Gradient** ($\Delta q$) as the ratio:
+How should computational capacity be balanced between polysemantic units ($N_p$) and monosemantic centroids ($N_m$)? We define the \textbf{Compression Gradient} ($\Delta q$) as the ratio:
 \begin{equation}
     \Delta q = \frac{N_p}{N_m \cdot M}
 \end{equation}
-where $M$ is the cardinality of indexed literals. Given effective capacity $q = f(N_p, N_m)$, we define the **Degree of Determinism** ($\beta$) as:
+where $M$ is the cardinality of indexed literals. Given effective capacity $q = f(N_p, N_m)$, we define the \textbf{Degree of Determinism} ($\beta$) as:
 \begin{equation}
     \beta = \frac{T_t}{q}
 \end{equation}
@@ -251,7 +251,7 @@ Since the second derivative is strictly positive:
 \begin{equation}
     \frac{\partial^2 \mathcal{E}}{\partial (\Delta q)^2} = \frac{2 \lambda_{\mathrm{drift}}}{(\Delta q)^3} + 2 \lambda_{\mathrm{rigid}} > 0 \quad \forall \Delta q > 0
 \end{equation}
-the potential $\mathcal{E}(\Delta q)$ is strictly convex and admits a unique global stationary minimum defining the **Critical Point** ($P_c$):
+the potential $\mathcal{E}(\Delta q)$ is strictly convex and admits a unique global stationary minimum defining the \textbf{Critical Point} ($P_c$):
 \begin{equation}
     \left. \frac{\partial \mathcal{E}}{\partial \Delta q} \right|_{P_c} = 0 \implies P_c = \arg\min_{\Delta q} \mathcal{E}(\Delta q)
 \end{equation}
@@ -262,7 +262,7 @@ The landscape decomposes into three fundamental thermodynamic regimes:
     \item \textbf{At the Critical Point ($P_c$):} The system achieves optimal thermodynamic equilibrium. Polysemantic abstraction generalizes across isomorphic relations while monosemantic inodes guarantee deterministic verification.
 \end{enumerate}
 
-Furthermore, as plotted in Figure~\ref{fig:phase_transition}a, in high dimensions ($D \gg 1$), the fraction of volume bounded by monosemantic constraints exhibits a sharp **Volume Phase Transition**:
+Furthermore, as plotted in Figure~\ref{fig:phase_transition}a, in high dimensions ($D \gg 1$), the fraction of volume bounded by monosemantic constraints exhibits a sharp \textbf{Volume Phase Transition}:
 \begin{equation}
     \frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t / R)^D}
 \end{equation}
@@ -294,7 +294,9 @@ The full inference and verification procedure is formalized in Algorithm~\ref{al
     \item Calculate Topological Boundary: $T_t \leftarrow T_m \left( 1 + \alpha \tanh(T_p / T_m) \right)$
     \item Normalize state vector: $q \leftarrow h_t / \|h_t\|_2$
     \item Find nearest monosemantic Inode:
-    $$k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2$$
+    \[
+    k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2
+    \]
     \item \textbf{if} $d^* \le T_t$ \textbf{then} \hfill \textit{// Within Semantic Hypersphere}
     \begin{itemize}[leftmargin=12pt, itemsep=0.5pt]
         \item Return certified atomic literal: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
@@ -342,7 +344,7 @@ We test whether isomorphic schema concepts converge onto a shared polysemantic s
     \item \textbf{Phone Directory:} \textit{``A telecom lookup index that maps a subscriber name to a target number is''}
 \end{enumerate}
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{Cosine Similarities of Isomorphic Schemas in $N_p$ (\texttt{Pythia-70M}, Layer 3, $D=512$).}
 \label{tab:pythia_cosine}
@@ -421,11 +423,11 @@ Currently, HySA relies on designated factual verification points during decoding
 
 \section{Conclusion}
 
-The ongoing quest in mechanistic interpretability to eliminate neuronal polysemanticity is founded upon a category error: confusing associative intelligence with factual memory. In this work, we introduced **HySA (Hybrid Semantic Architecture)**, demonstrating that:
+The ongoing quest in mechanistic interpretability to eliminate neuronal polysemanticity is founded upon a category error: confusing associative intelligence with factual memory. In this work, we introduced \textbf{HySA (Hybrid Semantic Architecture)}, demonstrating that:
 \begin{enumerate}[leftmargin=*, itemsep=1.5pt]
-    \item **Polysemanticity is the foundational engine of neural intelligence ($N_p$):** High relational rank compresses disparate instances into higher-order analogical schemas.
-    \item **Monosemanticity is the guardian of factual memory ($N_m$):** Orthogonal Inodes anchor immutable atomic literals with zero associative drift.
-    \item **Operating within the Critical Point ($P_c$) of the Semantic Hypersphere ($T_t$):** HySA unifies both regimes into a single, cohesive architecture that combines creative abstraction with deterministic factual consistency.
+    \item \textbf{Polysemanticity is the foundational engine of neural intelligence ($N_p$):} High relational rank compresses disparate instances into higher-order analogical schemas.
+    \item \textbf{Monosemanticity is the guardian of factual memory ($N_m$):} Orthogonal Inodes anchor immutable atomic literals with zero associative drift.
+    \item \textbf{Operating within the Critical Point ($P_c$) of the Semantic Hypersphere ($T_t$):} HySA unifies both regimes into a single, cohesive architecture that combines creative abstraction with deterministic factual consistency.
 \end{enumerate}
 
 \begin{thebibliography}{20}
