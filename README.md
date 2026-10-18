@@ -199,15 +199,23 @@ python3 generate_fig3.py
 
 ### 3. Compile LaTeX Manuscripts
 ```bash
-# Compile flagship 12-page English edition
+# Compile Flagship 12-page Extended English edition (single-column)
 pdflatex -interaction=nonstopmode hysapaper_extended_singlecolumn.tex
 pdflatex -interaction=nonstopmode hysapaper_extended_singlecolumn.tex
 
-# Compile flagship 12-page Italian edition
+# Compile Flagship 12-page Extended Italian edition (single-column)
 pdflatex -interaction=nonstopmode hysapaper_extended_ita.tex
 pdflatex -interaction=nonstopmode hysapaper_extended_ita.tex
 
-# Compile 8-page two-column conference edition
+# Compile 4-page Condensed English Conference Short-Paper (two-column)
+pdflatex -interaction=nonstopmode hysapaper.tex
+pdflatex -interaction=nonstopmode hysapaper.tex
+
+# Compile 4-page Condensed Italian Conference Short-Paper (two-column)
+pdflatex -interaction=nonstopmode hysapaper_ita.tex
+pdflatex -interaction=nonstopmode hysapaper_ita.tex
+
+# Compile 8-page Extended English Two-Column Reference edition
 pdflatex -interaction=nonstopmode hysapaper_extended.tex
 pdflatex -interaction=nonstopmode hysapaper_extended.tex
 ```
