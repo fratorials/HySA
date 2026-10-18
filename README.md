@@ -71,7 +71,6 @@ The ratio between $N_p$ and $N_m$ defines the Compression Gradient ($\Delta q$).
 ---
 
 ## 🚀 Quickstart & Reproduction
-
 ```bash
 # 1. Create virtual environment & install dependencies
 python3 -m venv venv
