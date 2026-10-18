@@ -2,7 +2,7 @@
 
 > **Preserving Polysemantic Abstraction via Contrastive Superposition Tensors, Monosemantic Inodes, and Topological Temperature ($T_t$)**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23456159.svg)](https://doi.org/10.5281/zenodo.23456159)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23459635.svg)](https://doi.org/10.5281/zenodo.23459635)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
@@ -16,7 +16,7 @@
 Official open-source repository and codebase for the research paper:  
 **"HySA: Hybrid Semantic Architecture — Preserving Polysemantic Abstraction via Contrastive Superposition Tensors, Monosemantic Inodes, and Topological Temperature ($T_t$)"**  
 *Author:* **Francesco Mariani** (*Independent Systems Architect*, Umbria, Italy — `fratorials@gmail.com`)  
-*DOI:* [10.5281/zenodo.23456159](https://doi.org/10.5281/zenodo.23456159)
+*DOI:* [10.5281/zenodo.23459635](https://doi.org/10.5281/zenodo.23459635)
 
 ---
 
@@ -266,8 +266,8 @@ If you find HySA relevant to your research in mechanistic interpretability, neur
   journal={arXiv preprint / Zenodo},
   year={2026},
   month={October},
-  doi={10.5281/zenodo.23456159},
-  url={https://doi.org/10.5281/zenodo.23456159}
+  doi={10.5281/zenodo.23459635},
+  url={https://doi.org/10.5281/zenodo.23459635}
 }
 ```
 
