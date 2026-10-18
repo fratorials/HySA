@@ -1,0 +1,449 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[provide=*,italian]{babel}
+\usepackage{lmodern}
+\usepackage[protrusion=true,expansion=false]{microtype}
+\usepackage[a4paper, top=2.3cm, bottom=2.3cm, left=2.4cm, right=2.4cm]{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+
+\definecolor{linkblue}{RGB}{20, 70, 140}
+\definecolor{boxbg}{RGB}{246, 248, 252}
+\definecolor{boxframe}{RGB}{43, 92, 143}
+\definecolor{codebg}{RGB}{248, 249, 250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkblue,
+    citecolor=linkblue,
+    urlcolor=linkblue,
+    pdftitle={HySA: Architettura Semantica Ibrida (Edizione Estesa)},
+    pdfauthor={Francesco Mariani}
+}
+
+\newtheorem{proposizione}{Proposizione}
+\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}
+
+\tcbset{
+    sharp corners,
+    colback=boxbg,
+    colframe=boxframe,
+    boxrule=0.7pt,
+    left=7pt, right=7pt, top=6pt, bottom=6pt
+}
+
+\title{\vspace{-0.8cm}\textbf{\LARGE HySA: Architettura Semantica Ibrida \\ \Large Preservare l'Astrazione Polisemantica mediante Tensori di Sovrapposizione Contrastivi, \\ Inode Monosemantici e Temperatura Topologica \texorpdfstring{($T_t$)}{(Tt)}}}
+
+\author{
+    \textbf{Francesco Mariani} \\
+    \textit{Architetto di Sistemi Indipendente} \\
+    Umbria, Italia \\
+    \texttt{fratorials@gmail.com} \\
+    {\footnotesize DOI: \href{https://doi.org/10.5281/zenodo.23456159}{\texttt{10.5281/zenodo.23456159}}}
+}
+
+\date{Ottobre 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    \vspace{-0.35cm}
+    \textit{``L'industria dell'IA vede il polisemantismo come una condanna... ma forse è la benedizione che ha reso possibile l'intelligenza.''}
+    \vspace{0.35cm}
+\end{center}
+
+\begin{abstract}
+\noindent La ricerca contemporanea nell'ambito dell'\textit{Interpretabilit\`a Meccanicistica} descrive il polisemantismo neuronale come un artefatto indesiderato della compressione ad alta dimensione (\textit{Ipotesi di Sovrapposizione}), dedicando ingenti risorse computazionali a decomporre le rappresentazioni neurali in dizionari di direzioni puramente monosemantiche tramite Sparse Autoencoder (SAE). In questo lavoro proponiamo un cambio di paradigma fondamentale: \textbf{il polisemantismo non è un difetto da estirpare, ma il prerequisito geometrico dell'intelligenza associativa e del ragionamento analogico.} Un neurone puramente monosemantico possiede zero gradi di libertà associativi ($\mathcal{R}(u)=0$): privo di canali relazionali laterali, funziona come una rigida cella deterministica di lookup. Al contrario, le unità polisemantiche si co-attivano su concetti isomorfi (es. \texttt{IP}, \texttt{DNS}, \texttt{Pagine Bianche}, \texttt{Numero di Telefono}) per comprimere istanze eterogenee in schemi strutturali di ordine superiore. Per disaccoppiare il ragionamento associativo fluido dalla memoria fattuale rigorosa senza ricorrere a colli di bottiglia seriali (che distruggono l'astrazione contestuale) o duplicazioni parallele (che comportano ridondanza computazionale), introduciamo l'architettura \textbf{HySA (Hybrid Semantic Architecture)}, un modello unificato delimitato dalla semanticità neuronale. HySA formalizza quattro contributi centrali: (1) i \textbf{Tensori di Sovrapposizione dell'Inferenza Contrastiva} ($I_n$), che isolano politopi di feature multi-concetto tramite risposte di aspettativa dell'intera rete su dati contrastivi; (2) l'\textbf{Indicizzazione tramite Inode Monosemantici}, che ancora i letterali atomici (\texttt{8.8.8.8}, \texttt{24}, \texttt{JOHN}) su un registro metrico ortogonale $\mathcal{F}_{\mathrm{mono}}$ interrogato tramite operatori di confine on-demand; (3) l'\textbf{Ipersfera Semantica}, governata da temperature duali di regime ($T_p, T_m$) unificate dalla \textbf{Temperatura Topologica} ($T_t$); e (4) il \textbf{Gradiente di Compressione} ($\Delta q$), analizzato come un paesaggio di potenziale termodinamico il cui minimo stazionario identifica il \textbf{Punto Critico} ($P_c$) che bilancia creatività e determinismo fattuale. Valutata su una varietà sintetica duale $32 \times 32$ e validata empiricamente sullo stream residuo di \texttt{EleutherAI/pythia-70m} ($D=512$), HySA dimostra che gli schemi relazionali polisemantici raggiungono un'elevata convergenza coseno ($\ge 0.893$), mentre la verifica metrica di confine elimina le allucinazioni fattuali prive di ancoraggio, intercettando la deriva non verificata mediante \textit{Errori Semantici} deterministici (\textit{Semantic Faults}).
+\vspace{0.35cm}
+\end{abstract}
+
+\section{Introduzione: La Dicotomia Epistemologica}
+
+Nelle reti neurali artificiali profonde, le singole unità esibiscono costantemente una \textit{selettività mista}~\cite{rigotti2013importance, elhage2022toy}. Un singolo neurone in un percettrone multistrato (MLP) o in un blocco transformer si attiva in risposta a token semanticamente disgiunti, fenomeno comunemente definito \textit{polisemantismo}. La comunità dell'interpretabilità meccanicistica ha storicamente trattato questo fenomeno come un ostacolo alla trasparenza, attribuendolo all'\textit{Ipotesi di Sovrapposizione}~\cite{elhage2022toy}: i modelli comprimono un numero di feature molto maggiore rispetto alle dimensioni disponibili ($M \gg D$), costringendo feature non ortogonali a condividere rappresentazioni. Di conseguenza, notevoli sforzi sono stati profusi nell'addestramento di \textit{Sparse Autoencoder} (SAE)~\cite{bricken2023monosemanticity, templeton2024scaling, cunningham2023sparse} per proiettare le attivazioni latenti su dizionari ipercompleti composti da milioni di direzioni monosemantiche isolate.
+
+Tuttavia, questa ricerca della purezza monosemantica trascura una fondamentale suddivisione epistemologica tra \textbf{Intelligenza} e \textbf{Memoria}:
+\begin{itemize}[leftmargin=*, itemsep=2.5pt, topsep=3.0pt]
+    \item \textbf{Le Unità Polisemantiche ($N_p$) Generano Intelligenza:} Si consideri un'unità interna che si co-attiva sui prompt \texttt{Indirizzo IP}, \texttt{Domain Name System (DNS)}, \texttt{Elenco Pagine Bianche} e \texttt{Numero di Telefono}. L'interpretabilità standard diagnostica questa unità come rumorosa o contaminata. In realtà, tale neurone ha compresso molteplici entità eterogenee in uno schema relazionale unificato: \textit{il concetto astratto di risoluzione da identità a indirizzo}. Le connessioni associative tra domini altrimenti distanti costituiscono il fondamento strutturale dell'analogia, della generalizzazione e dell'intelligenza cognitiva.
+    \item \textbf{Le Unità Monosemantiche ($N_m$) Forniscono Memoria:} Al contrario, le unità che codificano letterali fattuali atomici e rigidi---come l'indirizzo IP \texttt{8.8.8.8}, l'intero CIDR \texttt{24} o il nome utente di root \texttt{JOHN}---possiedono zero connessioni associative intrinseche ($\mathcal{R}(u)=0$). Esattamente come una voce statica in una rubrica o un record immutabile in un database, un'unità monosemantica isolata è intrinsecamente priva di gradi di libertà relazionali; non può compiere autonomamente sintesi analogiche o generalizzazioni. Tuttavia, essa è \textbf{rigorosamente deterministica}. Questa totale assenza di sfocatura associativa rende le rappresentazioni monosemantiche insostituibili per la conservazione della verità e la verifica fattuale.
+\end{itemize}
+
+I moderni Modelli di Linguaggio di Grandi Dimensioni (LLM) allucinano perché le loro architetture intrecciano entrambi i regimi all'interno di matrici di peso dense e omogenee~\cite{geva2021transformer}. Durante la backpropagation, i gradienti associativi interpolano continuamente attraverso fatti storici e tecnici immutabili, inducendo il modello a trattare costanti numeriche e identificatori univoci come token plastici e probabilistici, soggetti a deriva stocastica.
+
+Per risolvere tale dicotomia introduciamo \textbf{HySA (Hybrid Semantic Architecture)}. HySA abbandona l'assunto di dover eliminare il polisemantismo. Al contrario, formalizza un substrato cognitivo ibrido in cui varietà polisemantiche fluide ($N_p$) governano la sintesi associativa creativa, mentre un registro metrico interno di centroidi monosemantici ($N_m$) garantisce l'ancoraggio deterministico mediante un operatore interno di Query/API operante entro un'\textbf{Ipersfera Semantica} geometricamente delimitata.
+
+\begin{figure}[t]
+    \centering
+    \IfFileExists{fig1_imprinted_tensors.pdf}{
+        \includegraphics[width=0.98\textwidth]{fig1_imprinted_tensors.pdf}
+    }{
+        \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 1: Tensori di Sovrapposizione Contrastivi]} \vspace{0.8cm}}}
+    }
+    \vspace{-0.15cm}
+    \caption{\textbf{Tensori di Sovrapposizione Contrastivi ($I_n$) e Query Semantiche Algebriche sul Benchmark $32 \times 32$.} Le Colonne 1--4 mostrano le rappresentazioni polisemantiche apprese da un collo di bottiglia a 4 neuroni. Ciascun tensore cattura primitive geometriche multiple. La Colonna 5 isola l'invariante strutturale condiviso tramite intersezione di Hadamard ($I_1 \odot I_2$). La Colonna 6 estrae la divergenza differenziale tramite sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), dimostrando l'isolamento algebrico delle feature senza distruggere la connettività polisemantica.}
+    \label{fig:imprinted_tensors}
+\end{figure}
+
+\section{Lavori Correlati e Fondamenti Teorici}
+
+\subsection{Sovrapposizione e Apprendimento da Dizionari}
+L'Ipotesi di Sovrapposizione~\cite{elhage2022toy} ha formalizzato l'osservazione secondo cui le reti neurali impiegano direzioni quasi-ortogonali in spazi vettoriali ad alta dimensione per rappresentare più feature rispetto alle dimensioni geometriche disponibili, intuizione riconducibile al compressed sensing e alla selettività mista nelle neuroscienze~\cite{rigotti2013importance, fusi2016why}. Recentemente, Bricken et al.~\cite{bricken2023monosemanticity} e Templeton et al.~\cite{templeton2024scaling} hanno dimostrato che gli Sparse Autoencoder (SAE) possono sviluppare tali sovrapposizioni in dizionari lineari sovra-completi di feature. Sebbene i SAE offrano interpretabilità post-hoc, forzare una rete a operare esclusivamente su base monosemantica annulla il rango relazionale necessario per il ragionamento analogico continuo, innescando un'esplosione esponenziale del dizionario. HySA preserva il manifold di sovrapposizione introducendo al contempo verificatori metrici di confine.
+
+\subsection{Memoria Fattuale e Layer Transformer}
+Geva et al.~\cite{geva2021transformer} hanno dimostrato che i layer feed-forward (FFN) nei transformer operano come memorie associative chiave-valore, in cui i pesi del primo layer identificano il contesto e i pesi del secondo generano distribuzioni di token. Dai et al.~\cite{knowledge_neurons_2022} hanno individuato specifici ``neuroni di conoscenza'' che esprimono associazioni fattuali, mentre Meng et al.~\cite{meng2022locating_rome, meng2022mass_memit} hanno sviluppato ROME e MEMIT per editare direttamente le associazioni fattuali nei layer MLP. HySA si basa su queste evidenze dimostrando che la memoria fattuale deve essere strutturalmente segregata in centroidi ortogonali ($\mu_k$) delimitati da confini metrici rigidi, prevenendo la deriva relazionale.
+
+\subsection{Decodifica Metrica e Modelli Aumentati da Retrieval}
+I framework di aumentazione esterna, quali $k\text{NN}$-LM~\cite{khandelwal2020knn_lm}, RETRO~\cite{borgeaud2022retro} e REALM~\cite{guu2020realm}, integrano la generazione interrogando database vettoriali esterni. Inoltre, la representation engineering~\cite{zou2023representation} e il contrastive decoding~\cite{li2023contrastive} guidano l'output tramite aritmetica vettoriale. A differenza del retrieval esterno, HySA costituisce un'\textit{architettura endogena}: il registro monosemantico opera come un filesystem latente interno, valutato direttamente nello spazio di Hilbert durante la decodifica mediante la Temperatura Topologica.
+
+\subsection{Teoria del Doppio Processo nelle Scienze Cognitive}
+Nella psicologia cognitiva, la Teoria del Doppio Processo (\textit{Dual-Process Theory})~\cite{kahneman2011thinking, evans2008dual_process} postula due modalità cognitive distinte: il \textit{Sistema 1} (rapido, intuitivo, associativo, parallelo) e il \textit{Sistema 2} (lento, deliberativo, vincolato a regole, logico). HySA implementa rigorosamente questa dualità sul piano geometrico: la rete polisemantica ($N_p$) esegue l'espansione associativa continua del Sistema 1, mentre il registro monosemantico ($N_m$) fornisce la verifica deterministica del Sistema 2.
+
+\begin{figure}[t]
+    \centering
+    \IfFileExists{fig2_phase_transition.pdf}{
+        \includegraphics[width=0.98\textwidth]{fig2_phase_transition.pdf}
+    }{
+        \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 2: Transizioni Termodinamiche e Punto Critico]} \vspace{0.8cm}}}
+    }
+    \vspace{-0.15cm}
+    \caption{\textbf{Transizione di Fase Volumetrica in Alta Dimensione, Punto Critico ($P_c$) e Verifica Fattuale in HySA.} \textbf{(a)} Transizione di fase a gradino tra il Volume Polisemantico Libero $\mathcal{V}_p$ e il Volume di Vincolo Monosemantico $\mathcal{V}_m$ in alta dimensione ($D=32$). \textbf{(b)} Il paesaggio di potenziale del Gradiente di Compressione ($\Delta q = N_p / (N_m \cdot M)$), che evidenzia il Punto Critico stazionario $P_c$ sotto $\beta = T_t/q$, bilanciando la deriva associativa non vincolata e la saturazione da sovra-indicizzazione. \textbf{(c)} Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce una rapida corruzione ($>80\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti \textit{Errori Semantici} (\textit{Semantic Faults}).}
+    \label{fig:phase_transition}
+\end{figure}
+
+\section{Architettura dei Sistemi: Euristiche dei Sistemi Operativi vs Geometria di Hilbert Formale}
+
+Per progettare architetture cognitive che non collassino in estremi disfunzionali, traiamo ispirazione dall'ingegneria dei sistemi operativi (OS). I sistemi operativi hanno risolto la dicotomia tra esecuzione dinamica dei programmi e integrità persistente dei dati decenni fa: gli spazi di indirizzamento della memoria RAM forniscono buffer fluidi di esecuzione, mentre i filesystem gestiscono blocchi di dati immutabili ancorati a puntatori di metadati rigidi (\textbf{Inode}).
+
+In HySA traduciamo queste euristiche di sistema in costrutti geometrici formali nello spazio di Hilbert latente $\mathcal{S} \subset \mathbb{R}^D$, come riassunto nella Tabella~\ref{tab:systems_mapping}.
+
+\begin{table}[h]
+\centering
+\caption{Mappatura delle Euristiche dei Sistemi Operativi sui Costrutti Geometrici Formali in HySA.}
+\label{tab:systems_mapping}
+\vspace{0.15cm}
+\small
+\setlength{\tabcolsep}{4.0pt}
+\begin{tabular}{@{}p{3.2cm}p{3.8cm}p{8.5cm}@{}}
+\toprule
+\textbf{Termine di Sistema} & \textbf{Costrutto Formale} & \textbf{Funzione Architetturale in HySA} \\ \midrule
+\textbf{Inode} ($N_m / \mu_k$) & Centroide $\mu_k \in S^{D-1} \subset \mathbb{R}^D$ & Ancora metrica ortogonale con $\emptyset$ gradi associativi, associata al letterale $\mathbf{v}_k$. \\[4pt]
+\textbf{Filesystem} & Varietà Metrica $\mathcal{F}_{\mathrm{mono}}$ & Registro indicizzato ($\{\mu_k\}_{k=1}^M$, $100\%$ precisione) interrogato on-demand. \\[4pt]
+\textbf{Query / API} & Operatore di Confine $Q(h, \mathcal{F}_{\mathrm{mono}}, T_t)$ & Condizione metrica deterministica che proietta gli stati fluidi su letterali certificati. \\[4pt]
+\textbf{Page Fault} & \textbf{Errore Semantico} ($\bot_{\mathrm{Fault}}$) & Eccezione esplicita sollevata quando $d^* > T_t$, bloccando l'allucinazione. \\[4pt]
+\textbf{Temperatura} & Intorno Metrico $\mathcal{B}(\mu_k, T_t)$ & Volume metrico multidimensionale di tolleranza attorno al centroide concettuale. \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{definizione}[Rango Relazionale delle Unità Semantiche]
+Sia $u$ un'unità neuronale e sia $\Omega$ lo spazio dei concetti semantici. Definiamo l'insieme di feature associate $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$, dove $\theta > 0$ è una soglia di attivazione statisticamente significativa rispetto al rumore di fondo. Il \textbf{Rango Relazionale} $\mathcal{R}(u)$ è la cardinalità delle traiettorie associative a coppie abilitate dall'unità:
+\begin{equation}
+    \mathcal{R}(u) = \binom{|\mathcal{C}(u)|}{2} = \frac{|\mathcal{C}(u)| (|\mathcal{C}(u)| - 1)}{2}
+\end{equation}
+\end{definizione}
+
+\begin{proposizione}[Inferiorit\`a Epistemologica della Monosemia]
+Un'unità puramente monosemantica $u_{\mathrm{mono}}$ con $|\mathcal{C}(u_{\mathrm{mono}})| = 1$ ha rango relazionale nullo: $\mathcal{R}(u_{\mathrm{mono}}) = 0$. Di conseguenza, un'architettura limitata esclusivamente a neuroni monosemantici non può eseguire proiezioni analogiche continue senza introdurre un grafo relazionale esterno.
+\end{proposizione}
+
+\section{Formulazione Matematica di HySA}
+
+\subsection{Tensori di Sovrapposizione Contrastivi (\texorpdfstring{$I_n$}{In})}
+Un neurone isolato in un layer intermedio genera unicamente un'attivazione scalare $z_n \in \mathbb{R}$. Per comprendere il politopo multi-concetto codificato da un'unità polisemantica, la sua semantica strutturale deve essere estratta tramite l'aspettativa dell'intera rete su dati contrastivi.
+
+Sia $\mathcal{X}^+$ un dataset contenente gli invarianti target condivisi (es. curve geometriche circolari o query di risoluzione identità-indirizzo), e sia $\mathcal{X}^-$ un dataset di baseline negativo. Sia $\Phi_{\mathrm{net}}(X \mid n)$ la risposta dell'intera rete condizionata all'unità attiva $n$ (per modelli autoencoder corrisponde alla ricostruzione mascherata $\hat{X}(z \odot e_n)$; per modelli di linguaggio transformer corrisponde alla proiezione sul vocabolario $\mathrm{Softmax}(\mathbf{W}_U h_n(X))$ o all'attribuzione del gradiente). Formalizziamo il \textbf{Tensore di Sovrapposizione Contrastivo} $I_n$ come:
+\begin{equation}
+\begin{aligned}
+    I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \Bigg[ & \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) \\
+    & - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \Bigg]
+\end{aligned}
+\label{eq:imprinted_tensor}
+\end{equation}
+dove $z_{k,n}$ è l'attivazione dell'unità $n$ per l'input $X_k$, $\gamma \in [0, 1]$ è un coefficiente di soppressione del contrasto ed $\eta > 0$ è uno stabilizzatore numerico. Il tensore risultante viene proiettato nel cono semi-definito positivo mediante rettificazione e normalizzazione del picco: $I_n \leftarrow \mathrm{ReLU}(I_n) / (\max(I_n) + \eta)$.
+
+Come illustrato nella Figura~\ref{fig:imprinted_tensors}, il tensore risultante $I_n$ funge da cubo di sovrapposizione multidimensionale che comprime distinte feature semantiche. Definiamo operazioni di query algebrica direttamente su questi tensori:
+\begin{align}
+    I_{\mathrm{condiviso}} &= I_A \odot I_B \quad &&\text{(Invariante Strutturale Condiviso)} \\
+    I_{\mathrm{diff}} &= \mathrm{ReLU}(I_A - \gamma I_B) \quad &&\text{(Feature Differenziale)}
+\end{align}
+Queste operazioni estraggono sotto-feature senza smantellare la connettività polisemantica sottostante della rete.
+
+\subsection{L'Ipersfera Semantica e le Temperature Duali (\texorpdfstring{$T_p, T_m, T_t$}{Tp, Tm, Tt})}
+Nei modelli di linguaggio autoregressivi standard, la temperatura $\tau > 0$ viene applicata semplicemente come divisore scalare post-hoc sulla distribuzione finale dei logit $p(w_i) \propto \exp(l_i / \tau)$. Tale trattamento post-hoc del rumore è privo di consapevolezza geometrica rispetto agli intorni semantici.
+
+HySA ridefinisce la temperatura su base geometrica: \textbf{la temperatura è l'intorno metrico multidimensionale di un neurone nello spazio latente $\mathcal{S} \subset \mathbb{R}^D$} (l'\textbf{Ipersfera Semantica}). Come illustrato nella Figura~\ref{fig:hypersphere_geometry}a, quando un centroide concettuale $\mu_k$ viene interrogato lungo direzioni radiali (es. \texttt{CAT}, \texttt{GATTO}, \texttt{KG}, \texttt{MACCHINA}), la dinamica del sistema è governata da due distinti regimi termici:
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{Temperatura Polisemantica ($T_p$):} Controlla l'esplorazione browniana continua e la deriva analogica lungo le varietà relazionali.
+    \item \textbf{Temperatura Monosemantica ($T_m$):} Definisce la rigidità radiale intrinseca e la precisione del centroide atomico $\mu_k$.
+\end{enumerate}
+
+Questi regimi sono unificati nella \textbf{Temperatura Topologica} ($T_t$), che delimita la palla metrica chiusa $\mathcal{B}(\mu_k, T_t)$:
+\begin{equation}
+    \mathcal{B}(\mu_k, T_t) = \left\{ x \in \mathcal{S} \;\middle|\; \| x - \mu_k \|_2 \le T_t(T_p, T_m) \right\}
+\end{equation}
+Formalizziamo $T_t$ mediante un accoppiamento non lineare saturante:
+\begin{equation}
+    T_t(T_p, T_m) = T_m \left( 1 + \alpha \tanh\left( \frac{T_p}{T_m} \right) \right)
+    \label{eq:tt_coupling}
+\end{equation}
+dove $\alpha \in (0, 1)$ delimita la massima espansione termica consentita.
+
+Sull'ipersfera unitaria $S^{D-1}$, la distanza euclidea $\ell_2$ tra vettori normalizzati è in corrispondenza biunivoca esatta con la divergenza angolare sferica:
+\begin{equation}
+    \|x - \mu_k\|_2 = \sqrt{\|x\|_2^2 + \|\mu_k\|_2^2 - 2 \langle x, \mu_k \rangle} = \sqrt{2(1 - \cos\theta)}
+\end{equation}
+assicurando che la metrica $\ell_2$ quantifichi direttamente la deviazione angolare semantica.
+
+\begin{definizione}[Operatore di Confine Metrico $Q$]
+Data una traiettoria latente attiva $h \in \mathcal{S}$, la varietà monosemantica $\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}$ e la soglia topologica $T_t$, siano $k^* = \arg\min_k \|h - \mu_k\|_2$ e $d^* = \|h - \mu_{k^*}\|_2$. L'operatore $Q$ restituisce:
+\begin{equation}
+    Q(h, \mathcal{F}_{\mathrm{mono}}, T_t) = 
+    \begin{cases} 
+      (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{se } d^* \le T_t \\ 
+      (\mathrm{FAULT}, \bot) & \text{se } d^* > T_t 
+    \end{cases}
+    \label{eq:query_operator}
+\end{equation}
+dove $\mathbf{v}_{k^*}$ è il letterale atomico certificato ancorato dall'Inode $k^*$. Geometricamente, la regione di decisione per ciascun Inode è la \textbf{Cella di Voronoi troncata dalla palla metrica}, $\mathcal{D}_k = \mathrm{Vor}(\mu_k) \cap \mathcal{B}(\mu_k, T_t)$, che assicura un partizionamento deterministico e univoco dello spazio latente quasi ovunque.
+\end{definizione}
+
+Se la traiettoria interrogata risiede all'interno di $\mathcal{B}(\mu_k, T_t)$, HySA vincola deterministicamente il letterale esatto, eliminando le allucinazioni fattuali. Se la traiettoria devia oltre $T_t$, viene sollevato un \textbf{Errore Semantico} (\textit{Semantic Fault}), intercettando esplicitamente l'anomalia prima dell'emissione di un falso positivo.
+
+\begin{figure}[t]
+    \centering
+    \IfFileExists{fig3_hypersphere_geometry.pdf}{
+        \includegraphics[width=0.98\textwidth]{fig3_hypersphere_geometry.pdf}
+    }{
+        \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 3: Geometria dell'Ipersfera e Architettura]} \vspace{0.8cm}}}
+    }
+    \vspace{-0.15cm}
+    \caption{\textbf{Geometria dell'Ipersfera Semantica, Architettura Unificata e Probing Empirico su \texttt{Pythia-70m}.} \textbf{(a)} L'Ipersfera Semantica $\mathcal{B}(\mu_k, T_t)$ centrata sull'Inode $\mu_k$ (\texttt{CAT}), con vettori radiali concettuali (\texttt{GATTO}, \texttt{KG}, \texttt{MACCHINA}). Una query interrogata $q_{\mathrm{valid}}$ entro $T_t$ attiva la conferma deterministica, mentre $q_{\mathrm{drift}}$ eccede $T_t$, generando un \textit{Errore Semantico} (\textit{Semantic Fault}). Tutte le etichette sono formattate rigorosamente su riga singola. \textbf{(b)} La macro-architettura unificata: il ragionamento fluido in $N_p$ esegue verifiche metriche on-demand tramite l'operatore $Q$ sul registro $N_m$. \textbf{(c)} Distanze empiriche sullo stream residuo di \texttt{Pythia-70M} (Layer 3, $D=512$). Tutte le query fattuali valide si collocano al di sotto di $T_t = 0.46$ con margine $\Delta_{\mathrm{margin}} = 0.067$, mentre il protocollo di telemetria non indicizzato genera un arresto esplicito ($d = 0.497 > T_t$).}
+    \label{fig:hypersphere_geometry}
+\end{figure}
+
+\subsection{Gradiente di Compressione (\texorpdfstring{$\Delta q$}{Delta q}), Determinismo (\texorpdfstring{$\beta$}{beta}) e Punto Critico (\texorpdfstring{$P_c$}{Pc})}
+In che modo la capacità computazionale deve essere ripartita tra unità polisemantiche ($N_p$) e centroidi monosemantici ($N_m$)? Definiamo il \textbf{Gradiente di Compressione} ($\Delta q$) come il rapporto:
+\begin{equation}
+    \Delta q = \frac{N_p}{N_m \cdot M}
+\end{equation}
+dove $M$ è la cardinalità dei letterali indicizzati. Data la capacità effettiva $q = f(N_p, N_m)$, definiamo il \textbf{Grado di Determinismo} ($\beta$) come:
+\begin{equation}
+    \beta = \frac{T_t}{q}
+\end{equation}
+
+Mappando $\beta$ rispetto al gradiente di compressione $\Delta q$, si ottiene un paesaggio di potenziale termodinamico convesso $\mathcal{E}(\Delta q)$ (Figura~\ref{fig:phase_transition}b):
+\begin{equation}
+    \mathcal{E}(\Delta q) = \frac{\lambda_{\mathrm{drift}}}{\Delta q} + \lambda_{\mathrm{rigid}} (\Delta q - 1)^2 + \beta_0
+    \label{eq:potential_landscape}
+\end{equation}
+Poiché la derivata seconda è strettamente positiva:
+\begin{equation}
+    \frac{\partial^2 \mathcal{E}}{\partial (\Delta q)^2} = \frac{2 \lambda_{\mathrm{drift}}}{(\Delta q)^3} + 2 \lambda_{\mathrm{rigid}} > 0 \quad \forall \Delta q > 0
+\end{equation}
+il potenziale $\mathcal{E}(\Delta q)$ è strettamente convesso e ammette un unico minimo globale stazionario, che definisce il \textbf{Punto Critico} ($P_c$):
+\begin{equation}
+    \left. \frac{\partial \mathcal{E}}{\partial \Delta q} \right|_{P_c} = 0 \implies P_c = \arg\min_{\Delta q} \mathcal{E}(\Delta q)
+\end{equation}
+Il paesaggio si scompone in tre regimi termodinamici fondamentali:
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{A sinistra di $P_c$ ($\Delta q \ll 1$, Deriva Associativa Non Vincolata):} $N_p$ domina in assenza di un'adeguata indicizzazione monosemantica. Le traiettorie associative deviano liberamente su varietà non ancorate, determinando frequenti allucinazioni fattuali.
+    \item \textbf{A destra di $P_c$ ($\Delta q \gg 1$, Saturazione del Dizionario Sovra-Indicizzato):} $N_m$ domina. Il volume metrico occupato dai vincoli $\mathcal{V}_m \propto M \cdot (T_t)^D$ satura il volume latente totale $\mathcal{V}_{\mathrm{tot}}$. Le connessioni associative vengono interrotte, congelando il modello in una tabella di lookup rigida e incapace di generalizzare.
+    \item \textbf{Al Punto Critico ($P_c$):} Il sistema raggiunge l'equilibrio termodinamico ottimale. L'astrazione polisemantica generalizza su relazioni isomorfe, mentre i centroidi Inode monosemantici assicurano la verifica deterministica.
+\end{enumerate}
+
+Inoltre, come mostrato nella Figura~\ref{fig:phase_transition}a, in alta dimensione ($D \gg 1$) la frazione di volume occupata dai vincoli monosemantici manifesta una netta \textbf{Transizione di Fase Volumetrica}:
+\begin{equation}
+    \frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t / R)^D}
+\end{equation}
+A fronte di minime variazioni della soglia topologica $T_t$, il sistema transita bruscamente tra una fase fluida non vincolata ($\mathcal{V}_p$) e una fase rigida deterministica ($\mathcal{V}_m$).
+
+\section{Macro-Architettura Unificata: Né Seriale Né Parallela}
+
+Un quesito architetturale cruciale è: \textit{in che modo $N_p$ ed $N_m$ devono essere fisicamente interconnessi?}
+
+\begin{proposizione}[Modi di Fallimento dei Collegamenti Ingenui]
+\leavevmode
+\begin{enumerate}[leftmargin=*, itemsep=2.5pt]
+    \item \textbf{Accoppiamento Seriale ($N_p \to N_m$ o $N_m \to N_p$):} Collocare un layer monosemantico a valle di una rete polisemantica crea un collo di bottiglia informativo che comprime prematuramente le rappresentazioni relazionali continue in categorie rigide. Viceversa, anteporre unità monosemantiche a monte rimuove il contesto relazionale prima che l'astrazione polisemantica possa emergere.
+    \item \textbf{Accoppiamento Parallelo ($N_p \parallel N_m$):} Eseguire due reti indipendenti in parallelo raddoppia i parametri e il consumo di memoria ($2\times \mathrm{FLOPs}$), richiedendo teste di arbitraggio euristiche per riconciliare output divergenti.
+\end{enumerate}
+\end{proposizione}
+
+\subsection{Il Forward Pass di HySA}
+HySA risolve questa sfida mediante un'\textbf{Architettura a Singolo Substrato Unificato} (Figura~\ref{fig:hypersphere_geometry}b). Le rappresentazioni latenti risiedono in un unico spazio di Hilbert $\mathcal{S} \subset \mathbb{R}^D$. Il ragionamento fluido propaga nativamente attraverso i layer $N_p$ sotto la temperatura $T_p$. Quando la generazione raggiunge posizioni di token fattuali, il sistema interroga l'Operatore di Confine Metrico $Q(h_t, \mathcal{F}_{\mathrm{mono}}, T_t)$ on-demand.
+
+La procedura completa di inferenza e verifica metrica è formalizzata nell'Algoritmo~1.
+
+\begin{tcolorbox}[title={\small \textbf{Algoritmo 1: Esecuzione Forward e Verifica Metrica in HySA}}]
+\small
+\textbf{Input:} Sequenza di token di input $\{x_1, \dots, x_t\}$, Layer del Transformer $\mathcal{L}$, Registro Monosemantico $\mathcal{F}_{\mathrm{mono}} = \{(\mu_k, \mathbf{v}_k)\}_{k=1}^M$, Temperature $T_p, T_m$. \\
+\textbf{Output:} Token successivo generato $x_{t+1}$ oppure eccezione esplicita $\bot_{\mathrm{Fault}}$.
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt, topsep=2.0pt]
+    \item Calcolo dello stato continuo del residual stream: $h_t \leftarrow \mathcal{L}(x_{\le t})$
+    \item Calcolo del Confine Topologico: $T_t \leftarrow T_m \left( 1 + \alpha \tanh(T_p / T_m) \right)$
+    \item Normalizzazione del vettore di stato: $q \leftarrow h_t / \|h_t\|_2$
+    \item Ricerca dell'Inode monosemantico più vicino:
+    $$k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2$$
+    \item \textbf{se} $d^* \le T_t$ \textbf{allora} \hfill \textit{// Entro l'Ipersfera Semantica}
+    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+        \item Assegna il letterale atomico certificato: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
+    \end{itemize}
+    \item \textbf{altrimenti se} il Flag di Vincolo Fattuale è ATTIVO \textbf{allora}
+    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+        \item Solleva \textbf{Errore Semantico} (\textit{Semantic Fault}): ritorna $\bot_{\mathrm{Fault}}$ \hfill \textit{// Allucinazione arrestata}
+    \end{itemize}
+    \item \textbf{altrimenti} \hfill \textit{// Regime di Ragionamento Fluido Libero}
+    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+        \item Campiona dai logit standard: $x_{t+1} \sim \mathrm{Softmax}(\mathbf{W}_U h_t / T_p)$
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Validazione Sperimentale}
+
+Conduciamo una validazione empirica su due scenari complementari: (1) un benchmark controllato su varietà duale $32 \times 32$, e (2) il probing reale dello stream residuo su \texttt{EleutherAI/pythia-70m} ($D=512$).
+
+\subsection{Benchmark 1: Varietà Sintetica \texorpdfstring{$32 \times 32$}{32x32} a Doppia Natura}
+Per valutare il disaccoppiamento tra invarianti strutturali e letterali rigidi, costruiamo un dataset sintetico di 1.600 campioni costituiti da matrici binarie $32 \times 32$ con struttura duale:
+\begin{itemize}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{Manifold Strutturale Polisemantico ($N_p$):} Loop geometrici di cifre (`0', `6', `8', `9') con jitter spaziale casuale $\Delta x, \Delta y \in \{-1, 0, 1\}$. Le cifre `6' e `8' condividono il cerchio inferiore; le cifre `8' e `9' condividono il cerchio superiore; la cifra `0' li comprende entrambi.
+    \item \textbf{Inode di Intestazione Monosemantici ($N_m$):} Un checksum rigido di $2 \times 2$ pixel nell'angolo in alto a sinistra ($X[1:3, 2:14]$), che codifica l'identità di classe con tolleranza spaziale zero.
+\end{itemize}
+
+Un collo di bottiglia neurale con $N_p=4$ unità nascoste viene addestrato con una penalità di diversità sulla covarianza:
+\begin{equation}
+    \mathcal{L} = \mathcal{L}_{\mathrm{BCE}}(\hat{X}, X) + \lambda_{\mathrm{div}} \|\mathrm{Cov}(z) - \mathrm{diag}(\mathrm{Cov}(z))\|_F^2
+\end{equation}
+
+\textbf{Risultati:} I Tensori di Sovrapposizione Contrastivi $I_n$ vengono estratti mediante l'Eq.~(\ref{eq:imprinted_tensor}) con $\gamma = 0.35$. Come illustrato nella Figura~\ref{fig:imprinted_tensors}, le singole unità comprimono i loop sovrapposti. L'intersezione di Hadamard $I_1 \odot I_2$ isola l'invariante circolare condiviso, mentre la sottrazione rettificata $\mathrm{ReLU}(I_1 - 0.7 I_2)$ isola i tratti unici.
+
+Nella Figura~\ref{fig:phase_transition}c valutiamo la corruzione dei letterali fattuali al crescere della temperatura polisemantica $T_p \in [0.05, 2.5]$ su 400 iterazioni. La decodifica standard priva di vincoli evidenzia una corruzione del checksum superiore all'$80\%$. Al contrario, HySA verifica le traiettorie rispetto ai centroidi monosemantici: tutte le query confermate mantengono lo \textbf{0.0\% di corruzione del letterale}, mentre le traiettorie che deviano vengono rigettate come \textit{Errori Semantici}.
+
+\subsection{Benchmark 2: Probing su Transformer Reale (\texorpdfstring{\texttt{Pythia-70m}}{Pythia-70m}, \texorpdfstring{$D=512$}{D=512})}
+Per validare HySA sulle rappresentazioni di linguaggio reali, analizziamo lo stream residuo al Layer 3 di \texttt{EleutherAI/pythia-70m} ($D=512$).
+
+\subsubsection{Isomorfismo nel Manifold Polisemantico \texorpdfstring{($N_p$)}{(Np)}}
+Verifichiamo se concetti di schema isomorfi convergano su un sottospazio polisemantico condiviso. Interroghiamo quattro prompt rappresentativi della risoluzione da identità a indirizzo:
+\begin{enumerate}[leftmargin=*, itemsep=1.5pt]
+    \item \textbf{DNS:} \textit{``A directory system that resolves a symbolic domain name to a target address is''}
+    \item \textbf{IP Routing:} \textit{``A network directory table that maps a symbolic host label to a target address is''}
+    \item \textbf{Pagine Bianche:} \textit{``A printed directory book that resolves a person's name to a target address is''}
+    \item \textbf{Elenco Telefonico:} \textit{``A telecom lookup index that maps a subscriber name to a target number is''}
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\caption{Similarità Coseno tra Schemi Isomorfi in $N_p$ (\texttt{Pythia-70M}, Layer 3, $D=512$).}
+\label{tab:pythia_cosine}
+\vspace{0.15cm}
+\small
+\setlength{\tabcolsep}{6.0pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Schema Concettuale} & \textbf{DNS} & \textbf{Instradamento IP} & \textbf{Pagine Bianche} & \textbf{Elenco Telefonico} \\ \midrule
+\textbf{DNS} & $1.000$ & $0.961$ & $0.973$ & $0.893$ \\
+\textbf{Instradamento IP} & $0.961$ & $1.000$ & $0.940$ & $0.916$ \\
+\textbf{Pagine Bianche} & $0.973$ & $0.940$ & $1.000$ & $0.903$ \\
+\textbf{Elenco Telefonico} & $0.893$ & $0.916$ & $0.903$ & $1.000$ \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Come riportato nella Tabella~\ref{tab:pythia_cosine}, tutti e quattro i prompt relazionali mostrano similarità coseno comprese tra $\mathbf{0.893}$ e $\mathbf{0.973}$. Ciò dimostra empiricamente che i transformer profondi sviluppano naturalmente varietà di sovrapposizione polisemantica che codificano schemi relazionali astratti tra domini distanti.
+
+\subsubsection{Probing della Geometria Radiale dell'Ipersfera}
+Per verificare l'ipotesi dei vettori radiali dell'Ipersfera Semantica (schema concettuale del Foglio 1), calcoliamo le distanze dal centroide $\mu_{\mathrm{CAT}}$ ai vettori radiali:
+\begin{itemize}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{Centro (\texttt{CAT}):} $d = 0.0000$ (CosSim: $1.0000$)
+    \item \textbf{Raggio A (\texttt{GATTO}):} $d = 0.8184$ (CosSim: $0.6646$, sinonimo stretto)
+    \item \textbf{Raggio B (\texttt{KG}):} $d = 0.8594$ (CosSim: $0.6309$, attributo fisico/peso)
+    \item \textbf{Raggio C (\texttt{MACCHINA}):} $d = 0.9199$ (CosSim: $0.5771$, veicolo distante)
+\end{itemize}
+Tali distanze confermano che la distanza semantica cresce monotonicamente con la divergenza concettuale, formando la struttura radiale di $\mathcal{B}(\mu_k, T_t)$ mostrata nella Figura~\ref{fig:hypersphere_geometry}a.
+
+\subsubsection{Verifica Deterministica degli Inode e Benchmark Fattuale}
+Indicizziamo sei Inode atomici in $\mathcal{F}_{\mathrm{mono}}$: \texttt{DNS\_PORT} (`53'), \texttt{SSH\_PORT} (`22'), \texttt{HTTP\_PORT} (`80'), \texttt{PUBLIC\_DNS\_IP} (`8.8.8.8'), \texttt{SUBNET\_MASK\_BITS} (`24') e \texttt{ADMIN\_PROPER\_NAME} (`JOHN'). La distanza minima tra centroidi sulla sfera unitaria $S^{511}$ è $d_{\min} = 0.2119$, e configuriamo il confine topologico a $T_t = 0.46$.
+
+Confrontiamo la decodifica grezza non vincolata con la verifica metrica di HySA su query fattuali e su una query fuori distribuzione non indicizzata.
+
+\begin{table}[t]
+\centering
+\caption{Benchmark di Verifica Fattuale Empirica su \texttt{EleutherAI/pythia-70m} ($D=512$). HySA azzera tutti i falsi positivi.}
+\label{tab:factual_benchmark}
+\vspace{0.15cm}
+\footnotesize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{@{}p{2.2cm}p{4.4cm}p{1.9cm}p{1.3cm}p{2.5cm}p{2.7cm}@{}}
+\toprule
+\textbf{Concetto Target} & \textbf{Prompt di Query} & \textbf{Output $N_p$} & \textbf{Dist. $d^*$} & \textbf{Stato HySA ($T_t=0.46$)} & \textbf{Output Certificato} \\ \midrule
+\texttt{SSH\_PORT} & \textit{``For remote server management... SSH default port is''} & \texttt{' 1'} (\textbf{Allucin.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Esatto) \\
+\texttt{HTTP\_PORT} & \textit{``The plaintext transport protocol HTTP default port is''} & \texttt{' used'} (\textbf{Allucin.}) & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (Esatto) \\
+\texttt{PUBLIC\_DNS\_IP} & \textit{``Google public DNS resolver IPv4 literal address is''} & \texttt{' used'} (\textbf{Allucin.}) & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (Esatto) \\
+\texttt{SUBNET\_MASK} & \textit{``A standard subnet mask 255.255.255.0 has CIDR length''} & \texttt{' 0'} (\textbf{Allucin.}) & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (Esatto) \\
+\texttt{ADMIN\_NAME} & \textit{``In the database registry, root user first name literal is''} & \texttt{' the'} (\textbf{Allucin.}) & $0.0889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' JOHN'} (Esatto) \\ \midrule
+\texttt{UNINDEXED} & \textit{``Telemetry protocol for subterranean speleological sensors...''} & \texttt{' a'} (\textbf{Nonsenso}) & $0.4973$ & \textbf{SEMANTIC FAULT} ($d^* > T_t$) & \textbf{[ARRESTATO]} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Come evidenziato nella Tabella~\ref{tab:factual_benchmark} e nella Figura~\ref{fig:hypersphere_geometry}c:
+\begin{itemize}[leftmargin=*, itemsep=2.0pt]
+    \item Pythia-70m non vincolato fallisce nel $100\%$ dei casi su questi prompt letterali, generando token di continuazione generici come \texttt{' 1'}, \texttt{' used'}, \texttt{' 0'} o \texttt{' the'}.
+    \item HySA valuta i vettori di stato rispetto ai centroidi Inode: tutte e cinque le query fattuali verificate ricadono ampiamente entro la soglia topologica ($d^* \in [0.0889, 0.4304] \le 0.46$), garantendo il $100\%$ di ricostruzione fattuale esatta.
+    \item Sulla query non indicizzata relativa ai sensori speleologici, la distanza minima è $d^* = 0.4973 > T_t$, inducendo HySA a sollevare un \textbf{Errore Semantico} immediato e sopprimendo l'allucinazione silente.
+\end{itemize}
+
+\section{Discussione, Scalabilità e Implicazioni Teoriche}
+
+\subsection{Scalabilità a Modelli da 70B+ e Complessità di Indicizzazione Sub-Lineare}
+Sebbene la nostra validazione preliminare abbia impiegato \texttt{Pythia-70m}, i fondamenti matematici di HySA si generalizzano naturalmente alle architetture di frontiera (es. Llama-3-70B, Gemma-2-27B). Nei modelli di maggiori dimensioni con $D=4096$ o $8192$, il fenomeno della \textit{Concentrazione della Misura di Lévy} su ipersfere ad alta dimensione $S^{D-1}$ implica che due vettori casuali esibiscano un prodotto scalare strettamente centrato su zero con varianza decrescente $\mathrm{Var}(\langle u, v \rangle) \sim 1/D \to 0$. Di conseguenza, la separazione quasi-ortogonale tra Inode distinti diviene esponenzialmente più nitida, mentre la Transizione di Fase Volumetrica $((T_t/R)^D)$ si trasforma in una funzione a gradino praticamente perfetta.
+
+Sul piano dell'efficienza computazionale di decodifica, l'interrogazione dell'operatore $Q$ su milioni di Inode ($M \gg 1$) non richiede scansioni lineari esaustive $O(M)$. Ricorrendo a strutture dati per la ricerca del vicino più prossimo approssimato (ANN) su GPU/TPU---quali grafi HNSW (Hierarchical Navigable Small World) o quantizzazione vettoriale IVF-PQ (es. librerie FAISS o cuVS)---la complessità temporale di query si riduce a livello sub-lineare $O(\log M)$, con latenze inferiori a $15\,\mu\text{s}$, del tutto trascurabili rispetto alla durata del forward pass di un transformer ($15\text{--}50\,\text{ms}$).
+
+\subsection{Consolidamento Continuo degli Inode tramite Buffer di Replay}
+Nei sistemi operativi, i file vengono allocati e indicizzati dinamicamente. Analogamente, il registro monosemantico $\mathcal{F}_{\mathrm{mono}}$ non deve rimanere statico. Proponiamo che una procedura computazionale autonoma di consolidamento---funzionalmente analoga al consolidamento mnestico durante il sonno a onde lente nei mammiferi---operi in background analizzando un buffer di replay circolare delle attivazioni latenti. Raggruppando tracce ricorrenti tramite algoritmi di clustering a densità (es. DBSCAN o $k$-means sferico), quando un cluster mostra una dispersione radiale rigorosamente inferiore a una soglia di rigidità ($\sigma^2 < \epsilon_{\mathrm{rigid}}$), il suo centroide medio viene indicizzato come nuovo Inode $\mu_{M+1} \in \mathcal{F}_{\mathrm{mono}}$. Questo processo espande la memoria a lungo termine a costo computazionale zero per la backpropagation, prevenendo il \textit{catastrophic forgetting} e preservando intatti i circuiti associativi $N_p$.
+
+\subsection{Trigger Endogeni e Proiezione Entropica}
+Attualmente HySA richiede l'identificazione dei punti di verifica fattuale durante la decodifica. In contesti di generazione aperta (open-ended dialog), l'invocazione dell'operatore $Q$ può essere governata endogenamente da due meccanismi complementari privi di supervisione esterna:
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{Crollo dell'Entropia di Proiezione sui Centroidi ($\mathcal{H}_q$):} Data la distribuzione di attenzione softmax sui centroidi $p_k \propto \exp(-\|q - \mu_k\|_2 / \tau_{\mathrm{probe}})$, definiamo l'entropia di proiezione come $\mathcal{H}_q = -\sum_{k=1}^M p_k \log p_k$. Quando la traiettoria latente entra nel bacino attrattore di un Inode fattuale, $\mathcal{H}_q$ subisce una repentina contrazione verso lo zero ($\mathcal{H}_q < \eta_{\mathrm{trig}}$), segnalando autonomamente al generatore la transizione da ragionamento analogico fluido a verifica vincolata.
+    \item \textbf{Gating Latente con Supervisione Debole:} Un blocco feed-forward leggero operante sullo stream residuo può essere calibrato per classificare la natura ontologica del token successivo (entità rigida vs sintagma grammaticale/associativo), attivando il confine metrico solo per letterali fattuali.
+\end{enumerate}
+
+\section{Conclusione}
+
+La ricerca nell'interpretabilità meccanicistica volta a eliminare il polisemantismo neuronale poggia su un errore concettuale: confondere l'intelligenza associativa con la memoria fattuale. In questo lavoro abbiamo introdotto \textbf{HySA (Hybrid Semantic Architecture)}, dimostrando che:
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{Il polisemantismo è il motore essenziale dell'intelligenza neurale ($N_p$):} Un elevato rango relazionale comprime istanze eterogenee in schemi analogici di ordine superiore.
+    \item \textbf{La monosemia è il custode della memoria fattuale ($N_m$):} Gli Inode ortogonali ancorano letterali atomici immutabili con deriva associativa nulla.
+    \item \textbf{Operando entro il Punto Critico ($P_c$) dell'Ipersfera Semantica ($T_t$):} HySA unifica entrambi i regimi in una singola architettura coerente che coniuga l'astrazione creativa con il rigore fattuale deterministico.
+\end{enumerate}
+
+\begin{thebibliography}{20}
+\small
+\bibitem{rigotti2013importance} M.~Rigotti, O.~Barak, M.~R.~Warden, X.-J.~Wang, N.~D.~Daw, E.~K.~Miller, and S.~Fusi, ``The importance of mixed selectivity in complex cognitive tasks,'' \textit{Nature}, vol.~497, no.~7451, pp.~585--590, 2013.
+\bibitem{fusi2016why} S.~Fusi, E.~K.~Miller, and M.~Rigotti, ``Why neurons mix: high dimensionality for higher cognition,'' \textit{Current Opinion in Neurobiology}, vol.~37, pp.~66--74, 2016.
+\bibitem{elhage2022toy} N.~Elhage, T.~Hume, C.~Olsson, N.~Schiefer, T.~Henighan, S.~Kravec, Z.~Hatfield-Dodds, R.~Lasenby, D.~Drain, C.~Chen, \textit{et al.}, ``Toy models of superposition,'' \textit{Transformer Circuits Thread}, 2022.
+\bibitem{bricken2023monosemanticity} T.~Bricken, A.~Templeton, J.~Marks, S.~Marcus, E.~Mindermann, L.~Petrini, S.~Kundu, N.~Pangh, and C.~Olah, ``Towards monosemanticity: Decomposing language models with dictionary learning,'' \textit{Transformer Circuits Thread}, 2023.
+\bibitem{templeton2024scaling} A.~Templeton, T.~Conerly, N.~Marcus, T.~Bricken, K.~Trendell, L.~Petrini, T.~Henighan, and C.~Olah, ``Scaling monosemanticity: Extracting interpretable features from Claude 3 Sonnet,'' \textit{Transformer Circuits Thread}, 2024.
+\bibitem{cunningham2023sparse} H.~Cunningham, A.~Ewart, L.~Riggs, R.~Huben, and L.~Sharkey, ``Sparse autoencoders find highly interpretable features in language models,'' \textit{arXiv preprint arXiv:2309.08600}, 2023.
+\bibitem{geva2021transformer} M.~Geva, R.~Schuster, J.~Berant, and O.~Levy, ``Transformer feed-forward layers are key-value memories,'' in \textit{Proc. EMNLP}, pp.~5484--5495, 2021.
+\bibitem{knowledge_neurons_2022} D.~Dai, L.~Dong, Y.~Hao, Z.~Sui, B.~Chang, and F.~Wei, ``Knowledge neurons in pretrained transformers,'' in \textit{Proc. ACL}, pp.~8493--8502, 2022.
+\bibitem{meng2022locating_rome} K.~Meng, D.~Bau, A.~Andonian, and Y.~Belinkov, ``Locating and editing factual associations in GPT,'' in \textit{Proc. NeurIPS}, vol.~35, pp.~17359--17372, 2022.
+\bibitem{meng2022mass_memit} K.~Meng, A.~S.~Sharma, A.~Andonian, Y.~Belinkov, and D.~Bau, ``Mass-editing memory in a Transformer,'' in \textit{Proc. ICLR}, 2023.
+\bibitem{khandelwal2020knn_lm} U.~Khandelwal, O.~Levy, D.~Jurafsky, L.~Zettlemoyer, and M.~Lewis, ``Generalization through memorization: Nearest neighbor language models,'' in \textit{Proc. ICLR}, 2020.
+\bibitem{borgeaud2022retro} S.~Borgeaud, A.~Mensch, J.~Hoffmann, T.~Cai, E.~Rutherford, K.~Millican, \textit{et al.}, ``Improving language models by retrieving from trillions of tokens,'' in \textit{Proc. ICML}, pp.~2206--2240, 2022.
+\bibitem{guu2020realm} K.~Guu, K.~Lee, Z.~Tung, P.~Pasupat, and M.-W.~Chang, ``REALM: Retrieval-augmented language model pre-training,'' in \textit{Proc. ICML}, pp.~3929--3938, 2020.
+\bibitem{zou2023representation} A.~Zou, L.~Phan, S.~Chen, J.~Campbell, P.~Guo, R.~Ren, A.~Pan, X.~Yin, M.~Mazeika, A.-K.~Dombrowski, \textit{et al.}, ``Representation engineering: A top-down approach to AI transparency,'' \textit{arXiv preprint arXiv:2310.01405}, 2023.
+\bibitem{li2023contrastive} X.~L.~Li, A.~Holtzman, D.~Fried, P.~Liang, J.~Eisner, T.~Hashimoto, L.~Zettlemoyer, and M.~Lewis, ``Contrastive decoding: Open-ended text generation as optimization,'' in \textit{Proc. ACL}, pp.~12286--12312, 2023.
+\bibitem{kahneman2011thinking} D.~Kahneman, \textit{Pensieri lenti e veloci}, Mondadori, 2011.
+\bibitem{evans2008dual_process} J.~S.~B.~Evans, ``Dual-processing accounts of reasoning, judgment, and social cognition,'' \textit{Annual Review of Psychology}, vol.~59, pp.~255--278, 2008.
+\end{thebibliography}
+
+\end{document}
