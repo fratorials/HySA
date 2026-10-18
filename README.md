@@ -47,13 +47,12 @@ A polysemantic neuron acts as a superposition cube compressing multiple concepts
 $$I_n = \frac{\sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\text{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\text{net}}(X_j \mid n)}{\sum_{k} z_{k,n} + \eta}$$
 
 ### 2. The Semantic Hypersphere & Dual Temperatures ($T_p, T_m, T_t$)
-Temperature is redefined geometrically as **the multidimensional neighborhood of the neuron** (**Semantic Hypersphere**), governed by Polysemantic Temperature ($T_p$), Monosemantic Temperature ($T_m$), and bounded by **Topological Temperature ($T_t$)**:
-$$B(\mu_m, T_t) = \left\{ x \in \mathbb{R}^D \;\middle\vert{}\; \Vert{} x - \mu_m \Vert{}_2 \le T_t(T_p, T_m) \right\}$$
+Temperature is redefined geometrically as the multidimensional neighborhood of the neuron (Semantic Hypersphere), governed by Polysemantic Temperature ($T_p$), Monosemantic Temperature ($T_m$), and bounded by Topological Temperature ($T_t$): 
+
+$$B(\mu_m, T_t) = \left\{ x \in \mathbb{R}^D \;\middle|\; \| x - \mu_m \|_2 \le T_t(T_p, T_m) \right\}$$
 
 ### 3. Compression Gradient ($\Delta q$), Determinism ($\beta$), and the Critical Point ($P_c$)
-The ratio between $N_p$ and $N_m$ defines the **Compression Gradient ($\Delta q$)**. Given neuronal allocation quantity $q$ (linked to cardinality $M$), the **Degree of Determinism** is:
-$$\beta = \frac{T}{q}$$
-Plotting $\beta$ across $\Delta q$ reveals a convex potential curve with a stationary minimum at the **Critical Point ($P_c$)**, where abstract intelligence and factual rigor reach optimal thermodynamic equilibrium.
+The ratio between $N_p$ and $N_m$ defines the Compression Gradient ($\Delta q$). Given neuronal allocation quantity $q$ (linked to cardinality $M$), the Degree of Determinism is: $\beta = \frac{T}{q}$. Plotting $\beta$ across $\Delta q$ reveals a convex potential curve with a stationary minimum at the Critical Point ($P_c$), where abstract intelligence and factual rigor reach optimal thermodynamic equilibrium.
 
 ---
 
