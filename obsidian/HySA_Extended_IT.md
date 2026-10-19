@@ -248,9 +248,9 @@ Un prototipo su una manciata di Inode dimostra il principio meccanico, ma portar
 
 ## 6. Conclusione
 
-Cercare di eliminare il polisemantismo dalle reti neurali per renderle "interpretabili" equivale a voler smontare la capacità associativa del cervello perché non assomiglia a un foglio Excel.
+Cercare di eliminare la polisemia dalle reti neurali per renderle interpretabili, equivale a voler smantellare la capacità associativa della cognizione perché non assimilabile a un archivio relazionale strutturato.
 
-Con **HySA** propongo una strada diversa, più vicina all'ingegneria dei sistemi reali: lasciare che i neuroni polisemantici facciano il lavoro sporco, fluido e creativo dell'astrazione analogica (governati dalla propria temperatura $T_p$), e affiancare loro, nello stesso spazio logico, un livello di verifica deterministica basato su Inode monosemantici ($T_m$). Non due modelli in serie o in parallelo, ma un'unica architettura capace di interrogare se stessa come un'API quando la fluidità del discorso deve lasciare il posto alla precisione del dato.
+Con **HySA** propongo una prospettiva fondata sull’ingegneria dei sistemi reali: demandare ai neuroni polisemantici la sintesi associativa e creativa dell’astrazione analogica (governati dalla temperatura $T_p$), affiancando loro, nel medesimo spazio vettoriale unificato, un piano di verifica deterministica basato su Inode monosemantici ($T_m$). Non due modelli disgiunti in serie o in parallelo, ma una singola architettura capace di interrogare se stessa tramite chiamate API interne non appena la fluidità del discorso deve cedere il passo alla precisione del dato.
 
 ---
 

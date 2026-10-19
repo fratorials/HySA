@@ -157,7 +157,9 @@ L'approccio a valle basato sull'entropia dei logit fallisce sia su frasi creativ
 
 ## 6. Conclusione
 
-Con **HySA** propongo un'architettura che dimostra come il polisemantismo sia il motore dell'intelligenza associativa fluida ($T_p$), mentre la monosemia è il presidio della memoria fattuale ($T_m$). Unificando entrambi i regimi nell'Ipersfera Semantica con confini concentrici ($T_t, R_{\mathrm{dom}}$) e interrogazione API al layer intermedio su registro Inode, i modelli coniugano astrazione plastica, efficienza computazionale ed esatto rigore deterministico.
+Cercare di eliminare la polisemia dalle reti neurali per renderle interpretabili, equivale a voler smantellare la capacità associativa della cognizione perché non assimilabile a un archivio relazionale strutturato.
+
+Con **HySA** propongo una prospettiva fondata sull’ingegneria dei sistemi reali: demandare ai neuroni polisemantici la sintesi associativa e creativa dell’astrazione analogica (governati dalla temperatura $T_p$), affiancando loro, nel medesimo spazio vettoriale unificato, un piano di verifica deterministica basato su Inode monosemantici ($T_m$). Non due modelli disgiunti in serie o in parallelo, ma una singola architettura capace di interrogare se stessa tramite chiamate API interne non appena la fluidità del discorso deve cedere il passo alla precisione del dato.
 
 ---
 

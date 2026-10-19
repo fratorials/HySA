@@ -157,7 +157,9 @@ Downstream uncertainty gating on final logits fails symmetrically on open discou
 
 ## 6. Conclusion
 
-With **HySA**, I establish that polysemanticity is the foundational engine of fluid relational intelligence ($T_p$), while monosemanticity is the guardian of factual memory ($T_m$). By integrating both into a unified single-substrate architecture with concentric domain gating ($T_t, R_{\mathrm{dom}}$) and intermediate layer Inode API querying, models achieve creative abstraction with deterministic consistency.
+Attempting to eliminate polysemanticity from neural networks to force interpretability is equivalent to dismantling the associative capacity of cognition because it is not assimilable to a structured relational database.
+
+With **HySA**, I propose a perspective grounded in real systems engineering: delegating associative and creative synthesis of analogical abstraction to polysemantic neurons (governed by temperature $T_p$), while integrating alongside them, within the same unified vector space, a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Not two disjoint models in series or parallel, but a single architecture capable of querying itself via internal API calls as soon as fluid narrative must yield to factual precision.
 
 ---
 

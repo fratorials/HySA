@@ -214,10 +214,12 @@ L'analisi dello stream residuo al Layer 3 ($D=512$) di \texttt{EleutherAI/pythia
 L'approccio a valle basato sull'entropia dei logit fallisce sia su frasi creative aperte sia su allucinazioni pronunciate con elevata sicurezza. HySA risolve questo problema alla radice con il \textbf{Gating Geometrico al Layer Intermedio}: intercettando il flusso a metà rete ($l=3$), le frasi creative ($d^* > R_{\mathrm{dom}}$) proseguono indisturbate, le allucinazioni fattuali vengono arrestate prima dei layer finali, e i fatti noti generano un Early-Exit immediato. Con strutture ANN su GPU (es. indici HNSW / FAISS) a dimensionalità elevata ($D \ge 4096$), la latenza di ricerca scala a $O(\log M)$ con tempi inferiori a $15\,\mu\text{s}$.
 
 \section{Conclusione}
-Con \textbf{HySA} propongo un'architettura che dimostra come il polisemantismo sia il motore dell'intelligenza associativa fluida ($T_p$), mentre la monosemia è il presidio della memoria fattuale ($T_m$). Unificando entrambi i regimi nell'Ipersfera Semantica ($T_t$) con interrogazione API su registro Inode, i modelli coniugano astrazione plastica e rigore deterministico.
+Cercare di eliminare la polisemia dalle reti neurali per renderle interpretabili, equivale a voler smantellare la capacità associativa della cognizione perché non assimilabile a un archivio relazionale strutturato. Con \textbf{HySA} propongo una prospettiva fondata sull'ingegneria dei sistemi reali: demandare ai neuroni polisemantici la sintesi associativa e creativa dell'astrazione analogica (governati dalla temperatura $T_p$), affiancando loro, nel medesimo spazio vettoriale unificato, un piano di verifica deterministica basato su Inode monosemantici ($T_m$). Non due modelli disgiunti in serie o in parallelo, ma una singola architettura capace di interrogare se stessa tramite chiamate API interne non appena la fluidità del discorso deve cedere il passo alla precisione del dato.
 
 \begin{thebibliography}{9}
-\footnotesize
+\scriptsize
+\setlength{\itemsep}{0.2pt}
+\setlength{\parskip}{0pt}
 \bibitem{rigotti2013importance} M.~Rigotti \textit{et al.}, ``The importance of mixed selectivity in complex cognitive tasks,'' \textit{Nature}, vol.~497, pp.~585--590, 2013.
 \bibitem{fusi2016why} S.~Fusi, E.~K.~Miller, and M.~Rigotti, ``Why neurons mix: high dimensionality for higher cognition,'' \textit{Curr. Opin. Neurobiol.}, vol.~37, pp.~66--74, 2016.
 \bibitem{elhage2022toy} N.~Elhage \textit{et al.}, ``Toy models of superposition,'' \textit{Transformer Circuits Thread}, 2022.

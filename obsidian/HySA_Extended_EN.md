@@ -243,9 +243,9 @@ Validating mechanics on a curated set of Inodes demonstrates feasibility. Scalin
 
 ## 6. Conclusion
 
-Attempting to eliminate polysemanticity to force interpretability resembles dismantling associative cognition because it does not mirror a relational database.
+Attempting to eliminate polysemanticity from neural networks to force interpretability is equivalent to dismantling the associative capacity of cognition because it is not assimilable to a structured relational database.
 
-With **HySA**, I propose an engineering paradigm grounded in real systems: permitting polysemantic units to perform fluid, associative reasoning (governed by $T_p$), complemented by a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Rather than two disconnected models in series or parallel, HySA formalizes a unified substrate querying internal metric APIs whenever fluid narrative must yield to factual precision.
+With **HySA**, I propose a perspective grounded in real systems engineering: delegating associative and creative synthesis of analogical abstraction to polysemantic neurons (governed by temperature $T_p$), while integrating alongside them, within the same unified vector space, a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Not two disjoint models in series or parallel, but a single architecture capable of querying itself via internal API calls as soon as fluid narrative must yield to factual precision.
 
 ---
 

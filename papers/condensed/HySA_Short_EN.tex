@@ -213,10 +213,12 @@ Residual stream probing at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m} c
 Downstream uncertainty gating on final logits fails symmetrically on open discourse and overconfident hallucinations. HySA resolves this fundamentally via \textbf{Intermediate Layer Geometric Gating}: by intercepting execution at layer $l=3$, creative flow ($d^* > R_{\mathrm{dom}}$) is preserved, hallucinations are intercepted prior to lexical projection, and certified literals trigger an instant Early-Exit. Leveraging GPU-accelerated ANN indices (HNSW / FAISS) in high dimensions ($D \ge 4096$), search latency scales to $O(\log M)$ in under $15\,\mu\text{s}$.
 
 \section{Conclusion}
-With \textbf{HySA}, I establish that polysemanticity is the foundational engine of fluid relational intelligence ($T_p$), while monosemanticity is the guardian of factual memory ($T_m$). By integrating both into a unified single-substrate architecture querying internal metric Inode APIs, models achieve creative abstraction with deterministic consistency.
+Attempting to eliminate polysemanticity from neural networks to force interpretability is equivalent to dismantling the associative capacity of cognition because it is not assimilable to a structured relational database. With \textbf{HySA}, I propose a perspective grounded in real systems engineering: delegating associative and creative synthesis of analogical abstraction to polysemantic neurons (governed by temperature $T_p$), while integrating alongside them, within the same unified vector space, a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Not two disjoint models in series or parallel, but a single architecture capable of querying itself via internal API calls as soon as fluid narrative must yield to factual precision.
 
 \begin{thebibliography}{9}
-\footnotesize
+\scriptsize
+\setlength{\itemsep}{0.2pt}
+\setlength{\parskip}{0pt}
 \bibitem{rigotti2013importance} M.~Rigotti \textit{et al.}, ``The importance of mixed selectivity in complex cognitive tasks,'' \textit{Nature}, vol.~497, pp.~585--590, 2013.
 \bibitem{fusi2016why} S.~Fusi, E.~K.~Miller, and M.~Rigotti, ``Why neurons mix: high dimensionality for higher cognition,'' \textit{Curr. Opin. Neurobiol.}, vol.~37, pp.~66--74, 2016.
 \bibitem{elhage2022toy} N.~Elhage \textit{et al.}, ``Toy models of superposition,'' \textit{Transformer Circuits Thread}, 2022.
