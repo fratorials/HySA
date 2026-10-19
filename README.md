@@ -8,7 +8,6 @@
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![Paper: 9-Page Extended](https://img.shields.io/badge/Paper-9--Page%20Extended%20Edition-success.svg)](papers/extended/HySA_Extended_EN.pdf)
-[![Paper: 8-Page Two-Column](https://img.shields.io/badge/Paper-8--Page%20Two--Column-purple.svg)](papers/extended/HySA_Extended_TwoColumn_EN.pdf)
 [![Paper: 3-Page Condensed](https://img.shields.io/badge/Paper-3--Page%20Condensed%20Edition-blue.svg)](papers/condensed/HySA_Short_EN.pdf)
 
 ---
@@ -214,10 +213,6 @@ pdflatex -interaction=nonstopmode HySA_Extended_EN.tex
 pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
 pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
 
-# Compile 8-page Extended Two-Column English edition
-pdflatex -interaction=nonstopmode HySA_Extended_TwoColumn_EN.tex
-pdflatex -interaction=nonstopmode HySA_Extended_TwoColumn_EN.tex
-
 # Compile 3-page Condensed English Conference Short-Paper (two-column)
 cd ../condensed
 pdflatex -interaction=nonstopmode HySA_Short_EN.tex
@@ -244,13 +239,11 @@ HySA/
 │   │   ├── fig1_imprinted_tensors.pdf
 │   │   ├── fig2_phase_transition.pdf
 │   │   └── fig3_hypersphere_geometry.pdf
-│   ├── extended/                  # 9-page Flagship Journal Editions & 8-page Two-Column
+│   ├── extended/                  # 9-page Flagship Journal Editions
 │   │   ├── HySA_Extended_EN.tex   # English LaTeX source (9 pages)
 │   │   ├── HySA_Extended_EN.pdf   # English Flagship PDF
 │   │   ├── HySA_Extended_IT.tex   # Italian LaTeX source (9 pages)
 │   │   ├── HySA_Extended_IT.pdf   # Italian Flagship PDF
-│   │   ├── HySA_Extended_TwoColumn_EN.tex # English Two-Column LaTeX (8 pages)
-│   │   ├── HySA_Extended_TwoColumn_EN.pdf # English Two-Column PDF
 │   │   ├── HySA_Extended_EN.md    # English Markdown edition
 │   │   └── HySA_Extended_IT.md    # Italian Markdown edition
 │   └── condensed/                 # 3-page Conference Short-Papers
