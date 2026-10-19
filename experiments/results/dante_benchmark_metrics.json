@@ -1,0 +1,386 @@
+{
+  "model": "EleutherAI/pythia-70m",
+  "device": "cuda",
+  "target_layer": 3,
+  "d_min": 0.0,
+  "d_mean": 0.779296875,
+  "T_t": 0.18,
+  "R_dom": 0.45,
+  "total_steps": 46,
+  "early_exits": 0,
+  "faults": 0,
+  "fluid_passes": 46,
+  "total_time_seconds": 6.539220286000273,
+  "avg_latency_ms": 140.1162035869734,
+  "pure_autoregressive_wer": 89.68253968253968,
+  "steps": [
+    {
+      "step": 1,
+      "target_key": "PROEMIO",
+      "d_star": 0.8671875,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 201.6341119997378,
+      "matched_key": "TERZINA_05"
+    },
+    {
+      "step": 2,
+      "target_key": "TERZINA_01",
+      "d_star": 1.0380859375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 130.04113699980735,
+      "matched_key": "TERZINA_02"
+    },
+    {
+      "step": 3,
+      "target_key": "TERZINA_02",
+      "d_star": 1.1328125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 136.6787359997943,
+      "matched_key": "TERZINA_37"
+    },
+    {
+      "step": 4,
+      "target_key": "TERZINA_03",
+      "d_star": 1.126953125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.9132750000026,
+      "matched_key": "TERZINA_14"
+    },
+    {
+      "step": 5,
+      "target_key": "TERZINA_04",
+      "d_star": 1.1572265625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.87847500033968,
+      "matched_key": "TERZINA_13"
+    },
+    {
+      "step": 6,
+      "target_key": "TERZINA_05",
+      "d_star": 1.1533203125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.2542060000087,
+      "matched_key": "TERZINA_06"
+    },
+    {
+      "step": 7,
+      "target_key": "TERZINA_06",
+      "d_star": 1.1484375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 138.86269300019194,
+      "matched_key": "TERZINA_13"
+    },
+    {
+      "step": 8,
+      "target_key": "TERZINA_07",
+      "d_star": 1.1494140625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.57101999990118,
+      "matched_key": "TERZINA_10"
+    },
+    {
+      "step": 9,
+      "target_key": "TERZINA_08",
+      "d_star": 1.1064453125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 137.5932300002205,
+      "matched_key": "TERZINA_05"
+    },
+    {
+      "step": 10,
+      "target_key": "TERZINA_09",
+      "d_star": 1.0654296875,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.04588999998668,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 11,
+      "target_key": "TERZINA_10",
+      "d_star": 1.1142578125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 138.59071299975767,
+      "matched_key": "TERZINA_13"
+    },
+    {
+      "step": 12,
+      "target_key": "TERZINA_11",
+      "d_star": 1.0517578125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.53152800003954,
+      "matched_key": "TERZINA_02"
+    },
+    {
+      "step": 13,
+      "target_key": "TERZINA_12",
+      "d_star": 1.2490234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.6883499995929,
+      "matched_key": "TERZINA_13"
+    },
+    {
+      "step": 14,
+      "target_key": "TERZINA_13",
+      "d_star": 1.0986328125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.89484399978392,
+      "matched_key": "TERZINA_05"
+    },
+    {
+      "step": 15,
+      "target_key": "TERZINA_14",
+      "d_star": 1.1328125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.13479099978576,
+      "matched_key": "TERZINA_14"
+    },
+    {
+      "step": 16,
+      "target_key": "TERZINA_15",
+      "d_star": 1.14453125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.0609759998115,
+      "matched_key": "TERZINA_13"
+    },
+    {
+      "step": 17,
+      "target_key": "TERZINA_16",
+      "d_star": 1.068359375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.72480499999074,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 18,
+      "target_key": "TERZINA_17",
+      "d_star": 1.22265625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.49906500031284,
+      "matched_key": "TERZINA_19"
+    },
+    {
+      "step": 19,
+      "target_key": "TERZINA_18",
+      "d_star": 1.1455078125,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 139.52305100019657,
+      "matched_key": "TERZINA_37"
+    },
+    {
+      "step": 20,
+      "target_key": "TERZINA_19",
+      "d_star": 1.083984375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 23.375547000341612,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 21,
+      "target_key": "TERZINA_20",
+      "d_star": 1.0947265625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 139.17940700002873,
+      "matched_key": "TERZINA_20"
+    },
+    {
+      "step": 22,
+      "target_key": "TERZINA_21",
+      "d_star": 1.0888671875,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.92832400042244,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 23,
+      "target_key": "TERZINA_22",
+      "d_star": 1.091796875,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.72982600030082,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 24,
+      "target_key": "TERZINA_23",
+      "d_star": 1.0556640625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.58653299980506,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 25,
+      "target_key": "TERZINA_24",
+      "d_star": 1.0634765625,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.7185390000668,
+      "matched_key": "TERZINA_20"
+    },
+    {
+      "step": 26,
+      "target_key": "TERZINA_25",
+      "d_star": 1.0654296875,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.63621999957832,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 27,
+      "target_key": "TERZINA_26",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.58903700035808,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 28,
+      "target_key": "TERZINA_27",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.17015300027924,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 29,
+      "target_key": "TERZINA_28",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.0790370000068,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 30,
+      "target_key": "TERZINA_29",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.8850480001529,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 31,
+      "target_key": "TERZINA_30",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.65856999963944,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 32,
+      "target_key": "TERZINA_31",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 150.72501300028307,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 33,
+      "target_key": "TERZINA_32",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.5580729994399,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 34,
+      "target_key": "TERZINA_33",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.20793500023865,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 35,
+      "target_key": "TERZINA_34",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.70756700013953,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 36,
+      "target_key": "TERZINA_35",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.0475909999841,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 37,
+      "target_key": "TERZINA_36",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 141.9685800001389,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 38,
+      "target_key": "TERZINA_37",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 142.59946100037268,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 39,
+      "target_key": "TERZINA_38",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.29339899950355,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 40,
+      "target_key": "TERZINA_39",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 140.71053899988328,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 41,
+      "target_key": "TERZINA_40",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 144.84636999986833,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 42,
+      "target_key": "TERZINA_41",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 136.88660100024208,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 43,
+      "target_key": "TERZINA_42",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 144.3702710002981,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 44,
+      "target_key": "TERZINA_43",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 146.59353099978034,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 45,
+      "target_key": "TERZINA_44",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 143.55195899997852,
+      "matched_key": "TERZINA_15"
+    },
+    {
+      "step": 46,
+      "target_key": "TERZINA_45",
+      "d_star": 1.0615234375,
+      "status": "FLUID_BYPASS",
+      "latency_ms": 137.62133700038248,
+      "matched_key": "TERZINA_15"
+    }
+  ]
+}

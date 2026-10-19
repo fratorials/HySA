@@ -118,30 +118,21 @@ con la condizione $T_t < R_{\mathrm{dom}}$, che delimita la palla metrica $\math
 
 ---
 
-## 4. Validazione Empirica su `Pythia-70M`
+## 4. Validazione Empirica su `Pythia-70M`: Early-Exit e Limiti Sintattici
 
-L'analisi dello stream residuo al Layer 3 ($D=512$) di `EleutherAI/pythia-70m` conferma tre comportamenti cardine:
+L'analisi dello stream residuo al Layer 3 ($D=512$) di `EleutherAI/pythia-70m` evidenzia tre riscontri metodologici essenziali:
 
-1. **Isomorfismo Polisemantico Naturale ($N_p$):** Quattro prompt tecnici (`DNS`, `Instr. IP`, `Pag. Bianche`, `Elenco Tel.`) esibiscono una similarità coseno compresa tra **$0.893$ e $0.973$** (Tabella 2).
-2. **Iniezione Deterministica ed Early-Exit ($N_m$):** Configurando $T_t = 0.46$ su 6 costanti, HySA azzera le allucinazioni del modello base (che fallisce nel 100% dei casi), eseguendo un Early-Exit a metà rete che restituisce il letterale esatto con precisione del 100% ($d^* \le 0.4304$, Tabella 3).
-3. **Immunità dai Falsi Positivi Creativi ($R_{\mathrm{dom}} = 0.65$):** Su query non censite nel dominio fattuale (sensori speleologici), $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, sollevando un *Semantic Fault*. Al contrario, prompt aperti e creativi cadono a $d^* \ge 1.0430 > R_{\mathrm{dom}}$, lasciando proseguire la decodifica fluida senza errori di sistema.
-
-| Concetto | DNS | Instr. IP | Pag. Bianche | Elenco Tel. |
-| :--- | :---: | :---: | :---: | :---: |
-| **DNS** | $1.000$ | $0.961$ | $0.973$ | $0.893$ |
-| **Instr. IP** | $0.961$ | $1.000$ | $0.940$ | $0.916$ |
-| **Pag. Bianche** | $0.973$ | $0.940$ | $1.000$ | $0.903$ |
-| **Elenco Tel.** | $0.893$ | $0.916$ | $0.903$ | $1.000$ |
-
-*Tabella 2: Similarità Coseno al Layer 3 dei Concetti Isomorfi in $N_p$ (`Pythia-70M`, $D=512$).*
+1. **Vero Early-Exit e Risparmio Hardware:** L'interruzione reale del grafo computazionale a metà rete tramite forward hook PyTorch evita i blocchi 3..5 e la matrice finale $\mathbf{W}_U$ ($512 \times 50304$). La latenza GPU scende da **$15.08\,\text{ms}$** a **$3.70\,\text{ms}$**, con uno **speedup misurato di $4.07\times$** (risparmio di latenza del **$75.5\%$**).
+2. **Gating Concentrico su Template Controllati ($N_m$):** Su query sintatticamente coerenti con gli Inode, l'operatore $Q$ intercetta lo stato latente ($d^* \le 0.4304 \le T_t = 0.46$) iniettando il dato esatto ed eliminando le allucinazioni del generatore base; query su protocolli non censiti sollevano un *Semantic Fault* ($d^* = 0.4973 \le R_{\mathrm{dom}} = 0.65$), bloccando la deriva (Tabella 3).
+3. **Lexical Recency Bias e Necessità di Linear Probe:** Nei modelli autoregressivi causali, il vettore dell'ultimo token risente pesantemente delle ultime parole. Parafrasando la domanda in forma naturale aperta (es. *"Which port does SSH listen on?"*), la distanza sale a $d^* \approx 0.94\text{--}1.01$, superando $R_{\mathrm{dom}}$ e richiedendo, per uso generale, un Linear Probe supervisionato $W_{\mathrm{probe}}$ o Attention-Pooling.
 
 | Concetto | Output Base | Dist. $d^*$ | Stato HySA | Output Finale |
 | :--- | :--- | :---: | :--- | :--- |
-| `SSH_PORT` | `' 1'` (**Alluc.**) | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (Early-Exit) |
-| `HTTP_PORT` | `' used'` (**Alluc.**) | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (Early-Exit) |
-| `PUBLIC_IP` | `' used'` (**Alluc.**) | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (Early-Exit) |
-| `SUBNET` | `' 0'` (**Alluc.**) | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (Early-Exit) |
-| `ADMIN` | `' the'` (**Alluc.**) | $0.0889$ | **CONFIRMED** ($d^* \le T_t$) | `' JOHN'` (Early-Exit) |
+| `SSH_PORT` | `' 1'` (**Alluc.**) | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (Vero Early-Exit) |
+| `HTTP_PORT` | `' used'` (**Alluc.**) | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (Vero Early-Exit) |
+| `PUBLIC_IP` | `' used'` (**Alluc.**) | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (Vero Early-Exit) |
+| `SUBNET` | `' 0'` (**Alluc.**) | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (Vero Early-Exit) |
+| `ADMIN` | `' the'` (**Alluc.**) | $0.0889$ | **CONFIRMED** ($d^* \le T_t$) | `' JOHN'` (Vero Early-Exit) |
 | `UNINDEXED` | `' a'` (**Nons.**) | $0.4973$ | **SEMANTIC FAULT** | **[BLOCCO]** |
 | `CREATIVE` | `' good'` (Fluido) | $1.0430$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | `' good'` (Bypass) |
 
@@ -151,7 +142,7 @@ L'analisi dello stream residuo al Layer 3 ($D=512$) di `EleutherAI/pythia-70m` c
 
 ## 5. Scalabilità e Gating Geometrico di Dominio
 
-L'approccio a valle basato sull'entropia dei logit fallisce sia su frasi creative aperte (falsi allarmi) sia su allucinazioni pronunciate con elevata confidenza statistica. HySA risolve questo problema alla radice con il **Gating Geometrico al Layer Intermedio**: intercettando il flusso a metà rete ($l=3$), le frasi creative ($d^* > R_{\mathrm{dom}}$) proseguono indisturbate, le allucinazioni fattuali vengono arrestate prima dei layer finali, e i fatti noti generano un Early-Exit immediato risparmiando circa il 50% dei FLOPs. Con strutture ANN su GPU (es. indici HNSW / FAISS) a dimensionalità elevata ($D \ge 4096$), la latenza di ricerca scala a $O(\log M)$ con tempi inferiori a $15\,\mu\text{s}$.
+L'approccio a valle basato sull'entropia dei logit fallisce sia su frasi creative aperte (falsi allarmi) sia su allucinazioni pronunciate con elevata confidenza statistica. HySA risolve questo problema alla radice con il **Gating Geometrico al Layer Intermedio**: intercettando il flusso a metà rete ($l=3$), le frasi creative ($d^* > R_{\mathrm{dom}}$) proseguono indisturbate, le allucinazioni fattuali vengono arrestate prima dei layer finali, e i fatti noti generano un Early-Exit immediato riducendo la latenza GPU fino al $75.5\%$. Con strutture ANN su GPU (es. indici HNSW / FAISS) a dimensionalità elevata ($D \ge 4096$), la latenza di ricerca scala a $O(\log M)$ con tempi inferiori a $15\,\mu\text{s}$.
 
 ---
 

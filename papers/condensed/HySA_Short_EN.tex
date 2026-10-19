@@ -164,12 +164,12 @@ where $d^* \le T_t$ triggers immediate \textbf{Early-Exit}, intermediate drift r
 
 \textbf{Architectural Equilibrium ($P_c$):} If $N_p$ dominates ($\Delta q \gg 1$), the model drifts unconstrained. If $N_m$ dominates with wide balls, space saturates and the model regresses into a static lookup table. The Critical Point $P_c$ balances fluid reasoning with surgical precision on certified facts.
 
-\section{Empirical Validation on \texttt{Pythia-70M}}
-Residual stream probing at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m} confirms three core behaviors:
+\section{Empirical Validation on \texttt{Pythia-70M}: Early-Exit \& Recency Bias}
+Residual stream probing at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m} yields three key systems findings:
 \begin{enumerate}[leftmargin=*, itemsep=1.5pt]
-    \item \textbf{Natural Polysemantic Isomorphism ($N_p$):} Probing four isomorphic prompts (\texttt{DNS}, \texttt{IP Routing}, \texttt{White Pages}, \texttt{Phone Directory}) yields cosine similarities between $\mathbf{0.893}$ and $\mathbf{0.973}$ (Table~\ref{tab:pythia}).
-    \item \textbf{Deterministic Inode Injection with Early-Exit ($N_m$):} Indexing 6 technical constants with $T_t = 0.46$, HySA eliminates base-model hallucinations via an immediate mid-network Early-Exit ($100\%$ precision, $d^* \le 0.4304$, Table~\ref{tab:factual_benchmark}).
-    \item \textbf{Immunity to Creative False Positives ($R_{\mathrm{dom}} = 0.65$):} On unindexed factual queries, $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, triggering a \textit{Semantic Fault}. Conversely, open creative prompts land at $d^* = 1.0430 > R_{\mathrm{dom}}$, bypassing the index without false faults.
+    \item \textbf{True Early-Exit \& Hardware Savings:} Halting the PyTorch graph mid-network via forward hooks bypasses layers 3..5 and the un-embedding projection matrix $\mathbf{W}_U$ ($512 \times 50304$). GPU latency drops from $\mathbf{15.08\,\text{ms}}$ to $\mathbf{3.70\,\text{ms}}$, yielding an empirical \textbf{$4.07\times$ speedup} (\textbf{$75.5\%$ latency reduction}).
+    \item \textbf{Concentric Gating under Controlled Templates ($N_m$):} For queries syntactically aligned with indexed Inodes, operator $Q$ intercepts the state ($d^* \le 0.4304 \le T_t = 0.46$), injecting certified literals; unindexed technical queries land in the buffer band ($d^* = 0.4973 \le R_{\mathrm{dom}} = 0.65$), raising an explicit \textit{Semantic Fault} (Table~\ref{tab:factual_benchmark}).
+    \item \textbf{Lexical Recency Bias \& Linear Probe Requirement:} In causal autoregressive models, the final token state is heavily conditioned by preceding n-grams. Open natural rephrasings (e.g. \textit{``Which port does SSH listen on?''}) cause distances to disperse to $d^* \approx 0.94\text{--}1.01$, demonstrating that open-vocabulary deployment requires a supervised Linear Probe $W_{\mathrm{probe}}$ or Attention-Pooling.
 \end{enumerate}
 
 \begin{table}[t]

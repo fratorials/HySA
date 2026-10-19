@@ -206,57 +206,51 @@ ax2.text(5.0, 3.90, r"Query Inodes $\{\mu_k\}$", ha="center", va="center", fonts
 
 
 # ==============================================================================
-# PANEL (C): EMPIRICAL BOUNDARY PROBING (Pythia-70M Residual Stream D=512)
+# PANEL (C): PROBING METRICO & BIAS LESSICALE (Pythia-70M Residual Stream D=512)
 # ==============================================================================
 ax3 = fig.add_subplot(gs[0, 2])
 
 labels = [
-    "JOHN\n(Admin)",
     "24\n(CIDR)",
-    "22\n(SSH)",
-    "8.8.8.8\n(DNS)",
-    "80\n(HTTP)",
+    "22\n(SSH-Tmpl)",
+    "80\n(HTTP-Tmpl)",
     "Speleo\n(Unindexed)",
+    "SSH\n(Natural)",
     "Sky\n(Creative)"
 ]
-distances = [0.0889, 0.1263, 0.3257, 0.3889, 0.4304, 0.4973, 1.0430]
-bar_colors = ["#16a34a", "#16a34a", "#16a34a", "#16a34a", "#16a34a", "#dc2626", "#0284c7"]
-edge_colors = ["#14532d", "#14532d", "#14532d", "#14532d", "#14532d", "#7f1d1d", "#0369a1"]
+distances = [0.1263, 0.3257, 0.4304, 0.4973, 0.9399, 1.0430]
+bar_colors = ["#16a34a", "#16a34a", "#16a34a", "#dc2626", "#d97706", "#0284c7"]
+edge_colors = ["#14532d", "#14532d", "#14532d", "#7f1d1d", "#92400e", "#0369a1"]
 
 # Background zones: Green (Confirmed Basin), Red/Amber (Fault Band), Blue (Fluid)
-ax3.fill_between([-0.6, 6.6], 0, 0.46, color="#ecfdf5", alpha=0.80, zorder=0)
-ax3.fill_between([-0.6, 6.6], 0.46, 0.65, color="#fff7ed", alpha=0.80, zorder=0)
-ax3.fill_between([-0.6, 6.6], 0.65, 1.25, color="#f0f9ff", alpha=0.80, zorder=0)
+ax3.fill_between([-0.6, 5.6], 0, 0.46, color="#ecfdf5", alpha=0.80, zorder=0)
+ax3.fill_between([-0.6, 5.6], 0.46, 0.65, color="#fff7ed", alpha=0.80, zorder=0)
+ax3.fill_between([-0.6, 5.6], 0.65, 1.25, color="#f0f9ff", alpha=0.80, zorder=0)
 
 # Threshold lines T_t = 0.46 and R_dom = 0.65
 ax3.axhline(0.46, color="#2563eb", ls="--", lw=1.8, zorder=3)
-ax3.text(1.2, 0.472, r"$T_t = 0.46$ (Inode Boundary)",
+ax3.text(1.1, 0.472, r"$T_t = 0.46$ (Inode Boundary)",
          color="#1d4ed8", fontsize=7.6, fontweight="bold", ha="center")
 
 ax3.axhline(0.65, color="#ea580c", ls="--", lw=1.8, zorder=3)
-ax3.text(3.5, 0.665, r"$R_{\mathrm{dom}} = 0.65$ (Domain Boundary)",
+ax3.text(3.0, 0.665, r"$R_{\mathrm{dom}} = 0.65$ (Domain Boundary)",
          color="#c2410c", fontsize=7.6, fontweight="bold", ha="center")
 
-bars = ax3.bar(range(len(labels)), distances, color=bar_colors, edgecolor=edge_colors, width=0.58, lw=1.2, zorder=4)
+bars = ax3.bar(range(len(labels)), distances, color=bar_colors, edgecolor=edge_colors, width=0.56, lw=1.2, zorder=4)
 
 # Value annotations
 for idx, (bar, dist) in enumerate(zip(bars, distances)):
-    if idx == 4:  # HTTP 0.430
-        ax3.text(bar.get_x() + bar.get_width() / 2.0, dist - 0.055, f"{dist:.3f}",
-                 ha="center", va="center", fontsize=8.0, fontweight="bold",
-                 color="white", zorder=6)
-    else:
-        val_y = dist + 0.022
-        col = "#15803d" if dist <= 0.46 else ("#b91c1c" if dist <= 0.65 else "#0369a1")
-        ax3.text(bar.get_x() + bar.get_width() / 2.0, val_y, f"{dist:.3f}",
-                 ha="center", va="bottom", fontsize=8.0, fontweight="bold",
-                 color=col, zorder=5)
+    val_y = dist + 0.022
+    col = "#15803d" if dist <= 0.46 else ("#b91c1c" if dist <= 0.65 else "#0369a1")
+    ax3.text(bar.get_x() + bar.get_width() / 2.0, val_y, f"{dist:.3f}",
+             ha="center", va="bottom", fontsize=8.0, fontweight="bold",
+             color=col, zorder=5)
 
 ax3.set_xticks(range(len(labels)))
-ax3.set_xticklabels(labels, fontsize=8.0)
+ax3.set_xticklabels(labels, fontsize=7.8)
 ax3.set_ylabel(r"Metric Distance on $S^{511}$ ($\|q_l - \mu_k\|_2$)")
 ax3.set_ylim(0, 1.25)
-ax3.set_xlim(-0.6, 6.6)
+ax3.set_xlim(-0.6, 5.6)
 ax3.grid(axis="y", ls=":", alpha=0.5, zorder=1)
 
 legend_handles = [
@@ -265,7 +259,7 @@ legend_handles = [
     patches.Patch(facecolor="#f0f9ff", edgecolor="#0284c7", label=r"Fluid $N_p$ ($d^* > R_{\mathrm{dom}}$)")
 ]
 ax3.legend(handles=legend_handles, loc="upper left", bbox_to_anchor=(0.02, 0.98), framealpha=0.92, fontsize=7.2)
-ax3.set_title("(c) Metric Boundary Probing (Pythia-70M, Layer 3)")
+ax3.set_title(r"(c) Layer-3 Probing: Template Gating vs. Natural Recency Bias", fontsize=8.8)
 
 plt.subplots_adjust(left=0.035, right=0.985, top=0.91, bottom=0.15)
 

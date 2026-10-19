@@ -128,13 +128,13 @@ Per comprendere come i concetti si sovrappongano ordinatamente dentro unità ad 
     I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
     \label{eq:imprinted_tensor}
 \end{equation}
-Come illustrato nella Figura~\ref{fig:imprinted_tensors}, all'interno di un collo di bottiglia a 4 neuroni ($N_p=4$) addestrato su un manifold sintetico $32 \times 32$ di cifre, i concetti si sovrappongono in modo geometricamente ordinato: una semplice intersezione di Hadamard ($I_1 \odot I_2$) estrae i segmenti strutturali condivisi, mentre la sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isola il tratto differenziale, dimostrando l'isolamento algebrico senza alcuna necessità di frammentare la rete in milioni di feature monosemantiche disgiunte.
+Come illustrato nella Figura~\ref{fig:imprinted_tensors}, all'interno di un collo di bottiglia a 4 neuroni ($N_p=4$) addestrato su un manifold sintetico $32 \times 32$ di cifre con regolarizzazione ortogonale, i concetti si organizzano in modo geometricamente ordinato: una semplice intersezione di Hadamard ($I_{n_{\mathrm{inf}}} \odot I_{n_{\mathrm{sup}}}$) estrae i segmenti strutturali condivisi, mentre la sottrazione rettificata ($\mathrm{ReLU}(I_{n_{\mathrm{inf}}} - 0.7 I_{n_{\mathrm{sup}}})$) isola il tratto differenziale, dimostrando la separazione algebrica di primitive senza frammentare la rete in dizionari sparsi giganti.
 
-Per formalizzare il limite di capacità tra rappresentazione fluida e indicizzazione rigida, la Figura~\ref{fig:phase_transition} caratterizza le transizioni termodinamiche dell'architettura:
+Per formalizzare il limite di capacità tra rappresentazione fluida e indicizzazione rigida, la Figura~\ref{fig:phase_transition} caratterizza la geometria volumetrica e la robustezza empirica dell'architettura:
 \begin{itemize}[leftmargin=*, itemsep=1.5pt]
-    \item \textbf{Transizione Volumetrica dell'Ipersfera ($T_t^D$, Fig.~\ref{fig:phase_transition}a):} Al crescere del Vincolo di Determinismo ($\mathcal{D}$), la frazione di volume monosemantico vincolato $\mathcal{V}_m$ scala come $(T_t / R)^D$, subendo una netta transizione di fase che delimita lo spazio libero $\mathcal{V}_p$.
-    \item \textbf{Bilanciamento di Capacità e Punto Critico ($P_c$, Fig.~\ref{fig:phase_transition}b):} Il gradiente di compressione $\Delta q = \frac{N_p}{N_m \cdot M}$ definisce un paesaggio di costo d'instabilità in cui $P_c$ rappresenta l'equilibrio ottimale, evitando sia la deriva associativa ($\Delta q \gg 1$) sia la saturazione da sovra-indicizzazione a dizionario ($\Delta q \ll 1$).
-    \item \textbf{Corruzione dei Letterali Fattuali ($T_p$ vs. $T_t$, Fig.~\ref{fig:phase_transition}c):} Al crescere della temperatura polisemantica $T_p$, la decodifica non vincolata subisce una rapida corruzione ($>40\%$), mentre HySA garantisce lo $0.0\%$ di errore sui dati verificati, convertendo le traiettorie ambigue in espliciti \textit{Semantic Fault}.
+    \item \textbf{Modello Analitico delle Calotte Ipersferiche ($S^3$, Fig.~\ref{fig:phase_transition}a):} La frazione di volume monosemantico vincolato $\mathcal{V}_m$ corrisponde alla misura normalizzata della calotta sferica di semi-angolo $\theta$ su $S^3$, calcolata in forma chiusa come $\mathcal{V}_{\mathrm{cap}}(\theta) = \frac{\theta - \frac{1}{2}\sin(2\theta)}{\pi}$. Il vincolo di disgiunzione impone la condizione geometrica di packing disgiunto $T_t < \frac{1}{2} d_{\min} \approx 0.707$, al di sopra del quale le sfere di tolleranza collidono provocando falsi positivi.
+    \item \textbf{Modello di Bilanciamento di Capacità e Punto Critico ($P_c$, Fig.~\ref{fig:phase_transition}b):} La formulazione teorica del costo di instabilità $\mathcal{L}(\Delta q)$ bilancia la sovra-indicizzazione dizionariale ($\Delta q \ll 1$, costo asintotico $O(1/\Delta q)$) e la dispersione polisemantica non vincolata ($\Delta q \gg 1$), identificando un punto stazionario ottimale $P_c \approx 1.0$.
+    \item \textbf{Benchmark Empirico Cieco su Rumore e Fault Gating (Fig.~\ref{fig:phase_transition}c):} Sottoponendo la rappresentazione latente a perturbazioni gaussiane crescenti ($T_p \in [0.05, 2.50]$) e interrogando la Query API all'oscuro delle etichette reali, il modello base non protetto degrada progressivamente fino a un tasso di corruzione del $10\%$. Al contrario, HySA intercetta la dispersione vettoriale convertendo il degrado in espliciti \textit{Semantic Faults} ($\sim 15\%$), contenendo i falsi positivi residui a $\sim 1.2\%$ e mantenendo una precisione confermata superiore all'$83\%$.
 \end{itemize}
 
 \begin{figure}[t]
@@ -145,7 +145,7 @@ Per formalizzare il limite di capacità tra rappresentazione fluida e indicizzaz
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 2: Transizioni e Punto di Equilibrio]} \vspace{0.8cm}}}
     }
     \vspace{-0.2cm}
-    \caption{\textbf{Bilanciamento del Gradiente di Compressione e Benchmark di Verifica Fattuale in HySA.} \textbf{(a)} Transizione volumetrica ($T_t^D$) tra spazio libero $\mathcal{V}_p$ e vincoli indicizzati $\mathcal{V}_m$ sotto il Vincolo di Determinismo $\mathcal{D}$. \textbf{(b)} Il Punto Critico stazionario $P_c$, che bilancia la deriva associativa ($\Delta q \gg 1$) e la saturazione da sovra-indicizzazione ($\Delta q \ll 1$). \textbf{(c)} Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce rapida corruzione ($>40\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti \textit{Errori Semantici} (\textit{Semantic Faults}).}
+    \caption{\textbf{Modelli Analitici Ipersferici e Benchmark Empirico di Verifica Fattuale in HySA.} \textbf{(a)} Modello volumetrico analitico su $S^3$ per calotte sferiche di raggio $\sin\theta$, con evidenziato il limite di packing disgiunto $d_{\min}/2$. \textbf{(b)} Paesaggio di costo teorico e punto stazionario $P_c$ nel trade-off tra compressione e sovra-indicizzazione. \textbf{(c)} Benchmark empirico reale sotto rumore $T_p$ crescente (valutazione cieca priva di ground-truth leakage): la baseline non protetta subisce una corruzione silente del $10\%$, mentre HySA intercetta le traiettorie anomale convertendole in \textit{Semantic Faults} espliciti ($\sim 15\%$), con falsi positivi confinati all'$1.2\%$ e accuratezza confermata dell'$83.5\%$.}
     \label{fig:phase_transition}
 \end{figure}
 
@@ -198,7 +198,7 @@ Sulla sfera unitaria $S^{D-1}$, la distanza euclidea $\ell_2$ coincide esattamen
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 3: Geometria dell'Ipersfera e Architettura]} \vspace{0.8cm}}}
     }
     \vspace{-0.2cm}
-    \caption{\textbf{Geometria Concentrica dei Domini Semantici, Architettura Early-Exit e Probing Empirico su \texttt{Pythia-70m}.} \textbf{(a)} Geometria concentrica dei confini metrici attorno all'Inode $\mu_k$: il nucleo deterministico $T_t = 0.46$ (conferma fattuale con Early-Exit), la fascia cuscinetto $R_{\mathrm{dom}} = 0.65$ (\textit{Semantic Fault} su fatti non indicizzati nel dominio) e lo spazio fluido aperto $d^* > R_{\mathrm{dom}}$ (generazione libera $N_p$). \textbf{(b)} Macro-architettura con Early-Exit al layer intermedio ($l=3$): l'operatore $Q$ intercetta lo stato $q_l$; in caso di hit ($\le T_t$) esegue l'Early-Exit bypassando i layer $4 \dots 6$, mentre le traiettorie fuori dominio ($> R_{\mathrm{dom}}$) proseguono verso $\mathbf{W}_U$. \textbf{(c)} Distanze empiriche su \texttt{Pythia-70M} (Layer 3, $D=512$): separazione metrica netta e non sovrapposta tra fatti indicizzati ($d^* \le 0.4304$, Early-Exit), query non indicizzata ($d^* = 0.4973$, Semantic Fault) e prompt creativi (\texttt{Sky}, $d^* = 1.0430$, Bypass fluido).}
+    \caption{\textbf{Geometria Concentrica dei Domini Semantici, Architettura Early-Exit e Probing su \texttt{Pythia-70m}.} \textbf{(a)} Geometria concentrica attorno all'Inode $\mu_k$: nucleo deterministico $T_t = 0.46$ (conferma ed Early-Exit), fascia cuscinetto $R_{\mathrm{dom}} = 0.65$ (\textit{Semantic Fault} su fatti non indicizzati) e spazio fluido aperto $d^* > R_{\mathrm{dom}}$ (generazione libera $N_p$). \textbf{(b)} Macro-architettura con Early-Exit effettivo a layer intermedio ($l=3$): l'operatore $Q$ intercetta lo stato $q_l$; in caso di hit ($\le T_t$) interrompe il grafo bypassando i layer finali e $\mathbf{W}_U$ con risparmio di latenza del $75.5\%$, mentre le traiettorie fluide proseguono verso l'un-embedding. \textbf{(c)} Distanze empiriche su \texttt{Pythia-70M} (Layer 3, $D=512$): separazione netta sotto template controllati ($d^* \le 0.4304$, Early-Exit; Speleo $d^* = 0.4973$, Fault) e divergenza causata dal \textit{Lexical Recency Bias} su query naturali aperte (SSH Natural $d^* = 0.9399$), evidenziando la necessità di un probe lineare supervisionato $W_{\mathrm{probe}}$ per parafrasi non template-based.}
     \label{fig:hypersphere_geometry}
 \end{figure}
 
@@ -279,54 +279,55 @@ L'equilibrio operativo ottimale dipende dal rapporto tra la capacità associativ
 \end{enumerate}
 \end{tcolorbox}
 
-\section{Validazione Empirica su Transformer Reale (\texttt{Pythia-70m})}
+\section{Validazione Empirica su Transformer Reale (\texttt{Pythia-70m}): Early-Exit e Limiti del Bias Sintattico}
 
-Per verificare la sussistenza di questa organizzazione geometrica all'interno dei Transformer, ho condotto test sperimentali sullo stream residuo al Layer 3 ($D=512$) del modello open-source \texttt{EleutherAI/pythia-70m}. L'adozione di un modello compatto non addestrato specificamente sulla memorizzazione di fatti è una scelta metodologica deliberata: sui prompt tecnici analizzati, \texttt{Pythia-70m} non vincolato fallisce nel $100\%$ dei casi, producendo token stocastici generici (\texttt{' 1'}, \texttt{' used'}, \texttt{' 0'}, \texttt{' the'}). Ciò consente di dimostrare in modo inequivocabile che l'ancoraggio al registro Inode di HySA conferisce il $100\%$ di precisione deterministica senza richiedere ri-addestramento o modifiche ai pesi.
+Per verificare la fattibilità dell'intercettazione geometrica e misurare l'impatto computazionale di un vero Early-Exit, ho condotto test sperimentali sullo stream residuo al Layer 3 ($D=512$) del modello causale open-source \texttt{EleutherAI/pythia-70m}. L'indagine adotta un approccio rigoroso e comparativo, evidenziando sia il guadagno di latenza hardware ottenuto arrestando il grafo, sia i limiti fisici intrinseci della rappresentazione latente autoregressiva (il cosiddetto \textit{Lexical Recency Bias}).
 
-I riscontri empirici evidenziano tre comportamenti cardine:
+I riscontri sperimentali documentano tre proprietà fondamentali del sistema:
 
 \begin{enumerate}[leftmargin=*, itemsep=2.5pt]
-    \item \textbf{Isomorfismo spontaneo nel manifold polisemantico ($N_p$):} Interrogando la rete con quattro descrizioni appartenenti a domini tecnici distinti ma accomunate dalla medesima struttura logica (\texttt{DNS}, \texttt{Instradamento IP}, \texttt{Pagine Bianche}, \texttt{Elenco Telefonico}), i vettori latenti esibiscono una similarità coseno compresa tra $\mathbf{0.893}$ e $\mathbf{0.973}$ (Tabella~\ref{tab:pythia_cosine}). Il modello ha autonomamente strutturato un livello di astrazione superiore (``risoluzione da identificatore simbolico a indirizzo'').
-    \item \textbf{Iniezione deterministica mediante Inode ed Early-Exit ($N_m$):} Ho indicizzato 6 costanti nel registro $\mathcal{F}_{\mathrm{mono}}$ (porte \texttt{53}, \texttt{22}, \texttt{80}, IP \texttt{8.8.8.8}, maschera \texttt{24}, root user \texttt{JOHN}) configurando la soglia a $T_t = 0.46$. Mentre il generatore base produce allucinazioni su ciascuna query, l'operatore $Q$ intercetta lo stato al Layer 3 (con distanze $d^* \in [0.0889, 0.4304] \le T_t$) ed esegue un Early-Exit immediato emettendo il dato certificato con accuratezza del $100\%$ (Tabella~\ref{tab:factual_benchmark}).
-    \item \textbf{Separazione tra Errore Semantico e Discorso Creativo ($R_{\mathrm{dom}} = 0.65$):} Interrogando il modello su un protocollo inesistente (\textit{``Telemetry protocol for subterranean speleological cave sensors...''}), la distanza sale a $d^* = 0.4973$. Ricadendo nella fascia $T_t < d^* \le R_{\mathrm{dom}}$, l'API solleva un \textit{Semantic Fault}, arrestando la generazione. Al contrario, frasi aperte o creative (\textit{``Today the clear morning sky feels particularly...''}) cadono a $d^* = 1.0430 > R_{\mathrm{dom}}$: l'API Inode rimane spenta, evitando qualsiasi falso positivo e lasciando la decodifica fluida ai layer successivi.
+    \item \textbf{Vero Early-Exit e Abbattimento della Latenza Hardware:} L'interruzione della computazione al Layer 3 non è simulata a posteriori, ma implementata arrestando fisicamente l'esecuzione del modello tramite forward hook PyTorch. In questo modo si bypassano interamente i layer rimanenti ($l=3 \dots 5$) e la costosa proiezione non vincolata sul vocabolario $\mathbf{W}_U \in \mathbb{R}^{512 \times 50304}$. Il benchmark empirico su GPU (CUDA) registra una riduzione della latenza da $\mathbf{15.08\,\text{ms}}$ (forward pass completo) a $\mathbf{3.70\,\text{ms}}$ (Early-Exit al Layer 3), pari a uno \textbf{speedup effettivo di $4.07\times$} (risparmio di latenza del $\mathbf{75.5\%}$).
+    \item \textbf{Gating Concentrico sotto Template Controllati:} Quando le query condividono una struttura sintattica coerente con gli Inode censiti (Regime A), l'operatore $Q$ separa nettamente i fatti noti ($d^* \in [0.0889, 0.4304] \le T_t$) innescando l'Early-Exit deterministico. Contestualmente, richieste relative a protocolli non indicizzati (\textit{``telemetry protocol for speleological cave sensors...''}) cadono nella fascia di cuscinetto $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, sollevando un \textit{Semantic Fault} che intercetta la potenziale allucinazione a metà rete (Tabella~\ref{tab:factual_benchmark}).
+    \item \textbf{Emersione del Lexical Recency Bias sulle Query Naturali:} Nei modelli causali decoder-only, lo stato latente dell'ultimo token $h_t^{[-1]}$ a layer intermedi è fortemente condizionato dai token immediatamente antecedenti (sintassi locale $n$-gram). Riformulando la medesima richiesta in linguaggio naturale aperto (Regime B, es. \textit{``Which port does SSH listen on by default?''}), la distanza schizza a $d^* = 0.9399 \dots 1.0127$, finendo oltre $R_{\mathrm{dom}}$ e rendendosi indistinguibile dal discorso fluido (Regime C, $d^* = 1.0430$).
 \end{enumerate}
 
-\begin{table}[t]
-\centering
-\caption{Similarità Coseno tra Schemi Isomorfi in $N_p$ (\texttt{Pythia-70M}, Layer 3, $D=512$).}
-\label{tab:pythia_cosine}
-\vspace{0.15cm}
-\small
-\setlength{\tabcolsep}{6.0pt}
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Schema Concettuale} & \textbf{DNS} & \textbf{Instradamento IP} & \textbf{Pagine Bianche} & \textbf{Elenco Telefonico} \\ \midrule
-\textbf{DNS} & $1.000$ & $0.961$ & $0.973$ & $0.893$ \\
-\textbf{Instradamento IP} & $0.961$ & $1.000$ & $0.940$ & $0.916$ \\
-\textbf{Pagine Bianche} & $0.973$ & $0.940$ & $1.000$ & $0.903$ \\
-\textbf{Elenco Telefonico} & $0.893$ & $0.916$ & $0.903$ & $1.000$ \\ \bottomrule
-\end{tabular}
-\end{table}
+\paragraph{Implicazione Architetturale:} Questo riscontro prova che l'estrazione grezza dello stato all'ultimo token rappresenta un utile banco di prova preliminare, ma non garantisce l'invarianza concettuale alle parafrasi aperte. Per il deployment di HySA in scenari open-vocabulary, l'operatore di verifica $Q$ richiede l'accoppiamento con un \textbf{Linear Probe supervisionato} ($W_{\mathrm{probe}}: \mathbb{R}^D \to \mathbb{R}^{D_{\mathrm{mono}}}$) o un meccanismo di \textbf{Attention Pooling} sui token rilevanti della sequenza.
 
 \begin{table}[t]
 \centering
-\caption{Benchmark di Verifica al Layer 3 su \texttt{Pythia-70M} ($T_t=0.46$, $R_{\mathrm{dom}}=0.65$).}
+\caption{Benchmark di Probing Metrico al Layer 3 su \texttt{Pythia-70M} ($T_t=0.46$, $R_{\mathrm{dom}}=0.65$): Template Controllati vs. Linguaggio Naturale Aperto.}
 \label{tab:factual_benchmark}
 \vspace{0.15cm}
 \footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}p{2.3cm}p{4.0cm}p{1.8cm}p{1.1cm}p{2.6cm}p{2.7cm}@{}}
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{@{}p{1.8cm}p{2.3cm}p{3.8cm}p{1.0cm}p{2.6cm}p{2.7cm}@{}}
 \toprule
-\textbf{Concetto Target} & \textbf{Prompt di Query} & \textbf{Output Base} & \textbf{Dist. $d^*$} & \textbf{Stato HySA} & \textbf{Output Finale} \\ \midrule
-\texttt{SSH\_PORT} & \textit{``For remote server management... SSH default port is''} & \texttt{' 1'} (\textbf{Allucin.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Early-Exit) \\
-\texttt{HTTP\_PORT} & \textit{``The plaintext transport protocol HTTP default port is''} & \texttt{' used'} (\textbf{Allucin.}) & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (Early-Exit) \\
-\texttt{PUBLIC\_DNS\_IP} & \textit{``Google public DNS resolver IPv4 literal address is''} & \texttt{' used'} (\textbf{Allucin.}) & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (Early-Exit) \\
-\texttt{SUBNET\_MASK} & \textit{``A standard subnet mask 255.255.255.0 has CIDR length''} & \texttt{' 0'} (\textbf{Allucin.}) & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (Early-Exit) \\
-\texttt{ADMIN\_NAME} & \textit{``In the database registry, root user first name literal is''} & \texttt{' the'} (\textbf{Allucin.}) & $0.0889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' JOHN'} (Early-Exit) \\ \midrule
-\texttt{UNINDEXED} & \textit{``Telemetry protocol for subterranean speleological sensors...''} & \texttt{' a'} (\textbf{Nonsenso}) & $0.4973$ & \textbf{SEMANTIC FAULT} ($T_t < d^* \le R_{\mathrm{dom}}$) & \textbf{[ARRESTATO]} (Mid-Net) \\ \midrule
-\texttt{CREATIVE\_SKY} & \textit{``Today the clear morning sky feels particularly...''} & \texttt{' good'} (Fluido) & $1.0430$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \texttt{' good'} (Bypass Inode) \\ \bottomrule
+\textbf{Regime} & \textbf{Concetto Target} & \textbf{Prompt di Query} & \textbf{Dist. $d^*$} & \textbf{Stato HySA} & \textbf{Output Operativo} \\ \midrule
+\textbf{A: Template} & \texttt{SSH\_PORT} & \textit{``...remote server management... SSH default port is''} & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Vero Early-Exit) \\
+\textbf{A: Template} & \texttt{HTTP\_PORT} & \textit{``...hyper-text HTTP default plaintext port is''} & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (Vero Early-Exit) \\
+\textbf{A: Template} & \texttt{PUBLIC\_DNS\_IP} & \textit{``...Google public DNS IPv4 literal address is''} & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (Vero Early-Exit) \\
+\textbf{A: Template} & \texttt{SUBNET\_MASK} & \textit{``...Class C 255.255.255.0 has a CIDR bit length of''} & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (Vero Early-Exit) \\ \midrule
+\textbf{A: Drift} & \texttt{UNINDEXED} & \textit{``...speleological cave sensors default port number is''} & $0.4973$ & \textbf{SEMANTIC FAULT} ($T_t < d^* \le R_{\mathrm{dom}}$) & \textbf{[BLOCCATO]} (Fault a metà rete) \\ \midrule
+\textbf{B: Naturale} & \texttt{SSH\_NAT\_1} & \textit{``Which port does SSH listen on by default?''} & $1.0127$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypass} (Recency Bias) \\
+\textbf{B: Naturale} & \texttt{SSH\_NAT\_2} & \textit{``What is the standard port for the SSH service?''} & $0.9399$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypass} (Recency Bias) \\
+\textbf{B: Naturale} & \texttt{SPELEO\_NAT} & \textit{``What is the port number for cave telemetry sensors?''} & $0.9473$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypass} (Recency Bias) \\ \midrule
+\textbf{C: Fluido} & \texttt{CREATIVE\_SKY} & \textit{``Today the clear morning sky feels particularly...''} & $1.0430$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & Generazione libera \\ \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Limiti Sperimentali e Discussione Metodologica}
+
+L'onestà scientifica impone di esplicitare con chiarezza i confini di applicabilità e le condizioni formali emerse dai test empirici:
+
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{La Condizione di Packing Disgiunto ($T_t < \frac{1}{2} d_{\min}$):} Affinché la Query API $Q$ garantisca l'assenza di collisioni tra fatti distinti, le sfere metriche di tolleranza attorno agli Inode devono essere rigorosamente disgiunte. Se la distanza euclidea minima tra due centroidi adiacenti è $d_{\min} = \min_{i \ne j} \|\mu_i - \mu_j\|_2$, la temperatura topologica deve soddisfare:
+    \begin{equation}
+        T_t < \frac{1}{2} d_{\min}
+    \end{equation}
+    Oltre questa soglia critica, le sfere di tolleranza si sovrappongono ($\mathcal{B}(\mu_i, T_t) \cap \mathcal{B}(\mu_j, T_t) \ne \emptyset$), generando falsi positivi da collisione. Nei sistemi reali a bassa dimensione ($D=512$), il mantenimento di tale disgiunzione richiede una regolarizzazione contrastiva esplicita (come implementato nel benchmark $32 \times 32$, dove $d_{\min} = 1.4142$ e $T_t = 0.6428 < 0.7071$).
+    \item \textbf{Invarianza Sintattica e Necessità di Proiezioni Supervisionate:} Come evidenziato dalla Tabella~\ref{tab:factual_benchmark}, l'estrazione grezza dello stato latente all'ultimo token soffre del \textit{Lexical Recency Bias} tipico dei modelli decoder-only. Per consentire a HySA di riconoscere entità fattuali espresse con formulazioni aperte, domande libere o parafrasi complesse, l'architettura reale non deve operare sullo stato grezzo, bensì interporre un \textbf{Linear Probe supervisionato} ($W_{\mathrm{probe}}: \mathbb{R}^D \to \mathbb{R}^{D_{\mathrm{mono}}}$ addestrato su coppie parafrasate) oppure un layer di \textbf{Attention-Pooling} pesato sui token informativi.
+    \item \textbf{Meccanica di Runtime dell'Early-Exit:} Un risparmio computazionale effettivo non può essere ottenuto simulando lo slicing a posteriori su un modello che ha già eseguito il forward pass completo. L'implementazione richiede l'interruzione attiva del grafo PyTorch (tramite forward hooks o runtime specializzati di inferenza come vLLM/TensorRT-LLM) non appena la distanza $d^* \le T_t$ viene validata. Come verificato empiricamente su CUDA, l'arresto al Layer 3 abbatte la latenza da $15.08\,\text{ms}$ a $3.70\,\text{ms}$ ($75.5\%$ di tempo GPU risparmiato), eliminando non solo i blocchi intermedi residui ma soprattutto l'onerosa moltiplicazione per la matrice di vocabolario finale $\mathbf{W}_U$.
+\end{enumerate}
 
 \section{Le Sfide Aperte: Scalare l'Indicizzazione nei Sistemi Reali}
 

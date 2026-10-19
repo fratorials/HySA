@@ -278,54 +278,55 @@ The optimal operating balance between associative capacity ($N_p$) and indexed l
 \end{enumerate}
 \end{tcolorbox}
 
-\section{Empirical Validation on Real Transformer (\texttt{Pythia-70m})}
+\section{Empirical Validation on Real Transformer (\texttt{Pythia-70m}): Early-Exit and Recency Bias}
 
-To validate this geometric behavior, I inspect the residual stream at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m}. Utilizing a compact model without factual pretraining is an intentional methodological choice: unconstrained Pythia-70M fails on $100\%$ of analyzed technical prompts, producing stochastic guesses (\texttt{' 1'}, \texttt{' used'}, \texttt{' 0'}, \texttt{' the'}). This demonstrates that anchoring to HySA Inodes imparts $100\%$ deterministic precision without parameter retraining.
+To assess the feasibility of intermediate-layer geometric gating and evaluate the empirical hardware impact of an operational Early-Exit, I conduct probing experiments on the Layer 3 residual stream ($D=512$) of the causal open-source model \texttt{EleutherAI/pythia-70m}. The evaluation provides both hardware validation and a rigorous characterization of autoregressive representation limits (the \textit{Lexical Recency Bias}).
 
-Empirical evaluations confirm three core behaviors:
+Experimental results document three key properties of the system:
 
 \begin{enumerate}[leftmargin=*, itemsep=2.5pt]
-    \item \textbf{Spontaneous Isomorphism in Polysemantic Manifold ($N_p$):} Probing four distinct technical prompts sharing the identical relational schema (\texttt{DNS}, \texttt{IP Routing}, \texttt{White Pages}, \texttt{Phone Directory}), latent states exhibit cosine similarities between $\mathbf{0.893}$ and $\mathbf{0.973}$ (Table~\ref{tab:pythia_cosine}). The network autonomously creates a higher-order invariant (``symbolic identifier $\to$ target address resolution'').
-    \item \textbf{Deterministic Inode Injection with Early-Exit ($N_m$):} Indexing 6 technical literals in $\mathcal{F}_{\mathrm{mono}}$ (ports \texttt{53}, \texttt{22}, \texttt{80}, IP \texttt{8.8.8.8}, mask \texttt{24}, root user \texttt{JOHN}) with threshold $T_t = 0.46$, operator $Q$ intercepts states at Layer 3 ($d^* \in [0.0889, 0.4304] \le T_t$) and executes an immediate Early-Exit, outputting certified constants with $100\%$ precision (Table~\ref{tab:factual_benchmark}).
-    \item \textbf{Concentric Separation of Semantic Faults vs. Creative Flow ($R_{\mathrm{dom}} = 0.65$):} Querying an unindexed protocol (\textit{``Telemetry protocol for subterranean speleological cave sensors...''}), distance rises to $d^* = 0.4973$. Falling in the buffer band $T_t < d^* \le R_{\mathrm{dom}}$, the API triggers an explicit \textit{Semantic Fault}, halting generation. Conversely, open creative prompts (\textit{``Today the clear morning sky feels particularly...''}) land at $d^* = 1.0430 > R_{\mathrm{dom}}$: the Inode index remains dormant, avoiding false positives and allowing fluid continuation.
+    \item \textbf{True Graph-Interrupted Early-Exit \& Latency Reduction:} Early-Exit is physically implemented by halting the PyTorch computation graph via forward hooks at Layer 3. This bypasses downstream transformer blocks ($l=3 \dots 5$) and the high-dimensional un-embedding projection $\mathbf{W}_U \in \mathbb{R}^{512 \times 50304}$. Empirically benchmarked on GPU (CUDA), forward pass execution time drops from $\mathbf{15.08\,\text{ms}}$ to $\mathbf{3.70\,\text{ms}}$, representing a measured \textbf{$4.07\times$ speedup} (\textbf{$75.5\%$ latency reduction}).
+    \item \textbf{Concentric Gating under Controlled Syntactic Templates (Regime A):} When queries share a consistent syntactic framing with indexed Inodes, operator $Q$ sharply separates indexed facts ($d^* \in [0.0889, 0.4304] \le T_t$) triggering immediate deterministic Early-Exit. Concurrently, unindexed factual queries (\textit{``telemetry protocol for speleological cave sensors...''}) land in the buffer band $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, successfully raising a \textit{Semantic Fault} that arrests the potential hallucination mid-network (Table~\ref{tab:factual_benchmark}).
+    \item \textbf{Emergence of Lexical Recency Bias on Natural Queries (Regime B):} In causal decoder-only models, the hidden state at the final token position ($[-1]$) at intermediate layers is strongly dominated by immediate preceding tokens (local $n$-gram syntax). When formulating the same technical query in open natural language (Regime B, e.g. \textit{``Which port does SSH listen on by default?''}), the metric distance increases to $d^* = 0.9399 \dots 1.0127$, surpassing $R_{\mathrm{dom}}$ and becoming indistinguishable from open creative discourse (Regime C, $d^* = 1.0430$).
 \end{enumerate}
 
-\begin{table}[t]
-\centering
-\caption{Cosine Similarities of Isomorphic Schemas in $N_p$ (\texttt{Pythia-70M}, Layer 3, $D=512$).}
-\label{tab:pythia_cosine}
-\vspace{0.15cm}
-\small
-\setlength{\tabcolsep}{6.0pt}
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Schema} & \textbf{DNS} & \textbf{IP Route} & \textbf{White Pg.} & \textbf{Phone Dir.} \\ \midrule
-\textbf{DNS} & $1.000$ & $0.961$ & $0.973$ & $0.893$ \\
-\textbf{IP Route} & $0.961$ & $1.000$ & $0.940$ & $0.916$ \\
-\textbf{White Pg.} & $0.973$ & $0.940$ & $1.000$ & $0.903$ \\
-\textbf{Phone Dir.} & $0.893$ & $0.916$ & $0.903$ & $1.000$ \\ \bottomrule
-\end{tabular}
-\end{table}
+\paragraph{Architectural Implication:} This finding demonstrates that raw zero-shot token representations at intermediate layers serve as a valuable diagnostic probe under template constraints, but do not provide syntax invariance. For open-vocabulary production deployments, operator $Q$ must be coupled with a \textbf{supervised Linear Probe} ($W_{\mathrm{probe}}: \mathbb{R}^D \to \mathbb{R}^{D_{\mathrm{mono}}}$) or an \textbf{Attention-Pooling} layer across informative sequence tokens.
 
 \begin{table}[t]
 \centering
-\caption{Layer-3 Verification Benchmark on \texttt{Pythia-70M} ($T_t=0.46$, $R_{\mathrm{dom}}=0.65$).}
+\caption{Layer-3 Probing Benchmark on \texttt{Pythia-70M} ($T_t=0.46$, $R_{\mathrm{dom}}=0.65$): Controlled Templates vs. Open Natural Phrasing.}
 \label{tab:factual_benchmark}
 \vspace{0.15cm}
 \footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}p{2.3cm}p{4.0cm}p{1.8cm}p{1.1cm}p{2.6cm}p{2.7cm}@{}}
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{@{}p{1.8cm}p{2.3cm}p{3.8cm}p{1.0cm}p{2.6cm}p{2.7cm}@{}}
 \toprule
-\textbf{Target Concept} & \textbf{Query Prompt} & \textbf{Base Model} & \textbf{Dist. $d^*$} & \textbf{HySA Status} & \textbf{Final Output} \\ \midrule
-\texttt{SSH\_PORT} & \textit{``For remote server management... SSH default port is''} & \texttt{' 1'} (\textbf{Halluc.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Early-Exit) \\
-\texttt{HTTP\_PORT} & \textit{``The plaintext transport protocol HTTP default port is''} & \texttt{' used'} (\textbf{Halluc.}) & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (Early-Exit) \\
-\texttt{PUBLIC\_DNS\_IP} & \textit{``Google public DNS resolver IPv4 literal address is''} & \texttt{' used'} (\textbf{Halluc.}) & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (Early-Exit) \\
-\texttt{SUBNET\_MASK} & \textit{``A standard subnet mask 255.255.255.0 has CIDR length''} & \texttt{' 0'} (\textbf{Halluc.}) & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (Early-Exit) \\
-\texttt{ADMIN\_NAME} & \textit{``In the database registry, root user first name literal is''} & \texttt{' the'} (\textbf{Halluc.}) & $0.0889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' JOHN'} (Early-Exit) \\ \midrule
-\texttt{UNINDEXED} & \textit{``Telemetry protocol for subterranean speleological sensors...''} & \texttt{' a'} (\textbf{Nonsense}) & $0.4973$ & \textbf{SEMANTIC FAULT} ($T_t < d^* \le R_{\mathrm{dom}}$) & \textbf{[HALTED]} (Mid-Net) \\ \midrule
-\texttt{CREATIVE\_SKY} & \textit{``Today the clear morning sky feels particularly...''} & \texttt{' good'} (Fluid) & $1.0430$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \texttt{' good'} (Bypass Inode) \\ \bottomrule
+\textbf{Regime} & \textbf{Target Concept} & \textbf{Query Prompt} & \textbf{Dist. $d^*$} & \textbf{HySA Status} & \textbf{Operational Output} \\ \midrule
+\textbf{A: Template} & \texttt{SSH\_PORT} & \textit{``...remote server management... SSH default port is''} & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (True Early-Exit) \\
+\textbf{A: Template} & \texttt{HTTP\_PORT} & \textit{``...hyper-text HTTP default plaintext port is''} & $0.4304$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 80'} (True Early-Exit) \\
+\textbf{A: Template} & \texttt{PUBLIC\_DNS\_IP} & \textit{``...Google public DNS IPv4 literal address is''} & $0.3889$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 8.8.8.8'} (True Early-Exit) \\
+\textbf{A: Template} & \texttt{SUBNET\_MASK} & \textit{``...Class C 255.255.255.0 has CIDR bit length of''} & $0.1263$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 24'} (True Early-Exit) \\ \midrule
+\textbf{A: Drift} & \texttt{UNINDEXED} & \textit{``...speleological cave sensors default port number is''} & $0.4973$ & \textbf{SEMANTIC FAULT} ($T_t < d^* \le R_{\mathrm{dom}}$) & \textbf{[HALTED]} (Mid-Net Fault) \\ \midrule
+\textbf{B: Natural} & \texttt{SSH\_NAT\_1} & \textit{``Which port does SSH listen on by default?''} & $1.0127$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypassed} (Recency Bias) \\
+\textbf{B: Natural} & \texttt{SSH\_NAT\_2} & \textit{``What is the standard port for the SSH service?''} & $0.9399$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypassed} (Recency Bias) \\
+\textbf{B: Natural} & \texttt{SPELEO\_NAT} & \textit{``What is the port number for cave telemetry sensors?''} & $0.9473$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & \textit{Bypassed} (Recency Bias) \\ \midrule
+\textbf{C: Fluid} & \texttt{CREATIVE\_SKY} & \textit{``Today the clear morning sky feels particularly...''} & $1.0430$ & \textbf{FLUID $N_p$} ($d^* > R_{\mathrm{dom}}$) & Normal stochastic decoding \\ \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Experimental Limitations and Methodological Discussion}
+
+Scientific transparency requires formalizing the boundary conditions and operational constraints identified through empirical probing:
+
+\begin{enumerate}[leftmargin=*, itemsep=2.0pt]
+    \item \textbf{The Disjoint Packing Bound ($T_t < \frac{1}{2} d_{\min}$):} To guarantee collision-free retrieval via operator $Q$, metric balls around distinct Inodes must remain strictly disjoint. If the minimum Euclidean distance across centroids is $d_{\min} = \min_{i \ne j} \|\mu_i - \mu_j\|_2$, topological temperature must satisfy:
+    \begin{equation}
+        T_t < \frac{1}{2} d_{\min}
+    \end{equation}
+    Exceeding this critical threshold causes spherical overlap ($\mathcal{B}(\mu_i, T_t) \cap \mathcal{B}(\mu_j, T_t) \ne \emptyset$), triggering spurious false confirmations. In compact embedding spaces ($D=512$), maintaining disjoint separation necessitates explicit contrastive orthogonalization (as demonstrated in our $32 \times 32$ benchmark, where $d_{\min} = 1.4142$ and $T_t = 0.6428 < 0.7071$).
+    \item \textbf{Syntax Invariance and Supervised Probing Requirements:} As Table~\ref{tab:factual_benchmark} indicates, raw zero-shot token activations at intermediate layers exhibit the \textit{Lexical Recency Bias} characteristic of causal autoregressive models. To reliably detect factual intents under complex paraphrases or open-vocabulary prompts, production systems must map latent states through a \textbf{supervised Linear Probe} ($W_{\mathrm{probe}}: \mathbb{R}^D \to \mathbb{R}^{D_{\mathrm{mono}}}$ trained on paraphrase pairs) or an \textbf{Attention-Pooling} layer over informative sequence tokens.
+    \item \textbf{Runtime Mechanics of True Early-Exit:} Compute reduction cannot be realized by post-hoc tensor slicing on a model that has already evaluated downstream layers. True acceleration mandates physical graph termination (via PyTorch forward hooks or specialized inference engines such as vLLM/TensorRT-LLM) upon verifying $d^* \le T_t$. As benchmarked on CUDA, halting at Layer 3 cuts latency from $15.08\,\text{ms}$ to $3.70\,\text{ms}$ ($75.5\%$ GPU time reduction), bypassing remaining transformer layers and the un-embedding projection matrix $\mathbf{W}_U$.
+\end{enumerate}
 
 \section{Open Systems Challenges: Scaling Latent Indexing}
 

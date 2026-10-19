@@ -165,12 +165,12 @@ dove $d^* \le T_t$ attiva l'\textbf{Early-Exit}, la fascia intermedia solleva il
 
 \textbf{Punto di Equilibrio ($P_c$):} Se $N_p$ domina ($\Delta q \gg 1$), il modello soffre di deriva associativa. Se $N_m$ domina con sfere troppo larghe, lo spazio si satura e il modello regredisce a un lookup table rigido. Il Punto Critico $P_c$ garantisce sfere $T_t$ abbastanza strette da lasciare libero il pensiero fluido, intercettando con precisione i fatti noti.
 
-\section{Validazione Empirica su \texttt{Pythia-70M}}
-L'analisi dello stream residuo al Layer 3 ($D=512$) di \texttt{EleutherAI/pythia-70m} conferma tre comportamenti cardine:
+\section{Validazione Empirica su \texttt{Pythia-70M}: Early-Exit e Limiti Sintattici}
+L'analisi dello stream residuo al Layer 3 ($D=512$) di \texttt{EleutherAI/pythia-70m} evidenzia tre riscontri metodologici essenziali:
 \begin{enumerate}[leftmargin=*, itemsep=1.5pt]
-    \item \textbf{Isomorfismo Polisemantico Naturale ($N_p$):} Quattro prompt tecnici (\texttt{DNS}, \texttt{Instr. IP}, \texttt{Pag. Bianche}, \texttt{Elenco Tel.}) esibiscono una similarità coseno compresa tra $\mathbf{0.893}$ e $\mathbf{0.973}$ (Tabella~\ref{tab:pythia}).
-    \item \textbf{Iniezione Deterministica ed Early-Exit ($N_m$):} Configurando $T_t = 0.46$ su 6 costanti, HySA azzera le allucinazioni del modello base (che fallisce nel 100\% dei casi), eseguendo un Early-Exit a metà rete che restituisce il letterale esatto con precisione del 100\% ($d^* \le 0.4304$, Tabella~\ref{tab:factual_benchmark}).
-    \item \textbf{Immunità dai Falsi Positivi Creativi ($R_{\mathrm{dom}} = 0.65$):} Su query non censite nel dominio fattuale, $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, sollevando un \textit{Semantic Fault}. Al contrario, testi aperti/creativi cadono a $d^* = 1.0430 > R_{\mathrm{dom}}$, lasciando proseguire la decodifica fluida senza errori di sistema.
+    \item \textbf{Vero Early-Exit e Risparmio Hardware:} L'interruzione reale del grafo computazionale a metà rete tramite forward hook PyTorch evita i blocchi 3..5 e la matrice finale $\mathbf{W}_U$ ($512 \times 50304$). La latenza GPU scende da $\mathbf{15.08\,\text{ms}}$ a $\mathbf{3.70\,\text{ms}}$, con uno \textbf{speedup misurato di $4.07\times$} (risparmio di latenza del $\mathbf{75.5\%}$).
+    \item \textbf{Gating Concentrico su Template Controllati ($N_m$):} Su query sintatticamente coerenti con gli Inode, l'operatore $Q$ intercetta lo stato latente ($d^* \le 0.4304 \le T_t = 0.46$) iniettando il dato esatto ed eliminando le allucinazioni del generatore base; query su protocolli non censiti sollevano un \textit{Semantic Fault} ($d^* = 0.4973 \le R_{\mathrm{dom}} = 0.65$), bloccando la deriva (Tabella~\ref{tab:factual_benchmark}).
+    \item \textbf{Lexical Recency Bias e Necessità di Linear Probe:} Nei modelli autoregressivi causali, il vettore dell'ultimo token risente pesantemente delle ultime parole. Parafrasando la domanda in forma naturale aperta (es. \textit{``Which port does SSH listen on?''}), la distanza sale a $d^* \approx 0.94\text{--}1.01$, superando $R_{\mathrm{dom}}$ e richiedendo, per uso generale, un Linear Probe supervisionato $W_{\mathrm{probe}}$ o Attention-Pooling.
 \end{enumerate}
 
 \begin{table}[t]

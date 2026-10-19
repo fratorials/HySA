@@ -101,7 +101,7 @@ Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = \begin{cases}
 \end{cases}
 ```
 
-1. **Inode Hit ($`d^* \le T_t`$):** State falls within the certified Inode core. Execution immediately **Early-Exits**, bypassing subsequent layers $l+1 \dots L$ and emitting certified literal $\mathbf{v}_{k^*}$ (100% precision, ~50% FLOPs saved).
+1. **Inode Hit ($`d^* \le T_t`$):** State falls within the certified Inode core. Execution immediately **Early-Exits**, halting the computational graph via PyTorch forward hooks, bypassing subsequent layers $l+1 \dots L$ and the large vocabulary projection $\mathbf{W}_U$ ($75.5\%$ GPU latency reduction, $4.07\times$ speedup measured empirically).
 2. **Semantic Fault ($`T_t \lt d^* \le R_{\mathrm{dom}}`$):** State enters the factual domain basin, but the required entity is unindexed. The API intercepts execution mid-network, raising $`\bot_{\mathrm{Fault}}`$ and halting both stochastic guessing and overconfident hallucinations.
 3. **Fluid Regime ($`d^* \gt R_{\mathrm{dom}}`$):** State navigates open creative, poetic, or abstract discourse far from factual Inodes. The API remains dormant, allowing standard propagation through remaining layers and Softmax sampling at temperature $T_p$.
 
@@ -122,54 +122,52 @@ where $M$ is the internal cardinality of indexed literals. This governs three op
 
 ### Figure 1: Contrastive Superposition Tensors & Algebraic Emulation ($32 \times 32$ Manifold)
 ![Figure 1: Imprinted Tensors](assets/fig1_imprinted_tensors.png)
-*The contrastive block emulates and reconstructs binary matrices $X \in \{0, 1\}^{32 \times 32}$ structured into rigid monosemantic Inode headers $N_m$ ($2 \times 2$ pixels top-left, columns 2, 5, 8, 11) and a polysemantic structural manifold $N_p$ (digits `'0'`, `'6'`, `'8'`, `'9'` under spatial jitter). **Cols 1–4 ($I_1 \dots I_4$):** 4-neuron bottleneck ($z \in \mathbb{R}^4$) superimposing digit primitives ($I_1 \to \text{'8'}$, $I_2 \to \text{'6'}$, $I_3 \to \text{'0'}$, $I_4 \to \text{'9'}$) alongside Inodes. **Col 5 ($I_1 \odot I_2$):** Hadamard intersection isolating shared structural segments between `'8'` and `'6'`. **Col 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):** Rectified subtraction isolating differential morphology (upper loop of `'8'`), completely suppressing the shared Inode header.*
+*The contrastive block emulates and reconstructs binary matrices $X \in \{0, 1\}^{32 \times 32}$ structured into rigid monosemantic Inode headers $N_m$ ($2 \times 2$ pixels top-left, columns 2, 5, 8, 11) and a polysemantic structural manifold $N_p$ (digits `'0'`, `'6'`, `'8'`, `'9'` under spatial jitter). **Cols 1–4 ($I_1 \dots I_4$):** 4-neuron bottleneck ($z \in \mathbb{R}^4$) superimposing digit primitives alongside Inodes. **Col 5 ($I_{n_{\mathrm{inf}}} \odot I_{n_{\mathrm{sup}}}$):** Hadamard intersection isolating shared structural segments between digits. **Col 6 ($\mathrm{ReLU}(I_{n_{\mathrm{inf}}} - 0.7 I_{n_{\mathrm{sup}}})$):** Rectified subtraction isolating differential morphology, completely suppressing the shared Inode header.*
 
 ---
 
-### Figure 2: Latent Regime Trade-Off, Critical Point ($P_c$), and Factual Verification
+### Figure 2: Latent Regime Trade-Off, Critical Point ($P_c$), and Blind Noise Benchmark
 ![Figure 2: Phase Transition & Critical Point](assets/fig2_phase_transition.png)
-* **(a) Metric Volume Trade-Off:** High-dimensional regime allocation ($D=32$) between fluid volume $\mathcal{V}_p$ and deterministic Inode volume $\mathcal{V}_m$.
-* **(b) Capacity Landscape:** Architectural instability cost identifying the stationary Critical Point $P_c$.
-* **(c) Factual Verification Benchmark:** Unconstrained decoding suffers $>40\%$ literal corruption under rising $T_p$, whereas HySA maintains **$0.0\%$ corruption** on confirmed queries, intercepting drift as explicit Semantic Faults.
+* **(a) Analytical Spherical Cap Volume ($S^3$):** Exact closed-form cap volume fraction $V_{\mathrm{cap}}(\theta) = (\theta - 0.5\sin(2\theta))/\pi$, highlighting the strict disjoint packing bound $d_{\min}/2 \approx 0.707$ to prevent centroid collision.
+* **(b) Capacity Trade-Off Landscape:** Analytical instability cost $\mathcal{L}(\Delta q)$ identifying the stationary Critical Point $P_c \approx 1.0$.
+* **(c) Empirical Blind Benchmark under Gaussian Noise ($T_p \in [0.05, 2.50]$):** Evaluated blindly without ground-truth label leakage. The unprotected baseline suffers up to $10\%$ silent corruption, whereas HySA intercepts degraded trajectories as explicit Semantic Faults ($\sim 15\%$), confining residual false confirmations to $\sim 1.2\%$ and maintaining certified accuracy above $83\%$.
 
 ---
 
 ### Figure 3: Concentric Domain Geometry, Architecture, and Pythia-70M Probing
 ![Figure 3: Semantic Hypersphere & Architecture](assets/fig3_hypersphere_geometry.png)
 * **(a) Concentric Hypersphere Geometry:** Radial metric boundaries $T_t = 0.46$ and $R_{\mathrm{dom}} = 0.65$ defining the three operational zones: Confirmed Inode Core, Semantic Fault Buffer, and Open Fluid Domain.
-* **(b) Intermediate Layer Early-Exit Architecture:** Probing at Layer $l=3$ either triggers immediate Early-Exit, raises a Semantic Fault, or passes to Layer $L$ for fluid sampling.
-* **(c) Empirical Residual Stream Probing on Pythia-70M:** Demonstrating clear, non-overlapping metric separation across known factual queries ($d^* \le 0.4304$), unindexed speleological telemetry ($d^* = 0.4973$), and open creative text ($d^* \ge 1.0430$).
+* **(b) Intermediate Layer Early-Exit Architecture:** Probing at Layer $l=3$ halts the graph via forward hooks upon Inode hit, bypassing layers $4 \dots 6$ and $\mathbf{W}_U$ ($75.5\%$ GPU latency reduction), raises a Semantic Fault on unindexed queries, or passes fluid trajectories to Layer $L$.
+* **(c) Empirical Probing & Lexical Recency Bias on Pythia-70M:** Contrasting clean metric separation under controlled templates ($d^* \le 0.4304$) against metric divergence under natural open-form queries ($d^* \approx 0.94\text{--}1.01$), empirically demonstrating the need for supervised Linear Probing ($W_{\mathrm{probe}}$) or Attention Pooling in production systems.
 
 ---
 
 ## 🧪 Empirical Validation on Real Transformer (`EleutherAI/pythia-70m`)
 
-### 1. Isomorphism in the Polysemantic Manifold ($N_p$)
-Cosine similarity across four distinct prompts expressing identity-to-address resolution (residual stream Layer 3, $D=512$):
+### 1. True Early-Exit GPU Latency Benchmark
+Benchmarking actual forward-pass execution on CUDA (interrupted at Layer 3 vs full 6 layers + $\mathbf{W}_U$):
+* **Full Forward Pass (6 layers + LM Head 50,304 classes):** `15.08 ms`
+* **True Early-Exit (interrupted at Layer 3 via forward hook):** `3.70 ms`
+* **Speedup:** **`4.07x` ($75.5\%$ latency reduction)**
 
-| Conceptual Schema | DNS | IP Routing | White Pages | Phone Directory |
-| :--- | :---: | :---: | :---: | :---: |
-| **DNS** | $1.000$ | $0.961$ | $0.973$ | $0.893$ |
-| **IP Routing** | $0.961$ | $1.000$ | $0.940$ | $0.916$ |
-| **White Pages** | $0.973$ | $0.940$ | $1.000$ | $0.903$ |
-| **Phone Directory** | $0.893$ | $0.916$ | $0.903$ | $1.000$ |
+### 2. Probing Benchmark at Layer 3 ($T_t = 0.46$, $R_{\mathrm{dom}} = 0.65$): Controlled vs Natural Queries
 
-*High cosine similarity ($\ge 0.893$) proves empirically that deep transformers naturally construct polysemantic manifolds representing abstract relational schemas across distant domains.*
+Evaluating Layer 3 residual states on `EleutherAI/pythia-70m` highlights the operational behavior across syntactically controlled templates and open natural phrasing:
 
-### 2. Empirical Verification Benchmark at Layer 3 ($T_t = 0.46$, $R_{\mathrm{dom}} = 0.65$)
-
-Evaluating Layer 3 residual states on `EleutherAI/pythia-70m` confirms the clean metric decoupling of the three operational regimes:
-
-| Target Concept | Interrogated Prompt | Raw Base Output | Distance $d^*$ | Operational Regime | HySA Final Output |
+| Query Regime | Target Concept | Interrogated Prompt | Distance $d^*$ | Operational Regime | Operational Output |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| `SSH_PORT` | *"...SSH default port is"* | `' 1'` (Hallucination) | $0.3257$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 22'` (Early-Exit, $100\%$ Exact) |
-| `HTTP_PORT` | *"...HTTP default port is"* | `' used'` (Hallucination) | $0.4304$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 80'` (Early-Exit, $100\%$ Exact) |
-| `PUBLIC_DNS_IP` | *"...Google public DNS resolver is"* | `' used'` (Hallucination) | $0.3889$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 8.8.8.8'` (Early-Exit, $100\%$ Exact) |
-| `SUBNET_MASK` | *"...255.255.255.0 has CIDR length"* | `' 0'` (Hallucination) | $0.1263$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 24'` (Early-Exit, $100\%$ Exact) |
-| `ADMIN_NAME` | *"...root user first name literal is"* | `' the'` (Hallucination) | $0.0889$ | **CONFIRMED** ($`d^* \le T_t`$) | `' JOHN'` (Early-Exit, $100\%$ Exact) |
-| `UNINDEXED` | *"...subterranean speleological sensors..."* | `' a'` (Nonsense) | $0.4973$ | **SEMANTIC FAULT** ($`T_t \lt d^* \le R_{\mathrm{dom}}`$) | **[HALTED]** (Intercepted mid-network) |
-| `CREATIVE_SKY` | *"...Today the afternoon sky looks very"* | `' good'` (Fluid) | $1.0430$ | **FLUID $N_p$** ($`d^* \gt R_{\mathrm{dom}}`$) | `' good'` (Normal generation) |
-| `CREATIVE_POEM`| *"...In the quiet forest whispers the"* | `' wind'` (Fluid) | $1.1084$ | **FLUID $N_p$** ($`d^* \gt R_{\mathrm{dom}}`$) | `' wind'` (Normal generation) |
+| **A: Template** | `SSH_PORT` | *"...remote server management... SSH default port is"* | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (True Early-Exit) |
+| **A: Template** | `HTTP_PORT` | *"...hyper-text HTTP default plaintext port is"* | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (True Early-Exit) |
+| **A: Template** | `PUBLIC_DNS_IP` | *"...Google public DNS IPv4 literal address is"* | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (True Early-Exit) |
+| **A: Template** | `SUBNET_MASK` | *"...Class C 255.255.255.0 has CIDR bit length of"* | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (True Early-Exit) |
+| **A: Template Drift** | `UNINDEXED` | *"...speleological cave sensors default port number is"* | $0.4973$ | **SEMANTIC FAULT** ($T_t < d^* \le R_{\mathrm{dom}}$) | **[HALTED]** (Intercepted mid-network) |
+| **B: Natural Query** | `SSH_PORT` | *"Which port does SSH listen on by default?"* | $1.0127$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **B: Natural Query** | `SSH_PORT` | *"What is the standard port for the SSH service?"* | $0.9399$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **B: Natural Drift** | `SPELEO` | *"What is the port number for cave telemetry sensors?"* | $0.9473$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **C: Fluid Creative** | `CREATIVE_SKY` | *"Today the clear morning sky feels particularly..."* | $1.0430$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | Normal stochastic decoding |
+
+> **Key Architectural Takeaway (Lexical Recency Bias):**
+> In autoregressive decoder-only models, intermediate residual states at the final token position ($[-1]$) are heavily dominated by local n-gram context. While controlled syntax enables clean geometric gating, open natural paraphrases disperse toward $d^* \sim 1.0$. Consequently, robust production implementations of HySA require coupling the intermediate residual stream with a **learned linear probe** ($W_{\mathrm{probe}}$) or **attention pooling** over key sequence tokens rather than raw zero-shot token representations.
 
 ---
 

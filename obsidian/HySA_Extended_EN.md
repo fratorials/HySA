@@ -190,42 +190,37 @@ The optimal balance between associative capacity ($N_p$) and indexed literal cou
 
 ---
 
-## 4. Empirical Validation on Real Transformer (`Pythia-70m`)
+## 4. Empirical Validation on Real Transformer (`Pythia-70m`): Early-Exit and Lexical Recency Bias
 
-To validate this geometric behavior, I inspect the residual stream at Layer 3 ($D=512$) on `EleutherAI/pythia-70m`.
+To assess the feasibility of intermediate-layer geometric gating and evaluate the real compute savings of an operational Early-Exit, I conduct probing experiments on the Layer 3 residual stream ($D=512$) of the causal open-source model `EleutherAI/pythia-70m`.
 
-Adopting a compact model not specifically trained on dense factual memorization is a deliberate methodological choice: on the technical prompts evaluated, unconstrained `Pythia-70m` fails 100% of the time, producing generic stochastic tokens (`' 1'`, `' used'`, `' 0'`, `' the'`). This provides unambiguous empirical proof that anchoring to HySA Inodes establishes 100% deterministic precision without requiring parameter fine-tuning or retraining.
+The evaluation provides both hardware validation and an honest characterization of autoregressive representation limits:
 
-Empirical evaluations confirm three core behaviors:
+1. **True Graph-Interrupted Early-Exit & Latency Savings:**  
+   Unlike post-hoc slicing simulations, Early-Exit is implemented by physically halting the PyTorch computation graph via forward hooks at Layer 3. This bypasses subsequent transformer layers ($l=3 \dots 5$) and the large un-embedding projection $\mathbf{W}_U \in \mathbb{R}^{512 \times 50304}$. Measured on GPU (CUDA), forward pass execution time drops from **$15.08\,\text{ms}$** to **$3.70\,\text{ms}$**, representing an empirical **$4.07\times$ speedup** (**$75.5\%$ latency reduction**).
 
-1. **Natural Polysemantic Isomorphism ($N_p$):** Probing four isomorphic prompts (`DNS`, `IP Routing`, `White Pages`, `Phone Directory`) yields cosine similarities between **$0.893$ and $0.973$** (Table 2). The network autonomously creates a higher-order invariant ("symbolic identifier $\to$ target address resolution").
+2. **Concentric Gating under Controlled Syntactic Templates (Regime A):**  
+   When queries share a consistent syntactic framing with indexed Inodes, operator $Q$ sharply separates indexed facts ($d^* \in [0.0889, 0.4304] \le T_t$) triggering immediate Early-Exit. Conversely, unindexed factual queries (*"telemetry protocol for subterranean speleological sensors..."*) land in the buffer band $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$, successfully raising a **Semantic Fault** and halting potential hallucinations mid-network (Table 3).
 
-| Schema | DNS | IP Route | White Pg. | Phone Dir. |
-| :--- | :---: | :---: | :---: | :---: |
-| **DNS** | $1.000$ | $0.961$ | $0.973$ | $0.893$ \\
-| **IP Route** | $0.961$ | $1.000$ | $0.940$ | $0.916$ \\
-| **White Pg.** | $0.973$ | $0.940$ | $1.000$ | $0.903$ \\
-| **Phone Dir.** | $0.893$ | $0.916$ | $0.903$ | $1.000$ \\
+3. **Emergence of Lexical Recency Bias on Natural Queries (Regime B):**  
+   In causal decoder-only models, the hidden state at the final token position ($[-1]$) at intermediate layers is strongly conditioned by immediate local n-gram syntax. When rephrasing the same query into natural open-ended language (*"Which port does SSH listen on by default?"*), the metric distance rises to $d^* = 0.9399 \dots 1.0127$, surpassing $R_{\mathrm{dom}}$ and becoming indistinguishable from open creative discourse (Regime C, $d^* = 1.0430$).
 
-*Table 2: Cosine Similarities of Isomorphic Schemas in $N_p$ (`Pythia-70M`, Layer 3, $D=512$).*
-
-2. **Deterministic Inode Injection with Early-Exit ($N_m$):** Indexing 6 technical constants with $T_t = 0.46$, HySA eliminates base-model hallucinations via an immediate mid-network Early-Exit ($100\%$ precision, $d^* \le 0.4304$, Table 3).
-
-| Target Concept | Query Prompt | Base Model | Dist. $d^*$ | HySA Status ($T_t=0.46, R_{\mathrm{dom}}=0.65$) | Final Output |
+| Query Regime | Target Concept | Interrogated Prompt | Distance $d^*$ | Operational Regime ($T_t=0.46, R_{\mathrm{dom}}=0.65$) | Operational Output |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| `SSH_PORT` | *"For remote server management... SSH default port is"* | `' 1'` (**Halluc.**) | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (Early-Exit) |
-| `HTTP_PORT` | *"The plaintext transport protocol HTTP default port is"* | `' used'` (**Halluc.**) | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (Early-Exit) |
-| `PUBLIC_DNS_IP` | *"Google public DNS resolver IPv4 literal address is"* | `' used'` (**Halluc.**) | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (Early-Exit) |
-| `SUBNET_MASK` | *"A standard subnet mask 255.255.255.0 has CIDR length"* | `' 0'` (**Allucin.**) | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (Early-Exit) |
-| `ADMIN_NAME` | *"In the database registry, root user first name literal is"* | `' the'` (**Halluc.**) | $0.0889$ | **CONFIRMED** ($d^* \le T_t$) | `' JOHN'` (Early-Exit) |
-| `UNINDEXED` | *"Telemetry protocol for subterranean speleological sensors..."* | `' a'` (**Nonsense**) | $0.4973$ | **SEMANTIC FAULT** ($T_t < d^* \le R_{\mathrm{dom}}$) | **[HALTED]** (Mid-Net) |
-| `CREATIVE_SKY` | *"Today the clear morning sky feels particularly..."* | `' good'` (Fluid) | $1.0430$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | `' good'` (Bypass Inode) |
+| **A: Template** | `SSH_PORT` | *"...remote server management... SSH default port is"* | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (True Early-Exit) |
+| **A: Template** | `HTTP_PORT` | *"...hyper-text HTTP default plaintext port is"* | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (True Early-Exit) |
+| **A: Template** | `PUBLIC_DNS_IP` | *"...Google public DNS IPv4 literal address is"* | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (True Early-Exit) |
+| **A: Template** | `SUBNET_MASK` | *"...Class C 255.255.255.0 has CIDR bit length of"* | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (True Early-Exit) |
+| **A: Template Drift** | `UNINDEXED` | *"...speleological cave sensors default port number is"* | $0.4973$ | **SEMANTIC FAULT** ($T_t < d^* \le R_{\mathrm{dom}}$) | **[HALTED]** (Mid-Net Fault) |
+| **B: Natural Query** | `SSH_PORT` | *"Which port does SSH listen on by default?"* | $1.0127$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **B: Natural Query** | `SSH_PORT` | *"What is the standard port for the SSH service?"* | $0.9399$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **B: Natural Drift** | `SPELEO` | *"What is the port number for cave telemetry sensors?"* | $0.9473$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | *Bypassed* (Recency Bias) |
+| **C: Fluid Creative** | `CREATIVE_SKY` | *"Today the clear morning sky feels particularly..."* | $1.0430$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | Normal stochastic decoding |
 
-*Table 3: Layer-3 Verification Benchmark on `EleutherAI/pythia-70m` ($D=512$, $T_t=0.46, R_{\mathrm{dom}}=0.65$).*
+*Table 3: Layer-3 Verification Benchmark on `EleutherAI/pythia-70m` ($D=512$, $T_t=0.46, R_{\mathrm{dom}}=0.65$): Controlled Templates vs. Natural Open Language.*
 
-3. **Concentric Separation of Semantic Faults vs. Creative Flow ($R_{\mathrm{dom}} = 0.65$):**
-   * If the model encounters an unindexed factual protocol (*"Telemetry protocol for subterranean speleological cave sensors..."*), distance lands at $T_t < d^* = 0.4973 \le R_{\mathrm{dom}}$: the API triggers an explicit **Semantic Fault**, arresting generation mid-network.
-   * If the model encounters open creative discourse (*"Today the clear morning sky feels particularly..."*), distance lands at $d^* = 1.0430 > R_{\mathrm{dom}}$: the Inode index remains dormant, avoiding false positives and allowing fluid continuation.
+> **Architectural Implication:**  
+> Raw zero-shot token representations at intermediate layers serve as a valuable diagnostic probe under template constraints, but do not provide syntax invariance. For open-vocabulary production deployments, operator $Q$ must be coupled with a **supervised Linear Probe** ($W_{\mathrm{probe}}: \mathbb{R}^D \to \mathbb{R}^{D_{\mathrm{mono}}}$) or an **Attention-Pooling** layer across informative sequence tokens.
 
 ---
 
