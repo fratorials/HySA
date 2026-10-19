@@ -99,7 +99,7 @@ Sia $u$ un'unità neuronale e sia $\Omega$ lo spazio dei concetti semantici. Def
 \begin{equation}
     \mathcal{R}(u) = \binom{|\mathcal{C}(u)|}{2} = \frac{|\mathcal{C}(u)| (|\mathcal{C}(u)| - 1)}{2}
 \end{equation}
-Un'unità puramente monosemantica $u_{\mathrm{mono}}$ con $|\mathcal{C}(u_{\mathrm{mono}})| = 1$ ha rango relazionale nullo: $\mathcal{R}(u_{\mathrm{mono}}) = 0$. Di conseguenza, un'architettura limitata esclusivamente a neuroni monosemantici non può eseguire proiezioni analogiche continue senza introdurre un grafo relazionale esterno.
+Un'unità puramente monosemantica $u_{\mathrm{mono}}$ avente cardinalità $|\mathcal{C}(u_{\mathrm{mono}})| = 1$ ha rango relazionale nullo $\mathcal{R}(u_{\mathrm{mono}}) = 0$. Di conseguenza, un'architettura limitata a soli neuroni monosemantici non può compiere proiezioni analogiche continue senza un grafo relazionale esterno.
 \end{definizione}
 
 \section{Architettura Unificata: Né in Serie, Né in Parallelo}
@@ -224,6 +224,7 @@ Durante il forward pass al layer intermedio $l$, il vettore normalizzato $q_l = 
 
 \begin{definizione}[Operatore di Confine Metrico e Gating di Dominio al Layer $l$]
 Data la direzione latente $q_l$ al layer intermedio $l$, siano $k^* = \arg\min_k \|q_l - \mu_k\|_2$ e $d^* = \|q_l - \mu_{k^*}\|_2$:
+{\small
 \begin{equation}
     Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = 
     \begin{cases} 
@@ -232,6 +233,7 @@ Data la direzione latente $q_l$ al layer intermedio $l$, siano $k^* = \arg\min_k
       (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{se } d^* > R_{\mathrm{dom}} \quad (\mathbf{Fuori\;Dominio\;/\;Creativo})
     \end{cases}
 \end{equation}
+}
 \end{definizione}
 
 \begin{enumerate}[leftmargin=*, itemsep=2.5pt]
@@ -313,7 +315,7 @@ I riscontri empirici evidenziano tre comportamenti cardine:
 \vspace{0.15cm}
 \footnotesize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}p{2.1cm}p{4.2cm}p{1.7cm}p{1.1cm}p{2.7cm}p{2.7cm}@{}}
+\begin{tabular}{@{}p{2.3cm}p{4.0cm}p{1.8cm}p{1.1cm}p{2.6cm}p{2.7cm}@{}}
 \toprule
 \textbf{Concetto Target} & \textbf{Prompt di Query} & \textbf{Output Base} & \textbf{Dist. $d^*$} & \textbf{Stato HySA} & \textbf{Output Finale} \\ \midrule
 \texttt{SSH\_PORT} & \textit{``For remote server management... SSH default port is''} & \texttt{' 1'} (\textbf{Allucin.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Early-Exit) \\

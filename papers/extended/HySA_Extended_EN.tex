@@ -148,7 +148,7 @@ To formalize the capacity boundary between fluid representation and rigid indexi
     \label{fig:phase_transition}
 \end{figure}
 
-\section{Indexing, Dual Temperatures \texorpdfstring{($T_p, T_m$)}{(Tp, Tm)}, and Internal Query/API Logic}
+\section{Indexing, Dual Temperatures \texorpdfstring{($T_p, T_m$)}{(Tp, Tm)}, and Query/API Logic}
 
 In operating systems, volatile RAM manages dynamic process execution, while persistent data resides within filesystems anchored by rigid metadata index pointers (\textbf{Inodes}). HySA translates this exact systems architecture into latent Hilbert space (Table~\ref{tab:systems_mapping}).
 
@@ -223,14 +223,16 @@ During forward evaluation at intermediate layer $l$, normalized state $q_l = h_t
 
 \begin{definition}[Metric Boundary Operator and Layer-$l$ Domain Gating]
 Given normalized intermediate state $q_l$, let $k^* = \arg\min_k \|q_l - \mu_k\|_2$ and $d^* = \|q_l - \mu_{k^*}\|_2$:
+{\small
 \begin{equation}
     Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = 
     \begin{cases} 
       (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \quad (\mathbf{Deterministic\;Inode\;Hit}) \\ 
-      (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \quad (\mathbf{In\text{-}Domain\;Factual\;Drift}) \\
-      (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}} \quad (\mathbf{Out\text{-}of\text{-}Domain\;Discourse})
+      (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \quad (\mathbf{In\text{-}Domain\;Drift}) \\
+      (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}} \quad (\mathbf{Out\text{-}of\text{-}Domain})
     \end{cases}
 \end{equation}
+}
 \end{definition}
 
 \begin{enumerate}[leftmargin=*, itemsep=2.5pt]
@@ -312,7 +314,7 @@ Empirical evaluations confirm three core behaviors:
 \vspace{0.15cm}
 \footnotesize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{@{}p{2.1cm}p{4.2cm}p{1.7cm}p{1.1cm}p{2.7cm}p{2.7cm}@{}}
+\begin{tabular}{@{}p{2.3cm}p{4.0cm}p{1.8cm}p{1.1cm}p{2.6cm}p{2.7cm}@{}}
 \toprule
 \textbf{Target Concept} & \textbf{Query Prompt} & \textbf{Base Model} & \textbf{Dist. $d^*$} & \textbf{HySA Status} & \textbf{Final Output} \\ \midrule
 \texttt{SSH\_PORT} & \textit{``For remote server management... SSH default port is''} & \texttt{' 1'} (\textbf{Halluc.}) & $0.3257$ & \textbf{CONFIRMED} ($d^* \le T_t$) & \texttt{' 22'} (Early-Exit) \\
