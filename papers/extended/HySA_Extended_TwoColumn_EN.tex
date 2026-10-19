@@ -203,22 +203,21 @@ On the unit hypersphere $S^{D-1}$, the Euclidean metric $\ell_2$ between normali
 \end{equation}
 confirming that $\ell_2$ distance directly tracks angular semantic deviation.
 
-\begin{definition}[Metric Boundary Operator $Q$]
-Given an active latent trajectory $h \in \mathcal{S}$, the monosemantic manifold $\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}$, and topological boundary $T_t$, let $k^* = \arg\min_k \|h - \mu_k\|_2$ and $d^* = \|h - \mu_{k^*}\|_2$. The operator $Q$ evaluates:
+\begin{definition}[Metric Boundary Operator and Layer-$l$ Domain Gating]
+Given normalized intermediate state $q_l = h_t^{(l)} / \|h_t^{(l)}\|_2$ at probing layer $l$, monosemantic registry $\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}$, and $d^* = \min_k \|q_l - \mu_k\|_2$ with $T_t < R_{\mathrm{dom}}$:
 {\small
 \begin{equation}
-    Q(h, \mathcal{F}_{\mathrm{mono}}, T_t) = 
+    Q(q_l) = 
     \begin{cases} 
       (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \\ 
-      (\mathrm{FAULT}, \bot) & \text{if } d^* > T_t 
+      (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \\
+      (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}}
     \end{cases}
     \label{eq:query_operator}
 \end{equation}
 }
-where $\mathbf{v}_{k^*}$ is the certified atomic literal anchored by Inode $k^*$. Geometrically, each Inode's decision region is a \textbf{Voronoi Cell Truncated by the Metric Ball}, $\mathcal{D}_k = \mathrm{Vor}(\mu_k) \cap \mathcal{B}(\mu_k, T_t)$, guaranteeing an unambiguous, disjoint partition of the latent space almost everywhere.
+where $d^* \le T_t$ triggers an immediate \textbf{Early-Exit} emitting certified literal $\mathbf{v}_{k^*}$, $T_t < d^* \le R_{\mathrm{dom}}$ raises an explicit \textbf{Semantic Fault} ($\bot_{\mathrm{Fault}}$), and $d^* > R_{\mathrm{dom}}$ leaves the Inode API dormant, allowing unconstrained fluid generation through layers $l+1 \dots L$.
 \end{definition}
-
-If the interrogated trajectory lies inside $\mathcal{B}(\mu_k, T_t)$, HySA deterministically binds the exact literal, eliminating factual hallucination. If the trajectory drifts outside $T_t$, a \textbf{Semantic Fault} is raised, explicitly intercepting the error rather than emitting a false positive.
 
 \begin{figure*}[t]
     \centering
@@ -227,46 +226,21 @@ If the interrogated trajectory lies inside $\mathcal{B}(\mu_k, T_t)$, HySA deter
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figure 3: Semantic Hypersphere and Architecture]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
-    \caption{\textbf{Semantic Hypersphere Geometry, Unified Architecture, and Empirical Probing on \texttt{Pythia-70m}.} \textbf{(a)} The Semantic Hypersphere $\mathcal{B}(\mu_k, T_t)$ centered on Inode $\mu_k$ (\texttt{CAT}), showing radial concept vectors (\texttt{GATTO}, \texttt{KG}, \texttt{MACCHINA}). An interrogated query $q_{\mathrm{valid}}$ within $T_t$ triggers deterministic confirmation, while $q_{\mathrm{drift}}$ exceeds $T_t$, raising a \textit{Semantic Fault}. \textbf{(b)} The unified macro-architecture: fluid polysemantic reasoning in $N_p$ executes on-demand metric verification via operator $Q$ against monosemantic registry $N_m$. \textbf{(c)} Empirical residual stream distances on \texttt{Pythia-70M} (Layer 3, $D=512$). All valid factual queries fall safely below $T_t = 0.46$, while unindexed telemetry protocol triggers an explicit fault ($d = 0.497 > T_t$).}
+    \caption{\textbf{Concentric Semantic Domains Geometry, Early-Exit Architecture, and Empirical Probing on \texttt{Pythia-70m}.} \textbf{(a)} Concentric metric boundaries around Inode $\mu_k$: deterministic core $T_t = 0.46$ (factual confirmation with Early-Exit), buffer band $R_{\mathrm{dom}} = 0.65$ (\textit{Semantic Fault} on unindexed in-domain facts), and open fluid manifold $d^* > R_{\mathrm{dom}}$ (unconstrained $N_p$ generation). \textbf{(b)} Unified architecture with intermediate layer Early-Exit ($l=3$): operator $Q$ probes normalized state $q_l$; on Inode hit ($\le T_t$) it executes immediate Early-Exit bypassing layers $4 \dots 6$, while out-of-domain trajectories ($> R_{\mathrm{dom}}$) proceed to lexical projection $\mathbf{W}_U$. \textbf{(c)} Empirical residual stream distances on \texttt{Pythia-70M} (Layer 3, $D=512$). All valid factual queries fall safely below $T_t = 0.46$, while unindexed telemetry protocol triggers an explicit fault ($d^* = 0.4973 \in (T_t, R_{\mathrm{dom}}]$) and open creative text lands far into the fluid domain ($d^* = 1.0430 > R_{\mathrm{dom}}$).}
     \label{fig:hypersphere_geometry}
 \end{figure*}
 
-\subsection{Compression Gradient (\texorpdfstring{$\Delta q$}{Delta q}), Determinism (\texorpdfstring{$\beta$}{beta}), and the Critical Point (\texorpdfstring{$P_c$}{Pc})}
-How should computational capacity be balanced between polysemantic units ($N_p$) and monosemantic centroids ($N_m$)? We define the \textbf{Compression Gradient} ($\Delta q$) as the ratio:
+\subsection{Capacity Balancing, Determinism, and the Critical Point (\texorpdfstring{$P_c$}{Pc})}
+How should computational capacity be balanced between fluid associative units ($N_p$) and rigid Inode anchors ($N_m$)? From a systems perspective, this trade-off is governed by the ratio between fluid representations and indexed facts:
 \begin{equation}
     \Delta q = \frac{N_p}{N_m \cdot M}
 \end{equation}
-where $M$ is the cardinality of indexed literals. Given effective capacity $q = f(N_p, N_m)$, we define the \textbf{Degree of Determinism} ($\beta$) as:
-\begin{equation}
-    \beta = \frac{T_t}{q}
-\end{equation}
-
-Mapping $\beta$ against the compression gradient $\Delta q$ generates a convex thermodynamic potential landscape $\mathcal{E}(\Delta q)$ (Figure~\ref{fig:phase_transition}b):
-\begin{equation}
-    \mathcal{E}(\Delta q) = \frac{\lambda_{\mathrm{drift}}}{\Delta q} + \lambda_{\mathrm{rigid}} (\Delta q - 1)^2 + \beta_0
-    \label{eq:potential_landscape}
-\end{equation}
-Since the second derivative is strictly positive:
-\begin{equation}
-    \frac{\partial^2 \mathcal{E}}{\partial (\Delta q)^2} = \frac{2 \lambda_{\mathrm{drift}}}{(\Delta q)^3} + 2 \lambda_{\mathrm{rigid}} > 0 \quad \forall \Delta q > 0
-\end{equation}
-the potential $\mathcal{E}(\Delta q)$ is strictly convex and admits a unique global stationary minimum defining the \textbf{Critical Point} ($P_c$):
-\begin{equation}
-    \left. \frac{\partial \mathcal{E}}{\partial \Delta q} \right|_{P_c} = 0 \implies P_c = \arg\min_{\Delta q} \mathcal{E}(\Delta q)
-\end{equation}
-The landscape decomposes into three fundamental thermodynamic regimes:
+where $M$ denotes the internal cardinality of indexed literals. Balancing this allocation defines three architectural regimes:
 \begin{enumerate}[leftmargin=*, itemsep=1.5pt]
-    \item \textbf{Left of $P_c$ ($\Delta q \ll 1$, Under-Constrained Associative Drift):} $N_p$ dominates without sufficient monosemantic indexing. Associative trajectories freely drift across ungrounded manifolds, leading to rampant factual hallucinations.
-    \item \textbf{Right of $P_c$ ($\Delta q \gg 1$, Over-Indexed Dictionary Saturation):} $N_m$ dominates. The metric volume occupied by constraints $\mathcal{V}_m \propto M \cdot (T_t)^D$ saturates the latent volume $\mathcal{V}_{\mathrm{tot}}$. Associative paths are severed, freezing the model into a rigid, non-generalizing lookup table.
-    \item \textbf{At the Critical Point ($P_c$):} The system achieves optimal thermodynamic equilibrium. Polysemantic abstraction generalizes across isomorphic relations while monosemantic inodes guarantee deterministic verification.
+    \item \textbf{Under-Indexing ($\Delta q \ll 1$, Associative Drift):} When fluid polysemantic nodes dominate without adequate monosemantic anchors, the model excels at cross-domain synthesis but drifts when generating exact values, producing rampant hallucinations.
+    \item \textbf{Over-Indexing ($\Delta q \gg 1$, Lookup Saturation):} If excessive Inodes with wide tolerance radii $T_t$ saturate the latent space, the tolerance balls engulf associative pathways. The network degrades into an inflexible lookup table, losing its generative plasticity.
+    \item \textbf{The Critical Point ($P_c$):} The optimal operating point of the architecture, where metric tolerance radii $T_t$ are tight enough to leave ample volume for polysemantic abstraction, yet sufficiently dense to intercept trajectories with surgical precision whenever discourse converges on an indexed factual literal.
 \end{enumerate}
-
-Furthermore, as plotted in Figure~\ref{fig:phase_transition}a, in high dimensions ($D \gg 1$), the fraction of volume bounded by monosemantic constraints exhibits a sharp \textbf{Volume Phase Transition}:
-\begin{equation}
-    \frac{\mathcal{V}_m}{\mathcal{V}_{\mathrm{tot}}} = \frac{(T_t / R)^D}{1 + (T_t / R)^D}
-\end{equation}
-Under small variations of the topological threshold $T_t$, the system transitions rapidly between a fluid unconstrained phase ($\mathcal{V}_p$) and a locked deterministic phase ($\mathcal{V}_m$).
 
 \section{Unified Macro-Architecture: Neither Serial Nor Parallel}
 
@@ -281,33 +255,29 @@ A vital architectural question is: \textit{how should $N_p$ and $N_m$ be physica
 \end{proposition}
 
 \subsection{The HySA Forward Pass}
-HySA resolves this via a \textbf{Unified Single-Substrate Architecture} (Figure~\ref{fig:hypersphere_geometry}b). Latent representations reside in a single Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. Fluid reasoning propagates natively through $N_p$ layers under temperature $T_p$. When generation reaches factual token positions, the system evaluates the internal Metric Boundary Operator $Q(h_t, \mathcal{F}_{\mathrm{mono}}, T_t)$ on-demand.
+HySA resolves this via a \textbf{Unified Single-Substrate Architecture} (Figure~\ref{fig:hypersphere_geometry}b). Latent representations reside in a single Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. Fluid reasoning propagates natively through $N_p$ layers under temperature $T_p$. When generation reaches factual token positions, the system evaluates the internal Metric Boundary Operator $Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}})$ at intermediate layer $l$.
 
-The full inference and verification procedure is formalized in Algorithm~\ref{alg:hysa_decoding}.
+The full inference and verification procedure is formalized in Algorithm~1.
 
-\begin{tcolorbox}[title={\small \textbf{Algorithm 1: HySA Forward Execution and Metric Verification}\label{alg:hysa_decoding}}]
+\begin{tcolorbox}[title={\small \textbf{Algorithm 1: Unified Forward Pass with Layer-$l$ Domain Gating and Early-Exit}}]
 \footnotesize
-\textbf{Input:} Input sequence tokens $\{x_1, \dots, x_t\}$, Transformer layers $\mathcal{L}$, Monosemantic Registry $\mathcal{F}_{\mathrm{mono}} = \{(\mu_k, \mathbf{v}_k)\}_{k=1}^M$, Temperatures $T_p, T_m$. \\
-\textbf{Output:} Next generated token $x_{t+1}$ or explicit $\bot_{\mathrm{Fault}}$.
+\textbf{Input:} Context tokens $\{x_{\le t}\}$, Layers $\mathcal{L}_{1 \dots L}$, Probing layer $l$, Inode Registry $\mathcal{F}_{\mathrm{mono}} = \{(\mu_k, \mathbf{v}_k)\}_{k=1}^M$, Temperatures $T_p, T_m$, Domain Boundary $R_{\mathrm{dom}}$ (with $T_t < R_{\mathrm{dom}}$). \\
+\textbf{Output:} Emitted token $x_{t+1}$ or explicit $\bot_{\mathrm{Fault}}$.
 \begin{enumerate}[leftmargin=*, itemsep=1.0pt, topsep=1.0pt]
-    \item Compute continuous residual stream state: $h_t \leftarrow \mathcal{L}(x_{\le t})$
+    \item Forward propagate to intermediate layer $l$: $h_t^{(l)} \leftarrow \mathcal{L}_{1 \dots l}(x_{\le t})$, $q_l \leftarrow h_t^{(l)} / \|h_t^{(l)}\|_2$
     \item Calculate Topological Boundary: $T_t \leftarrow T_m \left( 1 + \alpha \tanh(T_p / T_m) \right)$
-    \item Normalize state vector: $q \leftarrow h_t / \|h_t\|_2$
-    \item Find nearest monosemantic Inode:
-    \[
-    k^* = \arg\min_{k \in \{1, \dots, M\}} \|q - \mu_k\|_2, \quad d^* = \|q - \mu_{k^*}\|_2
-    \]
-    \item \textbf{if} $d^* \le T_t$ \textbf{then} \hfill \textit{// Within Semantic Hypersphere}
+    \item Query nearest Inode: $k^* = \arg\min_k \|q_l - \mu_k\|_2$, $d^* = \|q_l - \mu_{k^*}\|_2$
+    \item \textbf{if} $d^* \le T_t$ \textbf{then} \hfill \textit{// Early-Exit on Inode Hit}
     \begin{itemize}[leftmargin=12pt, itemsep=0.5pt]
-        \item Return certified atomic literal: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
+        \item Halt layers $l+1 \dots L$ and emit certified literal: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
     \end{itemize}
-    \item \textbf{else if} Factual Constraint Flag is ACTIVE \textbf{then}
+    \item \textbf{else if} $T_t < d^* \le R_{\mathrm{dom}}$ \textbf{then} \hfill \textit{// In-Domain but Unindexed}
     \begin{itemize}[leftmargin=12pt, itemsep=0.5pt]
-        \item Raise \textbf{Semantic Fault}: return $\bot_{\mathrm{Fault}}$ \hfill \textit{// Hallucination halted}
+        \item Raise \textbf{Semantic Fault}: return $\bot_{\mathrm{Fault}}$ \hfill \textit{// Hallucination halted mid-network}
     \end{itemize}
-    \item \textbf{else} \hfill \textit{// Free Fluid Reasoning Regime}
+    \item \textbf{else} \hfill \textit{// Out-of-Domain ($d^* > R_{\mathrm{dom}}$): Fluid Regime Np}
     \begin{itemize}[leftmargin=12pt, itemsep=0.5pt]
-        \item Sample standard logits: $x_{t+1} \sim \mathrm{Softmax}(\mathbf{W}_u h_t / T_p)$
+        \item Complete propagation $h_t^{(L)} \leftarrow \mathcal{L}_{l+1 \dots L}(h_t^{(l)})$ and sample: $x_{t+1} \sim \mathrm{Softmax}(\mathbf{W}_u h_t^{(L)} / T_p)$
     \end{itemize}
 \end{enumerate}
 \end{tcolorbox}

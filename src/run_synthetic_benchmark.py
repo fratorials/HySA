@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 torch.manual_seed(42)
 np.random.seed(42)
 
-# Configurazione grafica con supporto LaTeX per il simbolo Delta
+# Configurazione grafica con supporto LaTeX e font TrueType incorporati
 plt.rcParams.update({
     "font.family": "serif",
     "mathtext.fontset": "cm",
@@ -23,7 +23,10 @@ plt.rcParams.update({
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
     "legend.fontsize": 7.5,
-    "figure.titlesize": 11
+    "figure.titlesize": 11,
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
+    "axes.unicode_minus": False
 })
 
 # ==============================================================================
@@ -215,8 +218,13 @@ def main():
     axes[5].axis("off")
 
     plt.tight_layout()
-    plt.savefig("fig1_imprinted_tensors.pdf", bbox_inches="tight")
-    plt.savefig("fig1_imprinted_tensors.png", dpi=300, bbox_inches="tight")
+    import os, shutil
+    fig1_pdf = "papers/figures/fig1_imprinted_tensors.pdf"
+    fig1_png = "assets/fig1_imprinted_tensors.png"
+    plt.savefig(fig1_pdf, bbox_inches="tight")
+    plt.savefig(fig1_png, dpi=300, bbox_inches="tight")
+    if os.path.isdir("obsidian/assets"):
+        shutil.copy(fig1_png, "obsidian/assets/fig1_imprinted_tensors.png")
     plt.close(fig1)
 
     print("[4/4] Generazione Figura 2...")
@@ -228,7 +236,7 @@ def main():
     V_m = raw_vm / (1.0 + raw_vm)
     V_p = 1.0 - V_m
 
-    # (b) Curva di Determinismo beta = T / q con etichette esplicite
+    # (b) Curva di Bilanciamento di Capacita' (Trade-off Architetturale)
     delta_q = np.linspace(0.15, 1.85, 200)
     beta_curve = 0.55 + 1.6 * (delta_q - 1.0) ** 2 + 0.12 / delta_q
     pc_idx = np.argmin(beta_curve)
@@ -282,18 +290,18 @@ def main():
     ax1.legend(loc="center left")
     ax1.grid(True, alpha=0.25)
 
-    # (b) Rendering fedele al Foglio 2 degli appunti (Pc, Delta q, e rapporto Np / Nm)
-    ax2.plot(delta_q, beta_curve, color="#2b5c8f", lw=2.2, label=r"Determinism Curve $\beta = T / q$")
+    # (b) Rendering fedele al trade-off di sistema (Pc, Delta q, e rapporto Np / Nm)
+    ax2.plot(delta_q, beta_curve, color="#2b5c8f", lw=2.2, label=r"Instability Cost Landscape")
     ax2.scatter([pc_x], [pc_y], color="#d95f02", s=60, zorder=5, label=r"Critical Point $P_c$ (Optimum)")
     ax2.axvline(pc_x, color="#d95f02", ls=":", lw=1.2)
-    ax2.axvspan(0.15, pc_x, color="#1f78b4", alpha=0.08, label=r"Unconstrained $\Delta q$ (Drift)")
+    ax2.axvspan(0.15, pc_x, color="#1f78b4", alpha=0.08, label=r"Under-Indexed $\Delta q$ (Drift)")
     ax2.axvspan(pc_x, 1.85, color="#d95f02", alpha=0.08, label=r"Over-Indexed $N_m$ (Dictionary)")
     ax2.annotate(r"$P_c$", xy=(pc_x, pc_y), xytext=(pc_x - 0.18, pc_y + 0.38), arrowprops=dict(arrowstyle="->", color="#d95f02", lw=1.2), fontweight="bold")
     ax2.text(1.62, 1.85, r"$\uparrow N_p$" + "\n" + r"$\overline{N_m}$", fontsize=9, fontweight="bold", color="#333333", ha="center")
     ax2.text(0.45, 1.05, r"$(\Delta q)$", fontsize=8.5, color="#1f78b4", ha="center")
-    ax2.set_xlabel(r"Compression Gradient $\Delta q$ ($N_p / N_m$ Balance)")
-    ax2.set_ylabel(r"Degree of Determinism ($\beta = T / q$)")
-    ax2.set_title(r"(b) Compression Gradient $\Delta q$ & Critical Point $P_c$")
+    ax2.set_xlabel(r"Compression Gradient $\Delta q$ (Over-Indexed $\leftarrow P_c \rightarrow$ Under-Indexed)")
+    ax2.set_ylabel(r"Architectural Instability Cost")
+    ax2.set_title(r"(b) Capacity Balancing $\Delta q$ & Critical Point $P_c$")
     ax2.legend(loc="upper center")
     ax2.grid(True, alpha=0.25)
 
@@ -311,11 +319,15 @@ def main():
     ax3.grid(True, alpha=0.25)
 
     plt.tight_layout()
-    plt.savefig("fig2_phase_transition.pdf", bbox_inches="tight")
-    plt.savefig("fig2_phase_transition.png", dpi=300, bbox_inches="tight")
+    fig2_pdf = "papers/figures/fig2_phase_transition.pdf"
+    fig2_png = "assets/fig2_phase_transition.png"
+    plt.savefig(fig2_pdf, bbox_inches="tight")
+    plt.savefig(fig2_png, dpi=300, bbox_inches="tight")
+    if os.path.isdir("obsidian/assets"):
+        shutil.copy(fig2_png, "obsidian/assets/fig2_phase_transition.png")
     plt.close(fig2)
 
-    print("Successo: fig1 e fig2 rigenerate con precisione algebrica e tipografica.")
+    print(f"[✓] Successo: fig1 e fig2 rigenerate e salvate in {fig1_pdf}, {fig2_pdf}.")
 
 if __name__ == "__main__":
     main()
