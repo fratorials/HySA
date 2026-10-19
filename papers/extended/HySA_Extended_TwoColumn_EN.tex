@@ -138,8 +138,8 @@ In HySA, I translate these systems heuristics into formal geometric constructs w
 \textbf{Systems Term} & \textbf{Formal Construct} & \textbf{Architectural Function in HySA} \\ \midrule
 \textbf{Inode} ($N_k$) & Centroid $\mu_k \in S^{D-1} \subset \mathbb{R}^D$ & Orthogonal metric anchor with $\emptyset$ associative degrees, pointing to literal $\mathbf{v}_k$. \\[3pt]
 \textbf{Filesystem} & Metric Manifold $\mathcal{F}_{\mathrm{mono}}$ & Indexed registry ($\{\mu_k\}_{k=1}^M$, $100\%$ precision) queried on-demand. \\[3pt]
-\textbf{Query / API} & Boundary Operator $Q(q, \mathcal{F}_{\mathrm{mono}}, T_t)$ & Deterministic metric condition projecting fluid states onto certified literals. \\[3pt]
-\textbf{Page Fault} & \textbf{Semantic Fault} ($\bot_{\mathrm{Fault}}$) & Explicit exception raised when $d^* > T_t$, blocking hallucination. \\[3pt]
+\textbf{Query / API} & Boundary Operator ($Q$) & Metric gating at intermediate layer $l$ projecting onto literals or halting errors. \\[3pt]
+\textbf{Page Fault} & \textbf{Semantic Fault} ($\bot_{\mathrm{Fault}}$) & Explicit exception raised when $T_t < d^* \le R_{\mathrm{dom}}$, blocking drift. \\[3pt]
 \textbf{Temperature} & Neighborhood $\mathcal{B}(\mu_k, T_t)$ & Multidimensional metric volume of tolerance around a concept centroid. \\ \bottomrule
 \end{tabular}
 \end{table}
