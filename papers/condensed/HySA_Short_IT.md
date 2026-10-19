@@ -105,9 +105,9 @@ con la condizione $T_t < R_{\mathrm{dom}}$, che delimita la palla metrica $\math
 > $$
 > Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = 
 > \begin{cases} 
->   (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{se } d^* \le T_t \quad (\mathbf{Early\text{-}Exit}) \\ 
->   (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{se } T_t < d^* \le R_{\mathrm{dom}} \quad (\mathbf{Semantic\;Fault}) \\
->   (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{se } d^* > R_{\mathrm{dom}} \quad (\mathbf{Regime\;Fluido})
+>   (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{se } d^* \le T_t \quad (\text{Early-Exit}) \\ 
+>   (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{se } T_t < d^* \le R_{\mathrm{dom}} \quad (\text{Semantic Fault}) \\
+>   (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{se } d^* > R_{\mathrm{dom}} \quad (\text{Regime Fluido})
 > \end{cases}
 > $$
 

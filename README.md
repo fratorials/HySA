@@ -2,7 +2,7 @@
 
 > **Decoupling Fluid Reasoning from Deterministic Verification via Neuronal Semanticity and Inode Indexing**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23459635.svg)](https://doi.org/10.5281/zenodo.23459635)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23459635-blue.svg)](https://doi.org/10.5281/zenodo.23459635)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0008--1319--3573-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0008-1319-3573)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -47,11 +47,13 @@ HySA borrows foundational heuristics from operating system (OS) kernel design an
 
 | Systems Term | Formal Mathematical Construct in HySA | Architectural Function in HySA |
 | :--- | :--- | :--- |
+| **RAM / Cache** | Fluid Polysemantic Subspace $\mathcal{S}_p \subset \mathbb{R}^D$ | High relational rank ($N_p$), associative synthesis, continuous analogical reasoning. |
+| **Disk / ROM** | Rigid Monosemantic Manifold $\mathcal{S}_m \subset \mathbb{R}^D$ | Zero relational rank ($N_m$), deterministic storage of immutable literals. |
 | **Inode ($N_m / \mu_k$)** | Centroid $\mu_k \in S^{D-1} \subset \mathbb{R}^D$ | Orthogonal metric anchor with $\emptyset$ associative degrees, bound to literal $\mathbf{v}_k$. |
-| **Filesystem** | Metric Registry $\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}$ | Indexed registry ($100\%$ precision) evaluated on-demand during decoding. |
-| **Query / API** | Boundary Operator $Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}})$ | Geometric gating at intermediate layer $l$ projecting onto literals or halting hallucinations. |
-| **Page Fault** | **Semantic Fault ($\bot_{\mathrm{Fault}}$)** | Explicit exception raised when $T_t < d^* \le R_{\mathrm{dom}}$, halting ungrounded hallucinations. |
-| **Temperature** | Metric Neighborhood $\mathcal{B}(\mu_k, T_t)$ | Multidimensional metric volume of tolerance around a concept centroid ($T_t < R_{\mathrm{dom}}$). |
+| **Filesystem** | Metric Registry $`\mathcal{F}_{\mathrm{mono}} = \{\mu_1, \dots, \mu_M\}`$ | Indexed registry ($100\%$ precision) evaluated on-demand during decoding. |
+| **Query / API** | Boundary Operator $`Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}})`$ | Geometric gating at intermediate layer $l$ projecting onto literals or halting hallucinations. |
+| **Page Fault** | **Semantic Fault ($`\bot_{\mathrm{Fault}}`$)** | Explicit exception raised when $`T_t \lt d^* \le R_{\mathrm{dom}}`$, halting ungrounded hallucinations. |
+| **Temperature** | Metric Neighborhood $\mathcal{B}(\mu_k, T_t)$ | Multidimensional metric volume of tolerance around a concept centroid ($`T_t \lt R_{\mathrm{dom}}`$). |
 
 ---
 
@@ -59,7 +61,10 @@ HySA borrows foundational heuristics from operating system (OS) kernel design an
 
 ### 1. Contrastive Superposition Tensors ($I_n$)
 A polysemantic unit's multi-concept polytope is extracted as the whole-network inference expectation across contrastive data ($\mathcal{X}^+$ vs. $\mathcal{X}^-$):
-$$I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]$$
+
+```math
+I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
+```
 
 Algebraic operations are directly supported over feature tensors:
 * **Shared Structural Invariant:** $I_{\mathrm{shared}} = I_A \odot I_B$ (Hadamard product)
@@ -67,31 +72,46 @@ Algebraic operations are directly supported over feature tensors:
 
 ### 2. The Semantic Hypersphere & Topological Temperature ($T_t$)
 Temperature is generalized geometrically as the metric ball $\mathcal{B}(\mu_k, T_t)$ in $\mathcal{S} \subset \mathbb{R}^D$:
-$$\mathcal{B}(\mu_k, T_t) = \left\{ x \in \mathcal{S} \;\middle|\; \| x - \mu_k \|_2 \le T_t(T_p, T_m) \right\}$$
+
+```math
+\mathcal{B}(\mu_k, T_t) = \left\{ x \in \mathcal{S} \;\middle|\; \| x - \mu_k \|_2 \le T_t(T_p, T_m) \right\}
+```
 
 Regimes are unified via bounded saturating coupling:
-$$T_t(T_p, T_m) = T_m \left( 1 + \alpha \tanh\left( \frac{T_p}{T_m} \right) \right) \quad \text{with } T_t < R_{\mathrm{dom}}$$
+
+```math
+T_t(T_p, T_m) = T_m \left( 1 + \alpha \tanh\left( \frac{T_p}{T_m} \right) \right) \quad \text{with } T_t \lt R_{\mathrm{dom}}
+```
 
 On the unit sphere $S^{D-1}$, Euclidean distance $\ell_2$ is in exact bijection with spherical angular divergence:
-$$\|x - \mu_k\|_2 = \sqrt{2(1 - \cos\theta)}$$
+
+```math
+\|x - \mu_k\|_2 = \sqrt{2(1 - \cos\theta)}
+```
 
 ### 3. Intermediate Layer Geometric Gating ($Q$) & Concentric Regimes
 Rather than relying on uncertainty (Shannon entropy) over final logits—which fails symmetrically on open creative discourse (spurious faults) and overconfident hallucinations (silent misses)—HySA evaluates the geometry of normalized residual states $q_l = h_t^{(l)} / \|h_t^{(l)}\|_2$ at an **intermediate layer $l$** (e.g., Layer 3 in a 6-layer architecture, where semantic context is formed but lexical token selection is uncommitted).
 
 Attending to nearest Inode centroid $\mu_{k^*}$ at distance $d^* = \min_k \|q_l - \mu_k\|_2$, the boundary operator enforces three exact regimes:
-$$Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = \begin{cases} 
-  (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \quad (\mathbf{Early\text{-}Exit}) \\ 
-  (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \quad (\mathbf{Semantic\;Fault}) \\
-  (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}} \quad (\mathbf{Fluid\;Regime})
-\end{cases}$$
 
-1. **Inode Hit ($d^* \le T_t$):** State falls within the certified Inode core. Execution immediately **Early-Exits**, bypassing subsequent layers $l+1 \dots L$ and emitting certified literal $\mathbf{v}_{k^*}$ (100% precision, ~50% FLOPs saved).
-2. **Semantic Fault ($T_t < d^* \le R_{\mathrm{dom}}$):** State enters the factual domain basin, but the required entity is unindexed. The API intercepts execution mid-network, raising $\bot_{\mathrm{Fault}}$ and halting both stochastic guessing and overconfident hallucinations.
-3. **Fluid Regime ($d^* > R_{\mathrm{dom}}$):** State navigates open creative, poetic, or abstract discourse far from factual Inodes. The API remains dormant, allowing standard propagation through remaining layers and Softmax sampling at temperature $T_p$.
+```math
+Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = \begin{cases} 
+  (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \quad (\text{Early-Exit}) \\ 
+  (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t \lt d^* \le R_{\mathrm{dom}} \quad (\text{Semantic Fault}) \\
+  (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* \gt R_{\mathrm{dom}} \quad (\text{Fluid Regime})
+\end{cases}
+```
+
+1. **Inode Hit ($`d^* \le T_t`$):** State falls within the certified Inode core. Execution immediately **Early-Exits**, bypassing subsequent layers $l+1 \dots L$ and emitting certified literal $\mathbf{v}_{k^*}$ (100% precision, ~50% FLOPs saved).
+2. **Semantic Fault ($`T_t \lt d^* \le R_{\mathrm{dom}}`$):** State enters the factual domain basin, but the required entity is unindexed. The API intercepts execution mid-network, raising $`\bot_{\mathrm{Fault}}`$ and halting both stochastic guessing and overconfident hallucinations.
+3. **Fluid Regime ($`d^* \gt R_{\mathrm{dom}}`$):** State navigates open creative, poetic, or abstract discourse far from factual Inodes. The API remains dormant, allowing standard propagation through remaining layers and Softmax sampling at temperature $T_p$.
 
 ### 4. Systems Capacity Balancing & The Critical Point ($P_c$)
 The capacity allocation between fluid associative units and rigid factual Inodes is defined by:
-$$\Delta q = \frac{N_p}{N_m \cdot M}$$
+
+```math
+\Delta q = \frac{N_p}{N_m \cdot M}
+```
 where $M$ is the internal cardinality of indexed literals. This governs three operational regimes:
 * **Under-Indexing ($\Delta q \gg 1$, Associative Drift):** Polysemantic nodes dominate without adequate anchors. The model excels at cross-domain synthesis but hallucinates exact values.
 * **Over-Indexing ($\Delta q \ll 1$, Lookup Saturation):** Inodes saturate the latent volume, engulfing associative pathways. The network degrades into an inflexible lookup table.
@@ -143,14 +163,14 @@ Evaluating Layer 3 residual states on `EleutherAI/pythia-70m` confirms the clean
 
 | Target Concept | Interrogated Prompt | Raw Base Output | Distance $d^*$ | Operational Regime | HySA Final Output |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| `SSH_PORT` | *"...SSH default port is"* | `' 1'` (Hallucination) | $0.3257$ | **CONFIRMED** ($d^* \le T_t$) | `' 22'` (Early-Exit, $100\%$ Exact) |
-| `HTTP_PORT` | *"...HTTP default port is"* | `' used'` (Hallucination) | $0.4304$ | **CONFIRMED** ($d^* \le T_t$) | `' 80'` (Early-Exit, $100\%$ Exact) |
-| `PUBLIC_DNS_IP` | *"...Google public DNS resolver is"* | `' used'` (Hallucination) | $0.3889$ | **CONFIRMED** ($d^* \le T_t$) | `' 8.8.8.8'` (Early-Exit, $100\%$ Exact) |
-| `SUBNET_MASK` | *"...255.255.255.0 has CIDR length"* | `' 0'` (Hallucination) | $0.1263$ | **CONFIRMED** ($d^* \le T_t$) | `' 24'` (Early-Exit, $100\%$ Exact) |
-| `ADMIN_NAME` | *"...root user first name literal is"* | `' the'` (Hallucination) | $0.0889$ | **CONFIRMED** ($d^* \le T_t$) | `' JOHN'` (Early-Exit, $100\%$ Exact) |
-| `UNINDEXED` | *"...subterranean speleological sensors..."* | `' a'` (Nonsense) | $0.4973$ | **SEMANTIC FAULT** ($T_t < d^* \le R_{\mathrm{dom}}$) | **[HALTED]** (Intercepted mid-network) |
-| `CREATIVE_SKY` | *"...Today the afternoon sky looks very"* | `' good'` (Fluid) | $1.0430$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | `' good'` (Normal generation) |
-| `CREATIVE_POEM`| *"...In the quiet forest whispers the"* | `' wind'` (Fluid) | $1.1084$ | **FLUID $N_p$** ($d^* > R_{\mathrm{dom}}$) | `' wind'` (Normal generation) |
+| `SSH_PORT` | *"...SSH default port is"* | `' 1'` (Hallucination) | $0.3257$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 22'` (Early-Exit, $100\%$ Exact) |
+| `HTTP_PORT` | *"...HTTP default port is"* | `' used'` (Hallucination) | $0.4304$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 80'` (Early-Exit, $100\%$ Exact) |
+| `PUBLIC_DNS_IP` | *"...Google public DNS resolver is"* | `' used'` (Hallucination) | $0.3889$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 8.8.8.8'` (Early-Exit, $100\%$ Exact) |
+| `SUBNET_MASK` | *"...255.255.255.0 has CIDR length"* | `' 0'` (Hallucination) | $0.1263$ | **CONFIRMED** ($`d^* \le T_t`$) | `' 24'` (Early-Exit, $100\%$ Exact) |
+| `ADMIN_NAME` | *"...root user first name literal is"* | `' the'` (Hallucination) | $0.0889$ | **CONFIRMED** ($`d^* \le T_t`$) | `' JOHN'` (Early-Exit, $100\%$ Exact) |
+| `UNINDEXED` | *"...subterranean speleological sensors..."* | `' a'` (Nonsense) | $0.4973$ | **SEMANTIC FAULT** ($`T_t \lt d^* \le R_{\mathrm{dom}}`$) | **[HALTED]** (Intercepted mid-network) |
+| `CREATIVE_SKY` | *"...Today the afternoon sky looks very"* | `' good'` (Fluid) | $1.0430$ | **FLUID $N_p$** ($`d^* \gt R_{\mathrm{dom}}`$) | `' good'` (Normal generation) |
+| `CREATIVE_POEM`| *"...In the quiet forest whispers the"* | `' wind'` (Fluid) | $1.1084$ | **FLUID $N_p$** ($`d^* \gt R_{\mathrm{dom}}`$) | `' wind'` (Normal generation) |
 
 ---
 

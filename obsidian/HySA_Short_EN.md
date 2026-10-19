@@ -105,9 +105,9 @@ with $T_t < R_{\mathrm{dom}}$, bounding the closed metric ball $\mathcal{B}(\mu_
 > $$
 > Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = 
 > \begin{cases} 
->   (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \quad (\mathbf{Early\text{-}Exit}) \\ 
->   (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \quad (\mathbf{Semantic\;Fault}) \\
->   (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}} \quad (\mathbf{Fluid\;Regime})
+>   (\mathrm{CONFIRMED}, \mathbf{v}_{k^*}) & \text{if } d^* \le T_t \quad (\text{Early-Exit}) \\ 
+>   (\mathrm{FAULT}, \bot_{\mathrm{Fault}}) & \text{if } T_t < d^* \le R_{\mathrm{dom}} \quad (\text{Semantic Fault}) \\
+>   (\mathrm{BYPASS}, \mathrm{Fluid}) & \text{if } d^* > R_{\mathrm{dom}} \quad (\text{Fluid Regime})
 > \end{cases}
 > $$
 
