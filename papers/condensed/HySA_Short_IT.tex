@@ -76,7 +76,7 @@ Tuttavia, usare la monosemia come obiettivo di progettazione architetturale rapp
     \item \textbf{Comportamento di Verifica (Neuroni Monosemantici, $N_m$):} Quando il modello deve restituire un dato atomico e immutabile — l'IP \texttt{8.8.8.8}, la maschera \texttt{24}, la porta SSH \texttt{22} o il root user \texttt{JOHN} — l'interpolazione fluida genera allucinazioni. Serve una cella di memoria rigida, a zero gradi di libertà relazionali ($\mathcal{R}(u)=0$).
 \end{itemize}
 
-I modelli attuali allucinano perché impastano entrambi i regimi negli stessi pesi densi~\cite{geva2021transformer}. La sfida di HySA è disaccoppiare i due domini e risolvere il problema ingegneristico dell'\textbf{indicizzazione}: consentire all'intelligenza fluida di accedere a dati rigidi certificati a costo computazionale nullo.
+I modelli attuali allucinano perché impastano sintesi associativa e memoria fattuale negli stessi pesi densi~\cite{geva2021transformer, meng2022locating_rome}. Mentre approcci esterni~\cite{khandelwal2020knn_lm} ricorrono a lookup non parametrici, i sistemi cognitivi separano intuizione fluida e verifica deliberata nel medesimo substrato~\cite{kahneman2011thinking}. La sfida di HySA è disaccoppiare i due domini e risolvere il problema ingegneristico dell'\textbf{indicizzazione}: consentire all'intelligenza fluida di accedere a dati rigidi certificati a costo computazionale nullo.
 
 \begin{definizione}[Rango Relazionale delle Unità Semantiche]
 Sia $u$ un'unità neuronale e $\Omega$ lo spazio dei concetti. Sia $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$. Il \textbf{Rango Relazionale} $\mathcal{R}(u)$ è la cardinalità delle traiettorie associative abilitate dall'unità:

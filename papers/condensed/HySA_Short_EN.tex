@@ -75,7 +75,7 @@ However, enforcing monosemantic purity as an operational architectural goal is a
     \item \textbf{Verification Behavior (Monosemantic Units, $N_m$):} When returning an immutable literal — the IP \texttt{8.8.8.8}, CIDR prefix \texttt{24}, SSH port \texttt{22}, or root user \texttt{JOHN} — fluid interpolation induces hallucinations. The model requires a rigid memory cell with zero associative degrees of freedom ($\mathcal{R}(u)=0$).
 \end{itemize}
 
-Modern LLMs hallucinate because they entangle both regimes within homogeneous dense weight matrices~\cite{geva2021transformer}. HySA resolves this by decoupling fluid reasoning from factual verification, addressing the central engineering challenge of \textbf{latent indexing}: enabling fluid intelligence to query rigid literals with sub-millisecond determinism.
+Modern LLMs hallucinate because they entangle associative synthesis and factual memory within homogeneous dense weights~\cite{geva2021transformer, meng2022locating_rome}. While retrieval frameworks~\cite{khandelwal2020knn_lm} append external lookups, cognitive systems segregate fluid synthesis from deliberate verification in a single substrate~\cite{kahneman2011thinking}. HySA resolves this by decoupling fluid reasoning from factual verification, addressing the central engineering challenge of \textbf{latent indexing}: enabling fluid intelligence to query rigid literals with sub-millisecond determinism.
 
 \begin{definition}[Relational Rank of Semantic Units]
 Let $u$ be a neuronal unit and $\Omega$ the concept space. Let $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$. The \textbf{Relational Rank} $\mathcal{R}(u)$ is the cardinality of pairwise associative transfer paths enabled by the unit:
