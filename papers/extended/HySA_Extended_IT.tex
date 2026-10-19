@@ -85,17 +85,17 @@ Il paradigma di HySA nasce per separare il comportamento fluido da quello di ver
 \begin{figure}[t]
     \centering
     \IfFileExists{fig1_imprinted_tensors.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig1_imprinted_tensors.pdf}
+        \includegraphics[width=0.92\textwidth]{fig1_imprinted_tensors.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 1: Tensori di Sovrapposizione Contrastivi]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
-    \caption{\textbf{Tensori di Sovrapposizione Contrastivi ($I_n$) e Query Semantiche Algebriche sul Benchmark $32 \times 32$.} Le Colonne 1--4 mostrano le rappresentazioni polisemantiche apprese da un collo di bottiglia a 4 neuroni. Ciascun tensore cattura primitive geometriche multiple. La Colonna 5 isola l'invariante strutturale condiviso tramite intersezione di Hadamard ($I_1 \odot I_2$). La Colonna 6 estrae la divergenza differenziale tramite sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), dimostrando l'isolamento algebrico delle feature senza distruggere la connettività polisemantica.}
+    \vspace{-0.25cm}
+    \caption{\textbf{Tensori di Sovrapposizione Contrastivi ($I_n$) ed Emulazione Algebrica sul Manifold Sintetico $32 \times 32$.} Il blocco a contrasto emula e ricostruisce matrici binarie $X \in \{0, 1\}^{32 \times 32}$ strutturate su due regimi: un header monosemantico Inode $N_m$ ($2 \times 2$ pixel in alto a sinistra, colonne $2, 5, 8, 11$) e un manifold polisemantico $N_p$ che codifica le cifre geometriche \texttt{'0'}, \texttt{'6'}, \texttt{'8'} e \texttt{'9'} con jitter stocastico ($\Delta x, \Delta y \in \{-1, 0, 1\}$). \textbf{Colonne 1--4 ($I_1 \dots I_4$):} Rappresentazioni polisemantiche apprese dal collo di bottiglia a 4 neuroni ($z \in \mathbb{R}^4$), in cui ciascun tensore ricostruisce la sovrapposizione delle cifre ($I_1 \to \text{\texttt{'8'}}$, $I_2 \to \text{\texttt{'6'}}$, $I_3 \to \text{\texttt{'0'}}$, $I_4 \to \text{\texttt{'9'}}$) unitamente all'header di classe. \textbf{Colonna 5 ($I_1 \odot I_2$):} L'intersezione di Hadamard isola i segmenti strutturali condivisi tra le cifre \texttt{'8'} e \texttt{'6'} (anello inferiore comune). \textbf{Colonna 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):} La sottrazione differenziale rettificata estrae la divergenza morfologica (anello superiore di \texttt{'8'}), azzerando completamente l'header Inode comune e dimostrando l'isolamento algebrico deterministico delle feature senza distruggere la plasticità relazionale.}
     \label{fig:imprinted_tensors}
 \end{figure}
 
 \begin{definizione}[Rango Relazionale delle Unità Semantiche]
-Sia $u$ un'unità neuronale e sia $\Omega$ lo spazio dei concetti semantici. Definiamo l'insieme di feature associate $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$, dove $\theta > 0$ è una soglia di attivazione statisticamente significativa. Il \textbf{Rango Relazionale} $\mathcal{R}(u)$ è la cardinalità delle traiettorie associative a coppie abilitate dall'unità:
+Sia $u$ un'unità neuronale e sia $\Omega$ lo spazio dei concetti semantici. Definisco l'insieme di feature associate $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$, dove $\theta > 0$ è una soglia di attivazione statisticamente significativa. Il \textbf{Rango Relazionale} $\mathcal{R}(u)$ è la cardinalità delle traiettorie associative a coppie abilitate dall'unità:
 \begin{equation}
     \mathcal{R}(u) = \binom{|\mathcal{C}(u)|}{2} = \frac{|\mathcal{C}(u)| (|\mathcal{C}(u)| - 1)}{2}
 \end{equation}
@@ -111,7 +111,7 @@ Quando si progetta un sistema che deve gestire sia l'astrazione concettuale che 
     \item \textbf{Perché non in parallelo ($N_p \parallel N_m$):} Eseguire due reti indipendenti in parallelo è estremamente inefficiente: raddoppia i parametri e il costo computazionale ($2\times \mathrm{FLOPs}$), introducendo il problema aperto di dover progettare un modulo terzo di arbitraggio che decida, token per token, quale rete abbia ragione.
 \end{enumerate}
 
-\subsection{La Soluzione: Dimensionalità Interna e Cardinalità Concettuale $|\mathcal{C}(u)|$}
+\subsection{La Soluzione: Dimensionalità Interna e Cardinalità Concettuale \texorpdfstring{$|\mathcal{C}(u)|$}{|C(u)|}}
 
 In HySA, il sistema opera su un \textbf{singolo substrato latente unificato} nello spazio di Hilbert $\mathcal{S} \subset \mathbb{R}^D$. Non esistono due reti fisiche disgiunte: la suddivisione è operata dalla logica funzionale e dal grado di semanticità del neurone, quantificato dalla sua \textbf{Cardinalità Concettuale $|\mathcal{C}(u)|$}:
 
@@ -121,28 +121,35 @@ In HySA, il sistema opera su un \textbf{singolo substrato latente unificato} nel
     \item I nodi a \textbf{cardinalità unitaria ($N_m$, $|\mathcal{C}(u)|=1$)} sono punti rigidi privi di diramazioni associative laterali, che ancorano un singolo fatto immutabile.
 \end{itemize}
 
-\subsection{Tensori di Sovrapposizione Contrastivi ($I_n$)}
+\subsection{Tensori di Sovrapposizione Contrastivi \texorpdfstring{($I_n$)}{(In)}}
 
-Per comprendere come i concetti si sovrappongano ordinatamente dentro unità ad alta cardinalità senza contaminarsi a vicenda, estraiamo il \textbf{Tensore di Sovrapposizione Contrastivo} $I_n$ tramite l'aspettativa dell'intera rete su dati contrastivi:
+Per comprendere come i concetti si sovrappongano ordinatamente dentro unità ad alta cardinalità senza contaminarsi a vicenda, estraggo il \textbf{Tensore di Sovrapposizione Contrastivo} $I_n$ tramite l'aspettativa dell'intera rete su dati contrastivi:
 \begin{equation}
     I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
     \label{eq:imprinted_tensor}
 \end{equation}
-Come illustrato nella Figura~\ref{fig:imprinted_tensors}, all'interno di pochi neuroni ad alta cardinalità ($N_p=4$) i concetti si sovrappongono in modo geometricamente ordinato: una semplice intersezione di Hadamard ($I_1 \odot I_2$) estrae l'invariante condiviso (il cerchio), mentre la sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isola il tratto differenziale, dimostrando l'isolamento algebrico senza alcuna necessità di frammentare la rete in milioni di feature monosemantiche disgiunte.
+Come illustrato nella Figura~\ref{fig:imprinted_tensors}, all'interno di un collo di bottiglia a 4 neuroni ($N_p=4$) addestrato su un manifold sintetico $32 \times 32$ di cifre, i concetti si sovrappongono in modo geometricamente ordinato: una semplice intersezione di Hadamard ($I_1 \odot I_2$) estrae i segmenti strutturali condivisi, mentre la sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isola il tratto differenziale, dimostrando l'isolamento algebrico senza alcuna necessità di frammentare la rete in milioni di feature monosemantiche disgiunte.
+
+Per formalizzare il limite di capacità tra rappresentazione fluida e indicizzazione rigida, la Figura~\ref{fig:phase_transition} caratterizza le transizioni termodinamiche dell'architettura:
+\begin{itemize}[leftmargin=*, itemsep=1.5pt]
+    \item \textbf{Transizione Volumetrica dell'Ipersfera ($T_t^D$, Fig.~\ref{fig:phase_transition}a):} Al crescere del Vincolo di Determinismo ($\mathcal{D}$), la frazione di volume monosemantico vincolato $\mathcal{V}_m$ scala come $(T_t / R)^D$, subendo una netta transizione di fase che delimita lo spazio libero $\mathcal{V}_p$.
+    \item \textbf{Bilanciamento di Capacità e Punto Critico ($P_c$, Fig.~\ref{fig:phase_transition}b):} Il gradiente di compressione $\Delta q = \frac{N_p}{N_m \cdot M}$ definisce un paesaggio di costo d'instabilità in cui $P_c$ rappresenta l'equilibrio ottimale, evitando sia la deriva associativa ($\Delta q \gg 1$) sia la saturazione da sovra-indicizzazione a dizionario ($\Delta q \ll 1$).
+    \item \textbf{Corruzione dei Letterali Fattuali ($T_p$ vs. $T_t$, Fig.~\ref{fig:phase_transition}c):} Al crescere della temperatura polisemantica $T_p$, la decodifica non vincolata subisce una rapida corruzione ($>40\%$), mentre HySA garantisce lo $0.0\%$ di errore sui dati verificati, convertendo le traiettorie ambigue in espliciti \textit{Semantic Fault}.
+\end{itemize}
 
 \begin{figure}[t]
     \centering
     \IfFileExists{fig2_phase_transition.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig2_phase_transition.pdf}
+        \includegraphics[width=0.94\textwidth]{fig2_phase_transition.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 2: Transizioni e Punto di Equilibrio]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
-    \caption{\textbf{Bilanciamento del Gradiente di Compressione e Benchmark di Verifica Fattuale in HySA.} \textbf{(a)} Transizione volumetrica tra spazio libero e vincoli indicizzati. \textbf{(b)} Il Punto Critico stazionario $P_c$, che bilancia la deriva associativa e la saturazione da sovra-indicizzazione. \textbf{(c)} Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce rapida corruzione ($>80\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti \textit{Errori Semantici} (\textit{Semantic Faults}).}
+    \vspace{-0.2cm}
+    \caption{\textbf{Bilanciamento del Gradiente di Compressione e Benchmark di Verifica Fattuale in HySA.} \textbf{(a)} Transizione volumetrica ($T_t^D$) tra spazio libero $\mathcal{V}_p$ e vincoli indicizzati $\mathcal{V}_m$ sotto il Vincolo di Determinismo $\mathcal{D}$. \textbf{(b)} Il Punto Critico stazionario $P_c$, che bilancia la deriva associativa ($\Delta q \gg 1$) e la saturazione da sovra-indicizzazione ($\Delta q \ll 1$). \textbf{(c)} Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce rapida corruzione ($>40\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti \textit{Errori Semantici} (\textit{Semantic Faults}).}
     \label{fig:phase_transition}
 \end{figure}
 
-\section{Indicizzazione, Temperature ($T_p, T_m$) e la Logica ``Query/API''}
+\section{Indicizzazione, Temperature \texorpdfstring{($T_p, T_m$)}{(Tp, Tm)} e la Logica ``Query/API''}
 
 Nei sistemi operativi convenzionali, la memoria RAM gestisce l'esecuzione dinamica e fluida dei processi, mentre i dati persistenti risiedono nel filesystem, ancorati a puntatori rigidi denominati \textbf{Inode}. HySA traspone questa architettura nello spazio latente del Transformer, formalizzando la corrispondenza illustrata nella Tabella~\ref{tab:systems_mapping}.
 
@@ -164,7 +171,7 @@ Nei sistemi operativi convenzionali, la memoria RAM gestisce l'esecuzione dinami
 \end{tabular}
 \end{table}
 
-\subsection{Le Due Temperature ($T_p$ e $T_m$) e la Temperatura Topologica ($T_t$)}
+\subsection{Le Due Temperature \texorpdfstring{($T_p$ e $T_m$)}{(Tp e Tm)} e la Temperatura Topologica \texorpdfstring{($T_t$)}{(Tt)}}
 
 Nei modelli standard la temperatura $\tau > 0$ è un divisore scalare post-hoc applicato ai logit finali per modulare l'entropia della distribuzione; si tratta di un parametro privo di consapevolezza geometrica rispetto al contesto semantico. In HySA la temperatura diventa una proprietà metrica dello spazio attorno al neurone (l'\textbf{Ipersfera Semantica}) e si articola in due regimi:
 
@@ -186,11 +193,11 @@ Sulla sfera unitaria $S^{D-1}$, la distanza euclidea $\ell_2$ coincide esattamen
 \begin{figure}[t]
     \centering
     \IfFileExists{fig3_hypersphere_geometry.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig3_hypersphere_geometry.pdf}
+        \includegraphics[width=0.94\textwidth]{fig3_hypersphere_geometry.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figura 3: Geometria dell'Ipersfera e Architettura]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
+    \vspace{-0.2cm}
     \caption{\textbf{Geometria Concentrica dei Domini Semantici, Architettura Early-Exit e Probing Empirico su \texttt{Pythia-70m}.} \textbf{(a)} Geometria concentrica dei confini metrici attorno all'Inode $\mu_k$: il nucleo deterministico $T_t = 0.46$ (conferma fattuale con Early-Exit), la fascia cuscinetto $R_{\mathrm{dom}} = 0.65$ (\textit{Semantic Fault} su fatti non indicizzati nel dominio) e lo spazio fluido aperto $d^* > R_{\mathrm{dom}}$ (generazione libera $N_p$). \textbf{(b)} Macro-architettura con Early-Exit al layer intermedio ($l=3$): l'operatore $Q$ intercetta lo stato $q_l$; in caso di hit ($\le T_t$) esegue l'Early-Exit bypassando i layer $4 \dots 6$, mentre le traiettorie fuori dominio ($> R_{\mathrm{dom}}$) proseguono verso $\mathbf{W}_U$. \textbf{(c)} Distanze empiriche su \texttt{Pythia-70M} (Layer 3, $D=512$): separazione metrica netta e non sovrapposta tra fatti indicizzati ($d^* \le 0.4304$, Early-Exit), query non indicizzata ($d^* = 0.4973$, Semantic Fault) e prompt creativi (\texttt{Sky}, $d^* = 1.0430$, Bypass fluido).}
     \label{fig:hypersphere_geometry}
 \end{figure}
@@ -243,33 +250,27 @@ L'equilibrio operativo ottimale dipende dal rapporto tra la capacità associativ
     \item \textbf{Il Punto Critico ($P_c$):} Rappresenta il punto di lavoro ottimale dell'architettura: le sfere $T_t$ sono sufficientemente delimitate da lasciare libero lo spazio latente per il ragionamento fluido, ma opportunamente posizionate per intercettare con precisione chirurgica le traiettorie non appena il contesto converge verso un fatto noto.
 \end{enumerate}
 
-\begin{tcolorbox}[title={\small \textbf{Algoritmo 1: Forward Pass Unificato con Gating Geometrico al Layer Intermedio e Early-Exit}}]
+\begin{tcolorbox}[top=4pt, bottom=4pt, title={\small \textbf{Algoritmo 1: Forward Pass Unificato con Gating Geometrico al Layer Intermedio e Early-Exit}}]
 \small
 \textbf{Input:} Token di contesto $\{x_{\le t}\}$, Layer del Transformer $\mathcal{L}_{1 \dots L}$, Layer di probing $l$ (es. $l=3$), Registro $\mathcal{F}_{\mathrm{mono}} = \{(\mu_k, \mathbf{v}_k)\}_{k=1}^M$, Temperature $T_p, T_m$, Raggio di Dominio $R_{\mathrm{dom}}$ (con $T_t < R_{\mathrm{dom}}$). \\
 \textbf{Output:} Token emesso $x_{t+1}$ oppure eccezione esplicita di sistema $\bot_{\mathrm{Fault}}$.
-\begin{enumerate}[leftmargin=*, itemsep=2.0pt, topsep=2.0pt]
+\begin{enumerate}[leftmargin=*, itemsep=1.0pt, topsep=1.0pt]
     \item \textbf{Propagazione parziale fino al layer intermedio $l$:}
-    \begin{equation*}
-        h_t^{(l)} \leftarrow \mathcal{L}_{1 \dots l}(x_{\le t}), \quad q_l \leftarrow \frac{h_t^{(l)}}{\|h_t^{(l)}\|_2}
-    \end{equation*}
+    $h_t^{(l)} \leftarrow \mathcal{L}_{1 \dots l}(x_{\le t})$, \quad $q_l \leftarrow h_t^{(l)} / \|h_t^{(l)}\|_2$
     \item \textbf{Calcolo del confine topologico saturante:}
-    \begin{equation*}
-        T_t \leftarrow T_m \left( 1 + \alpha \tanh\left(\frac{T_p}{T_m}\right) \right)
-    \end{equation*}
+    $T_t \leftarrow T_m \left( 1 + \alpha \tanh\left(\frac{T_p}{T_m}\right) \right)$
     \item \textbf{Query sull'indice metrico degli Inode ($\mathcal{F}_{\mathrm{mono}}$):}
-    \begin{equation*}
-        k^* = \arg\min_{k \in \{1, \dots, M\}} \|q_l - \mu_k\|_2, \quad d^* = \|q_l - \mu_{k^*}\|_2
-    \end{equation*}
+    $k^* = \arg\min_{k \in \{1, \dots, M\}} \|q_l - \mu_k\|_2$, \quad $d^* = \|q_l - \mu_{k^*}\|_2$
     \item \textbf{se} $d^* \le T_t$ \textbf{allora} \hfill \textit{// Hit Deterministico: Early-Exit al Layer l}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Interrompi i layer $l+1 \dots L$ e restituisci il dato certificato: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
     \end{itemize}
     \item \textbf{altrimenti se} $T_t < d^* \le R_{\mathrm{dom}}$ \textbf{allora} \hfill \textit{// Nel Dominio Fattuale ma Dato Non Censito}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Solleva \textbf{Semantic Fault}: ritorna $\bot_{\mathrm{Fault}}$ \hfill \textit{// Allucinazione bloccata a metà rete}
     \end{itemize}
     \item \textbf{altrimenti} \hfill \textit{// Fuori Dominio ($d^* > R_{\mathrm{dom}}$): Regime Fluido Discorsivo Np}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Completa la propagazione: $h_t^{(L)} \leftarrow \mathcal{L}_{l+1 \dots L}(h_t^{(l)})$
         \item Campiona dai logit finali con temperatura $T_p$: $x_{t+1} \sim \mathrm{Softmax}\left(\frac{\mathbf{W}_U h_t^{(L)}}{T_p}\right)$
     \end{itemize}

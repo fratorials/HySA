@@ -32,16 +32,16 @@ tags:
 > *"L'industria dell'IA vede il polisemantismo come una condanna... ma forse è la benedizione che ha reso possibile l'intelligenza."*
 
 > [!abstract] Sommario (Abstract)
-> La ricerca attuale nell'*Interpretabilità Meccanicistica* tratta il polisemantismo neuronale come un difetto di compressione (*Ipotesi di Sovrapposizione*), investendo ingenti risorse nell'uso di Sparse Autoencoder (SAE) per scomporre la rete in dizionari di unità puramente monosemantiche. Questo lavoro parte da una tesi opposta: **il polisemantismo non è un bug da correggere, ma il prerequisito strutturale dell'intelligenza associativa.** Un neurone puramente monosemantico ha zero gradi di libertà relazionali ($\mathcal{R}(u)=0$): non potendo connettere concetti distanti, funziona solo come una rigida cella di memoria. Al contrario, le unità polisemantiche si attivano su concetti isomorfi (es. `IP`, `DNS`, `Pagine Bianche`, `Numero di Telefono`) per astrarre schemi logici di ordine superiore. Il vero problema dei modelli attuali non è la sovrapposizione semantica, ma la mancata separazione tra il **comportamento fluido** (ragionamento) e il **comportamento di verifica** (recupero del dato esatto). Per risolvere questa dicotomia senza ricorrere a colli di bottiglia in serie o a duplicazioni in parallelo, presentiamo **HySA (Hybrid Semantic Architecture)**: un paradigma ibrido in cui lo spazio latente è unificato, delimitato non da blocchi fisici separati ma dal **grado di semanticità del neurone** e dalla sua **dimensionalità interna (cardinalità $M$)**. Attraverso due regimi termici distinti — Temperatura Polisemantica ($T_p$) e Monosemantica ($T_m$) — unificati nella Temperatura Topologica ($T_t$), un Raggio di Dominio Fattuale ($R_{\mathrm{dom}}$), e un meccanismo interno di **Gating Geometrico al Layer Intermedio con Early-Exit** su registro metrico (**Inode**), HySA permette al modello di ragionare in modo plastico e di ancorarsi a dati deterministici quando serve, bloccando le allucinazioni tramite eccezioni esplicite di sistema (*Semantic Fault*).
+> La ricerca attuale nell'*Interpretabilità Meccanicistica* tratta il polisemantismo neuronale come un difetto di compressione (*Ipotesi di Sovrapposizione*), investendo ingenti risorse nell'uso di Sparse Autoencoder (SAE) per scomporre la rete in dizionari di unità puramente monosemantiche. Questo lavoro parte da una tesi opposta: **il polisemantismo non è un bug da correggere, ma il prerequisito strutturale dell'intelligenza associativa.** Un neurone puramente monosemantico ha zero gradi di libertà relazionali ($\mathcal{R}(u)=0$): non potendo connettere concetti distanti, funziona solo come una rigida cella di memoria. Al contrario, le unità polisemantiche si attivano su concetti isomorfi (es. `IP`, `DNS`, `Pagine Bianche`, `Numero di Telefono`) per astrarre schemi logici di ordine superiore. Il vero problema dei modelli attuali non è la sovrapposizione semantica, ma la mancata separazione tra il **comportamento fluido** (ragionamento) e il **comportamento di verifica** (recupero del dato esatto). Per risolvere questa dicotomia senza ricorrere a colli di bottiglia in serie o a duplicazioni in parallelo, presento **HySA (Hybrid Semantic Architecture)**: un paradigma ibrido in cui lo spazio latente è unificato, delimitato non da blocchi fisici separati ma dal **grado di semanticità del neurone** e dalla sua **dimensionalità interna (cardinalità $|\mathcal{C}(u)|$)**. Attraverso due regimi termici distinti — Temperatura Polisemantica ($T_p$) e Monosemantica ($T_m$) — unificati nella Temperatura Topologica ($T_t$), un Raggio di Dominio Fattuale ($R_{\mathrm{dom}}$), e un meccanismo interno di **Gating Geometrico al Layer Intermedio con Early-Exit** su registro metrico (**Inode**), HySA permette al modello di ragionare in modo plastico e di ancorarsi a dati deterministici quando serve, bloccando le allucinazioni tramite eccezioni esplicite di sistema (*Semantic Fault*).
 
 ---
 
 ![Figura 1: Tensori di Sovrapposizione Contrastivi](assets/fig1_imprinted_tensors.png)
-*Figura 1: **Tensori di Sovrapposizione Contrastivi ($I_n$) e Query Semantiche Algebriche sul Benchmark $32 \times 32$.** Le Colonne 1–4 mostrano le rappresentazioni polisemantiche apprese da un collo di bottiglia a 4 neuroni. Ciascun tensore cattura primitive geometriche multiple. La Colonna 5 isola l'invariante strutturale condiviso tramite intersezione di Hadamard ($I_1 \odot I_2$). La Colonna 6 estrae la divergenza differenziale tramite sottrazione rettificata ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), dimostrando l'isolamento algebrico delle feature senza distruggere la connettività polisemantica.*
+*Figura 1: **Tensori di Sovrapposizione Contrastivi ($I_n$) ed Emulazione Algebrica sul Manifold $32 \times 32$.** Il blocco a contrasto emula matrici binarie $X \in \{0, 1\}^{32 \times 32}$ strutturate su header Inode $N_m$ ($2 \times 2$ pixel, col. $2, 5, 8, 11$) e manifold polisemantico $N_p$ (cifre `'0'`, `'6'`, `'8'`, `'9'` con jitter). **Col. 1--4 ($I_1 \dots I_4$):** Rappresentazioni dal collo di bottiglia a 4 neuroni ($z \in \mathbb{R}^4$), ciascuna sovrapponente combinazioni di cifre ($I_1 \to \text{'8'}$, $I_2 \to \text{'6'}$, $I_3 \to \text{'0'}$, $I_4 \to \text{'9'}$) e header Inode. **Col. 5 ($I_1 \odot I_2$):** Intersezione di Hadamard che isola l'invariante strutturale condiviso tra `'8'` e `'6'`. **Col. 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):** Sottrazione rettificata che isola la divergenza morfologica (anello superiore di `'8'`), sopprimendo l'Inode comune e dimostrando l'isolamento algebrico deterministico.*
 
 ## 1. Il Problema di Fondo: Astrazione Fluida vs. Verifica Fattuale
 
-Nelle reti neurali profonde, un singolo neurone si attiva frequentemente per concetti apparentemente disgiunti (*polisemantismo*) [3]. La risposta convenzionale dell'interpretabilità meccanicistica consiste nell'impiegare Sparse Autoencoder (SAE) [4, 5] per scomporre lo spazio latente in dizionari di direzioni monosemantiche isolate.
+Nelle reti neurali profonde, un singolo neurone manifesta frequentemente selettività mista (*mixed selectivity*) e si attiva per concetti eterogenei (*polisemantismo*) [1, 2, 3]. La risposta convenzionale dell'interpretabilità meccanicistica consiste nell'impiegare Sparse Autoencoder (SAE) [4, 5] per scomporre lo spazio latente in dizionari di direzioni monosemantiche isolate.
 
 Tuttavia, usare la monosemia come obiettivo di progettazione architetturale rappresenta un vicolo cieco: scambia il meccanismo con cui la rete astrae per rumore statistico. Si confondono due funzioni cognitive essenziali:
 
@@ -61,18 +61,18 @@ I modelli attuali allucinano perché impastano entrambi i regimi negli stessi pe
 
 ## 2. Architettura Unificata: Né Serie, Né Parallelo
 
-Accoppiare $N_p$ ed $N_m$ in **serie** crea un collo di bottiglia meccanico che distrugge la fluidità contestuale; accoppiarli in **parallelo** ($2\times \mathrm{FLOPs}$) richiede moduli euristici di arbitraggio insostenibili.
+Accoppiare $N_p$ ed $N_m$ in serie crea un collo di bottiglia meccanico che distrugge la fluidità contestuale; accoppiarli in parallelo ($2\times \mathrm{FLOPs}$) richiede moduli euristici di arbitraggio insostenibili.
 
-**Soluzione: Dimensionalità Interna e Cardinalità $[M]$.** HySA opera su un unico substrato nello spazio di Hilbert $\mathcal{S} \subset \mathbb{R}^D$, delimitato dalla cardinalità $M$:
+**Soluzione: Dimensionalità Interna e Cardinalità Concettuale $|\mathcal{C}(u)|$.** HySA opera su un unico substrato nello spazio di Hilbert $\mathcal{S} \subset \mathbb{R}^D$, delimitato dalla cardinalità concettuale $|\mathcal{C}(u)|$:
 
-* **Alta Cardinalità ($N_p$, $M \gg 1$):** Aggregano concetti isomorfi per la sintesi e il pensiero fluido.
-* **Cardinalità Unitaria ($N_m$, $M=1$):** Punti privi di rami associativi che ancorano fatti immutabili.
+* **Alta Cardinalità ($N_p$, $|\mathcal{C}(u)| \gg 1$):** Aggregano concetti isomorfi per la sintesi e il pensiero fluido.
+* **Cardinalità Unitaria ($N_m$, $|\mathcal{C}(u)|=1$):** Punti privi di rami associativi che ancorano fatti immutabili.
 
 **Tensori di Sovrapposizione Contrastivi ($I_n$):**
 $$
 I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
 $$
-Come illustrato nella Figura 1, dentro pochi neuroni ($N_p=4$) i concetti non si sporcano ma si sovrappongono in modo ordinato: $I_1 \odot I_2$ estrae l'invariante condiviso, mentre $\mathrm{ReLU}(I_1 - 0.7 I_2)$ isola la differenza, senza esplodere la rete in dizionari enormi.
+Come illustrato nella Figura 1, dentro pochi neuroni ($N_p=4$) i concetti non si sporcano ma si sovrappongono in modo ordinato: $I_1 \odot I_2$ estrae i segmenti strutturali condivisi, mentre $\mathrm{ReLU}(I_1 - 0.7 I_2)$ isola la differenza, senza esplodere la rete in dizionari enormi.
 
 ---
 
@@ -112,7 +112,7 @@ con la condizione $T_t < R_{\mathrm{dom}}$, che delimita la palla metrica $\math
 > $$
 
 ![Figura 2: Transizioni e Punto di Equilibrio](assets/fig2_phase_transition.png)
-*Figura 2: **Bilanciamento del Gradiente di Compressione e Benchmark di Verifica Fattuale in HySA.** **(a)** Transizione volumetrica tra spazio libero e vincoli indicizzati. **(b)** Il Punto Critico stazionario $P_c$, che bilancia la deriva associativa e la saturazione da sovra-indicizzazione. **(c)** Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce rapida corruzione ($>80\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti Errori Semantici (Semantic Faults).*
+*Figura 2: **Bilanciamento del Gradiente di Compressione e Benchmark di Verifica Fattuale in HySA.** **(a)** Transizione volumetrica tra spazio libero e vincoli indicizzati. **(b)** Il Punto Critico stazionario $P_c$, che bilancia la deriva associativa e la saturazione da sovra-indicizzazione. **(c)** Benchmark sui letterali fattuali al crescere di $T_p$: la decodifica non vincolata subisce rapida corruzione ($>40\%$), mentre HySA garantisce lo $0.0\%$ di corruzione sulle query verificate, trasformando gli stati ambigui in espliciti Errori Semantici (Semantic Faults).*
 
 **Punto di Equilibrio ($P_c$):** Se $N_p$ domina ($\Delta q \gg 1$), il modello soffre di deriva associativa. Se $N_m$ domina con sfere troppo larghe, lo spazio si satura e il modello regredisce a un lookup table rigido. Il Punto Critico $P_c$ garantisce sfere $T_t$ abbastanza strette da lasciare libero il pensiero fluido, intercettando con precisione i fatti noti.
 
@@ -157,7 +157,7 @@ L'approccio a valle basato sull'entropia dei logit fallisce sia su frasi creativ
 
 ## 6. Conclusione
 
-HySA dimostra che il polisemantismo è il motore dell'intelligenza associativa fluida ($T_p$), mentre la monosemia è il presidio della memoria fattuale ($T_m$). Unificando entrambi i regimi nell'Ipersfera Semantica con confini concentrici ($T_t, R_{\mathrm{dom}}$) e interrogazione API al layer intermedio su registro Inode, i modelli coniugano astrazione plastica, efficienza computazionale ed esatto rigore deterministico.
+Con **HySA** propongo un'architettura che dimostra come il polisemantismo sia il motore dell'intelligenza associativa fluida ($T_p$), mentre la monosemia è il presidio della memoria fattuale ($T_m$). Unificando entrambi i regimi nell'Ipersfera Semantica con confini concentrici ($T_t, R_{\mathrm{dom}}$) e interrogazione API al layer intermedio su registro Inode, i modelli coniugano astrazione plastica, efficienza computazionale ed esatto rigore deterministico.
 
 ---
 

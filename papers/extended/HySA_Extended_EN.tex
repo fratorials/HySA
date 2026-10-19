@@ -62,13 +62,13 @@
 \end{center}
 
 \begin{abstract}
-\noindent Contemporary research in \textit{Mechanistic Interpretability} predominantly characterizes neuronal polysemanticity as an undesirable compression artifact (\textit{the Superposition Hypothesis}), dedicating immense computational resources to decomposing neural representations into dictionaries of purely monosemantic features using Sparse Autoencoders (SAEs). This work establishes the opposite thesis: polysemanticity is not a flaw to eradicate, but the geometric prerequisite for associative intelligence and analogical reasoning. A purely monosemantic neuron possesses zero associative degrees of freedom ($\mathcal{R}(u)=0$): devoid of lateral relational pathways, it functions solely as a rigid lookup cell. Conversely, polysemantic units co-activate across isomorphic concepts (e.g., \texttt{IP}, \texttt{DNS}, \texttt{White Pages}, \texttt{Phone Number}) to abstract higher-order relational schemas. The root deficiency in contemporary language models is not semantic superposition, but the architectural entanglement of \textbf{fluid reasoning} (analogical synthesis) and \textbf{verification behavior} (exact literal retrieval). To decouple these cognitive domains without resorting to serial bottlenecks (which collapse contextual nuance) or parallel duplication (which incurs redundant $2\times\mathrm{FLOPs}$ overhead), we introduce \textbf{HySA (Hybrid Semantic Architecture)}: a unified, single-substrate paradigm delimited not by separate physical networks, but by \textbf{neuronal semanticity} and \textbf{internal dimensionality (cardinality $M$)}. Introducing dual regime temperatures — Polysemantic ($T_p$) and Monosemantic ($T_m$) — unified into the Topological Temperature ($T_t$), and an internal \textbf{Query/API} operating over an orthogonal metric registry (\textbf{Inodes}), HySA empowers models to reason plastically while anchoring to deterministic literals on-demand, halting hallucinations via explicit system exceptions (\textit{Semantic Faults}).
+\noindent Contemporary research in \textit{Mechanistic Interpretability} predominantly characterizes neuronal polysemanticity as an undesirable compression artifact (\textit{the Superposition Hypothesis}), dedicating immense computational resources to decomposing neural representations into dictionaries of purely monosemantic features using Sparse Autoencoders (SAEs). This work establishes the opposite thesis: polysemanticity is not a flaw to eradicate, but the geometric prerequisite for associative intelligence and analogical reasoning. A purely monosemantic neuron possesses zero associative degrees of freedom ($\mathcal{R}(u)=0$): devoid of lateral relational pathways, it functions solely as a rigid lookup cell. Conversely, polysemantic units co-activate across isomorphic concepts (e.g., \texttt{IP}, \texttt{DNS}, \texttt{White Pages}, \texttt{Phone Number}) to abstract higher-order relational schemas. The root deficiency in contemporary language models is not semantic superposition, but the architectural entanglement of \textbf{fluid reasoning} (analogical synthesis) and \textbf{verification behavior} (exact literal retrieval). To decouple these cognitive domains without resorting to serial bottlenecks (which collapse contextual nuance) or parallel duplication (which incurs redundant $2\times\mathrm{FLOPs}$ overhead), I introduce \textbf{HySA (Hybrid Semantic Architecture)}: a unified, single-substrate paradigm delimited not by separate physical networks, but by \textbf{neuronal semanticity} and \textbf{internal dimensionality (cardinality $|\mathcal{C}(u)|$)}. Introducing dual regime temperatures — Polysemantic ($T_p$) and Monosemantic ($T_m$) — unified into the Topological Temperature ($T_t$), and an internal \textbf{Query/API} operating over an orthogonal metric registry (\textbf{Inodes}), HySA empowers models to reason plastically while anchoring to deterministic literals on-demand, halting hallucinations via explicit system exceptions (\textit{Semantic Faults}).
 \vspace{0.35cm}
 \end{abstract}
 
 \section{The Core Problem: Fluid Abstraction vs. Factual Verification}
 
-In deep artificial neural networks, individual units consistently exhibit mixed selectivity~\cite{elhage2022toy}. The mechanistic interpretability community has historically treated this phenomenon (\textit{polysemanticity}) as an undesirable barrier, attributing it to models compressing more semantic concepts ($M$) than available physical dimensions ($D$). The mainstream response centers on training Sparse Autoencoders (SAEs)~\cite{bricken2023monosemanticity, templeton2024scaling} to unroll latent states into millions of isolated monosemantic feature directions.
+In deep artificial neural networks, individual units consistently exhibit mixed selectivity~\cite{rigotti2013importance, fusi2016why, elhage2022toy}. The mechanistic interpretability community has historically treated this phenomenon (\textit{polysemanticity}) as an undesirable barrier, attributing it to models compressing more semantic concepts ($M$) than available physical dimensions ($D$). The mainstream response centers on training Sparse Autoencoders (SAEs)~\cite{bricken2023monosemanticity, templeton2024scaling} to unroll latent states into millions of isolated monosemantic feature directions.
 
 However, utilizing SAEs as an external analytical lens must not be conflated with an architectural design objective. Enforcing monosemantic purity as an operational substrate is a conceptual dead end: it mistakes the core mechanism by which neural networks generate relational abstraction for statistical noise. Pursuing absolute monosemanticity conflates two cognitive functions that systems engineering has segregated for decades: \textbf{logical processing} and \textbf{data storage}.
 
@@ -84,12 +84,12 @@ HySA resolves this by decoupling fluid reasoning from factual verification. Once
 \begin{figure}[t]
     \centering
     \IfFileExists{fig1_imprinted_tensors.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig1_imprinted_tensors.pdf}
+        \includegraphics[width=0.92\textwidth]{fig1_imprinted_tensors.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figure 1: Contrastive Superposition Tensors]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
-    \caption{\textbf{Contrastive Superposition Tensors ($I_n$) and Algebraic Semantic Queries on the $32 \times 32$ Benchmark.} Columns 1--4 display polysemantic representations learned by a 4-neuron bottleneck. Each tensor captures multiple geometric primitives. Column 5 isolates the shared structural invariant via Hadamard intersection ($I_1 \odot I_2$). Column 6 extracts differential divergence via rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), demonstrating algebraic feature isolation without destroying polysemantic connectivity.}
+    \vspace{-0.25cm}
+    \caption{\textbf{Contrastive Superposition Tensors ($I_n$) and Algebraic Emulation on the $32 \times 32$ Synthetic Manifold.} The contrastive block emulates and reconstructs binary matrices $X \in \{0, 1\}^{32 \times 32}$ spanning two structural regimes: a rigid monosemantic Inode header $N_m$ ($2 \times 2$ pixels top-left, columns $2, 5, 8, 11$) and a polysemantic structural manifold $N_p$ encoding geometric digits \texttt{'0'}, \texttt{'6'}, \texttt{'8'}, and \texttt{'9'} under spatial jitter ($\Delta x, \Delta y \in \{-1, 0, 1\}$). \textbf{Columns 1--4 ($I_1 \dots I_4$):} Polysemantic representations learned by the 4-neuron bottleneck ($z \in \mathbb{R}^4$), where each tensor reconstructs superimposed digit combinations ($I_1 \to \text{\texttt{'8'}}$, $I_2 \to \text{\texttt{'6'}}$, $I_3 \to \text{\texttt{'0'}}$, $I_4 \to \text{\texttt{'9'}}$) alongside their class Inodes. \textbf{Column 5 ($I_1 \odot I_2$):} Hadamard intersection isolates the shared structural invariant between digits \texttt{'8'} and \texttt{'6'} (common lower loop). \textbf{Column 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):} Rectified difference extracts morphological divergence (upper loop of \texttt{'8'}), completely suppressing the shared Inode header and demonstrating exact algebraic queryability without shattering relational plasticity.}
     \label{fig:imprinted_tensors}
 \end{figure}
 
@@ -110,38 +110,45 @@ When designing systems to handle both abstraction and ground truth, standard eng
     \item \textbf{Why Not Parallel ($N_p \parallel N_m$):} Running duplicate independent networks in parallel is computationally wasteful, doubling parameter footprint and memory bandwidth ($2\times \mathrm{FLOPs}$), while introducing the unresolved problem of designing heuristic arbitration heads to reconcile divergent outputs.
 \end{enumerate}
 
-\subsection{The Solution: Internal Dimensionality and Cardinality $[M]$}
+\subsection{The Solution: Internal Dimensionality and Conceptual Cardinality \texorpdfstring{$|\mathcal{C}(u)|$}{|C(u)|}}
 
-In HySA, the model operates on a \textbf{single unified latent substrate} in Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. There are no separate physical networks: segregation is defined by functional logic and by the degree of neuronal semanticity, parameterized by \textbf{Cardinality $[M]$}:
+In HySA, the model operates on a \textbf{single unified latent substrate} in Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. There are no separate physical networks: segregation is defined by functional logic and by the degree of neuronal semanticity, parameterized by its \textbf{Conceptual Cardinality $|\mathcal{C}(u)|$}:
 
 \begin{itemize}[leftmargin=*, itemsep=2.0pt]
-    \item Cardinality $M$ represents a \textbf{higher-order level of abstraction}: it quantifies how many distinct concepts or instances converge onto a given logical node.
-    \item \textbf{High-cardinality nodes ($N_p$, $M \gg 1$)} aggregate isomorphic concepts, forming the relational fabric for fluid reasoning.
-    \item \textbf{Unit-cardinality nodes ($N_m$, $M=1$)} are rigid metric centroids devoid of lateral associative branches, anchoring an immutable factual literal.
+    \item Conceptual cardinality $|\mathcal{C}(u)|$ represents a \textbf{higher-order level of abstraction}: it quantifies how many distinct concepts or instances converge onto a given logical node.
+    \item \textbf{High-cardinality nodes ($N_p$, $|\mathcal{C}(u)| \gg 1$)} aggregate isomorphic concepts, forming the relational fabric for fluid reasoning.
+    \item \textbf{Unit-cardinality nodes ($N_m$, $|\mathcal{C}(u)|=1$)} are rigid metric centroids devoid of lateral associative branches, anchoring an immutable factual literal.
 \end{itemize}
 
-\subsection{Contrastive Superposition Tensors ($I_n$)}
+\subsection{Contrastive Superposition Tensors \texorpdfstring{($I_n$)}{(In)}}
 
-To understand how concepts superimpose cleanly within high-cardinality units without destructive cross-talk, we extract the \textbf{Contrastive Superposition Tensor} $I_n$ via whole-network expectation responses across contrastive data:
+To understand how concepts superimpose cleanly within high-cardinality units without destructive cross-talk, I extract the \textbf{Contrastive Superposition Tensor} $I_n$ via whole-network expectation responses across contrastive data:
 \begin{equation}
     I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
     \label{eq:imprinted_tensor}
 \end{equation}
-As shown in Figure~\ref{fig:imprinted_tensors}, single units in a 4-neuron bottleneck ($N_p=4$) cleanly superimpose overlapping geometric invariants: Hadamard intersection ($I_1 \odot I_2$) extracts shared circular loops, while rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates differential features, demonstrating exact algebraic queryability without shattering the network into millions of disjoint monosemantic components.
+As shown in Figure~\ref{fig:imprinted_tensors}, single units in a 4-neuron bottleneck ($N_p=4$) trained on a $32 \times 32$ synthetic digit manifold cleanly superimpose overlapping geometric invariants: Hadamard intersection ($I_1 \odot I_2$) isolates shared structural segments, while rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates differential features, demonstrating exact algebraic queryability without shattering the network into millions of disjoint monosemantic components.
+
+To formalize the capacity boundary between fluid representation and rigid indexing, Figure~\ref{fig:phase_transition} characterizes the thermodynamic transitions of the architecture:
+\begin{itemize}[leftmargin=*, itemsep=1.5pt]
+    \item \textbf{Hypersphere Volume Transition ($T_t^D$, Fig.~\ref{fig:phase_transition}a):} As the Determinism Constraint $\mathcal{D}$ increases, the available monosemantic volume $\mathcal{V}_m$ expands as $(T_t / R)^D$, undergoing a sharp phase transition that constrains ungrounded exploration $\mathcal{V}_p$.
+    \item \textbf{Capacity Balancing and Critical Point ($P_c$, Fig.~\ref{fig:phase_transition}b):} Balancing the compression gradient $\Delta q = \frac{N_p}{N_m \cdot M}$ yields an instability cost landscape where $P_c$ marks the optimal stationary point, avoiding both associative drift ($\Delta q \gg 1$) and dictionary lookup saturation ($\Delta q \ll 1$).
+    \item \textbf{Factual Literal Corruption ($T_p$ vs. $T_t$, Fig.~\ref{fig:phase_transition}c):} Under rising polysemantic temperature $T_p$, unconstrained decoding suffers rapid corruption ($>40\%$), whereas HySA maintains $0.0\%$ corruption on verified queries by converting ambiguous trajectories into explicit \textit{Semantic Faults}.
+\end{itemize}
 
 \begin{figure}[t]
     \centering
     \IfFileExists{fig2_phase_transition.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig2_phase_transition.pdf}
+        \includegraphics[width=0.94\textwidth]{fig2_phase_transition.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figure 2: Thermodynamic Transitions and Critical Point]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
-    \caption{\textbf{Compression Gradient Balancing and Factual Verification in HySA.} \textbf{(a)} Volumetric transition between fluid exploration and indexed constraint space. \textbf{(b)} The stationary Critical Point $P_c$, balancing associative drift against over-indexed dictionary saturation. \textbf{(c)} Factual literal benchmark under rising $T_p$: unconstrained decoding suffers rapid corruption ($>80\%$), while HySA guarantees $0.0\%$ corruption on verified queries, converting ambiguous states into explicit \textit{Semantic Faults}.}
+    \vspace{-0.2cm}
+    \caption{\textbf{Compression Gradient Balancing and Factual Verification in HySA.} \textbf{(a)} Volumetric transition ($T_t^D$) between fluid exploration $\mathcal{V}_p$ and indexed constraint space $\mathcal{V}_m$ under Determinism Constraint $\mathcal{D}$. \textbf{(b)} The stationary Critical Point $P_c$, balancing associative drift ($\Delta q \gg 1$) against over-indexed dictionary saturation ($\Delta q \ll 1$). \textbf{(c)} Factual literal benchmark under rising $T_p$: unconstrained decoding suffers rapid corruption ($>40\%$), while HySA guarantees $0.0\%$ corruption on verified queries, converting ambiguous states into explicit \textit{Semantic Faults}.}
     \label{fig:phase_transition}
 \end{figure}
 
-\section{Indexing, Dual Temperatures ($T_p, T_m$), and Internal Query/API Logic}
+\section{Indexing, Dual Temperatures \texorpdfstring{($T_p, T_m$)}{(Tp, Tm)}, and Internal Query/API Logic}
 
 In operating systems, volatile RAM manages dynamic process execution, while persistent data resides within filesystems anchored by rigid metadata index pointers (\textbf{Inodes}). HySA translates this exact systems architecture into latent Hilbert space (Table~\ref{tab:systems_mapping}).
 
@@ -163,7 +170,7 @@ In operating systems, volatile RAM manages dynamic process execution, while pers
 \end{tabular}
 \end{table}
 
-\subsection{Dual Temperatures ($T_p, T_m$) and Topological Temperature ($T_t$)}
+\subsection{Dual Temperatures \texorpdfstring{($T_p, T_m$)}{(Tp, Tm)} and Topological Temperature \texorpdfstring{($T_t$)}{(Tt)}}
 
 Standard autoregressive models employ a single scalar divisor $\tau > 0$ on final logits to flatten or sharpen sampling probabilities—a mechanism blind to semantic topology. In HySA, temperature is defined geometrically as the metric ball around a neuron in latent space (the \textbf{Semantic Hypersphere}), governed by two regimes:
 
@@ -185,11 +192,11 @@ On unit sphere $S^{D-1}$, Euclidean distance $\ell_2$ is in exact bijection with
 \begin{figure}[t]
     \centering
     \IfFileExists{fig3_hypersphere_geometry.pdf}{
-        \includegraphics[width=0.98\textwidth]{fig3_hypersphere_geometry.pdf}
+        \includegraphics[width=0.94\textwidth]{fig3_hypersphere_geometry.pdf}
     }{
         \fbox{\parbox{0.95\textwidth}{\centering \vspace{0.8cm} \textbf{[Figure 3: Semantic Hypersphere and Architecture]} \vspace{0.8cm}}}
     }
-    \vspace{-0.15cm}
+    \vspace{-0.2cm}
     \caption{\textbf{Concentric Semantic Domains Geometry, Early-Exit Architecture, and Empirical Probing on \texttt{Pythia-70m}.} \textbf{(a)} Concentric metric boundaries around Inode $\mu_k$: deterministic core $T_t = 0.46$ (factual confirmation with Early-Exit), buffer band $R_{\mathrm{dom}} = 0.65$ (\textit{Semantic Fault} on unindexed in-domain facts), and open fluid manifold $d^* > R_{\mathrm{dom}}$ (unconstrained $N_p$ generation). \textbf{(b)} Unified architecture with intermediate layer Early-Exit ($l=3$): operator $Q$ probes normalized state $q_l$; on Inode hit ($\le T_t$) it executes immediate Early-Exit bypassing layers $4 \dots 6$, while out-of-domain trajectories ($> R_{\mathrm{dom}}$) proceed to lexical projection $\mathbf{W}_U$. \textbf{(c)} Empirical distances on \texttt{Pythia-70M} (Layer 3, $D=512$): clear, non-overlapping metric separation across indexed factual queries ($d^* \le 0.4304$, Early-Exit), unindexed technical query ($d^* = 0.4973$, Semantic Fault), and open creative discourse (\texttt{Sky}, $d^* = 1.0430$, Fluid bypass).}
     \label{fig:hypersphere_geometry}
 \end{figure}
@@ -242,33 +249,27 @@ The optimal operating balance between associative capacity ($N_p$) and indexed l
     \item \textbf{The Critical Point ($P_c$):} Represents the stationary operating equilibrium: $T_t$ balls are sufficiently tight to leave latent space unconstrained for fluid reasoning, yet strategically positioned to intercept trajectories when context converges onto certified facts.
 \end{enumerate}
 
-\begin{tcolorbox}[title={\small \textbf{Algorithm 1: Unified Forward Pass with Intermediate Layer Geometric Gating and Early-Exit}}]
+\begin{tcolorbox}[top=4pt, bottom=4pt, title={\small \textbf{Algorithm 1: Unified Forward Pass with Intermediate Layer Geometric Gating and Early-Exit}}]
 \small
 \textbf{Input:} Context tokens $\{x_{\le t}\}$, Transformer layers $\mathcal{L}_{1 \dots L}$, Probing layer $l$ (e.g., $l=3$), Monosemantic Registry $\mathcal{F}_{\mathrm{mono}} = \{(\mu_k, \mathbf{v}_k)\}_{k=1}^M$, Temperatures $T_p, T_m$, Domain Boundary $R_{\mathrm{dom}}$ (with $T_t < R_{\mathrm{dom}}$). \\
 \textbf{Output:} Emitted token $x_{t+1}$ or explicit system exception $\bot_{\mathrm{Fault}}$.
-\begin{enumerate}[leftmargin=*, itemsep=2.0pt, topsep=2.0pt]
+\begin{enumerate}[leftmargin=*, itemsep=1.0pt, topsep=1.0pt]
     \item \textbf{Forward propagate to intermediate layer $l$:}
-    \begin{equation*}
-        h_t^{(l)} \leftarrow \mathcal{L}_{1 \dots l}(x_{\le t}), \quad q_l \leftarrow \frac{h_t^{(l)}}{\|h_t^{(l)}\|_2}
-    \end{equation*}
+    $h_t^{(l)} \leftarrow \mathcal{L}_{1 \dots l}(x_{\le t})$, \quad $q_l \leftarrow h_t^{(l)} / \|h_t^{(l)}\|_2$
     \item \textbf{Compute saturating topological boundary:}
-    \begin{equation*}
-        T_t \leftarrow T_m \left( 1 + \alpha \tanh\left(\frac{T_p}{T_m}\right) \right)
-    \end{equation*}
+    $T_t \leftarrow T_m \left( 1 + \alpha \tanh\left(\frac{T_p}{T_m}\right) \right)$
     \item \textbf{Query metric Inode index ($\mathcal{F}_{\mathrm{mono}}$):}
-    \begin{equation*}
-        k^* = \arg\min_{k \in \{1, \dots, M\}} \|q_l - \mu_k\|_2, \quad d^* = \|q_l - \mu_{k^*}\|_2
-    \end{equation*}
+    $k^* = \arg\min_{k \in \{1, \dots, M\}} \|q_l - \mu_k\|_2$, \quad $d^* = \|q_l - \mu_{k^*}\|_2$
     \item \textbf{if} $d^* \le T_t$ \textbf{then} \hfill \textit{// Deterministic Hit: Early-Exit at Layer l}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Halt layers $l+1 \dots L$ and emit certified literal: $x_{t+1} \leftarrow \mathbf{v}_{k^*}$
     \end{itemize}
     \item \textbf{else if} $T_t < d^* \le R_{\mathrm{dom}}$ \textbf{then} \hfill \textit{// In-Domain but Unindexed}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Raise \textbf{Semantic Fault}: return $\bot_{\mathrm{Fault}}$ \hfill \textit{// Hallucination halted mid-network}
     \end{itemize}
     \item \textbf{else} \hfill \textit{// Out-of-Domain ($d^* > R_{\mathrm{dom}}$): Fluid Discursive Regime Np}
-    \begin{itemize}[leftmargin=14pt, itemsep=1.0pt]
+    \begin{itemize}[leftmargin=14pt, itemsep=0.5pt, topsep=0.5pt]
         \item Complete forward pass: $h_t^{(L)} \leftarrow \mathcal{L}_{l+1 \dots L}(h_t^{(l)})$
         \item Sample from final logits under temperature $T_p$: $x_{t+1} \sim \mathrm{Softmax}\left(\frac{\mathbf{W}_U h_t^{(L)}}{T_p}\right)$
     \end{itemize}
@@ -277,7 +278,7 @@ The optimal operating balance between associative capacity ($N_p$) and indexed l
 
 \section{Empirical Validation on Real Transformer (\texttt{Pythia-70m})}
 
-To validate this geometric behavior, we inspect the residual stream at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m}. Utilizing a compact model without factual pretraining is an intentional methodological choice: unconstrained Pythia-70M fails on $100\%$ of analyzed technical prompts, producing stochastic guesses (\texttt{' 1'}, \texttt{' used'}, \texttt{' 0'}, \texttt{' the'}). This demonstrates that anchoring to HySA Inodes imparts $100\%$ deterministic precision without parameter retraining.
+To validate this geometric behavior, I inspect the residual stream at Layer 3 ($D=512$) on \texttt{EleutherAI/pythia-70m}. Utilizing a compact model without factual pretraining is an intentional methodological choice: unconstrained Pythia-70M fails on $100\%$ of analyzed technical prompts, producing stochastic guesses (\texttt{' 1'}, \texttt{' used'}, \texttt{' 0'}, \texttt{' the'}). This demonstrates that anchoring to HySA Inodes imparts $100\%$ deterministic precision without parameter retraining.
 
 Empirical evaluations confirm three core behaviors:
 
@@ -344,7 +345,7 @@ For query throughput, querying registry $\mathcal{F}_{\mathrm{mono}}$ avoids exh
 
 Attempting to eliminate polysemanticity to force interpretability resembles dismantling associative cognition because it does not mirror a relational database.
 
-HySA advances an engineering grounded in real systems: permitting polysemantic units to perform fluid, associative reasoning (governed by $T_p$), complemented by a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Rather than two disconnected models in series or parallel, HySA formalizes a unified substrate querying internal metric APIs whenever fluid narrative must yield to factual precision.
+With \textbf{HySA}, I propose an engineering paradigm grounded in real systems: permitting polysemantic units to perform fluid, associative reasoning (governed by $T_p$), complemented by a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Rather than two disconnected models in series or parallel, HySA formalizes a unified substrate querying internal metric APIs whenever fluid narrative must yield to factual precision.
 
 \begin{thebibliography}{20}
 \small

@@ -33,13 +33,13 @@ tags:
 > [!abstract] Abstract
 > Contemporary research in *Mechanistic Interpretability* predominantly characterizes neuronal polysemanticity as an undesirable compression artifact (*the Superposition Hypothesis*), dedicating immense computational resources to decomposing neural representations into dictionaries of purely monosemantic features using Sparse Autoencoders (SAEs). This work establishes the opposite thesis: **polysemanticity is not a bug to eradicate, but the geometric prerequisite for associative intelligence and analogical reasoning.** A purely monosemantic neuron possesses zero associative degrees of freedom ($\mathcal{R}(u)=0$): devoid of lateral relational pathways, it functions solely as a rigid lookup cell. Conversely, polysemantic units co-activate across isomorphic concepts (e.g., `IP`, `DNS`, `White Pages`, `Phone Number`) to abstract higher-order relational schemas.
 > 
-> The root deficiency in contemporary language models is not semantic superposition, but the architectural entanglement of **fluid reasoning** (analogical synthesis) and **verification behavior** (exact literal retrieval). To decouple these cognitive domains without resorting to serial bottlenecks (which collapse contextual nuance) or parallel duplication (which incurs redundant $2\times\mathrm{FLOPs}$ overhead), we introduce **HySA (Hybrid Semantic Architecture)**: a unified, single-substrate paradigm delimited not by separate physical networks, but by **neuronal semanticity** and **internal dimensionality (cardinality $M$)**. Introducing dual regime temperatures — Polysemantic ($T_p$) and Monosemantic ($T_m$) — unified into the Topological Temperature ($T_t$), and an internal **Query/API** operating over an orthogonal metric registry (**Inodes**), HySA empowers models to reason plastically while anchoring to deterministic literals on-demand, halting hallucinations via explicit system exceptions (*Semantic Faults*).
+> The root deficiency in contemporary language models is not semantic superposition, but the architectural entanglement of **fluid reasoning** (analogical synthesis) and **verification behavior** (exact literal retrieval). To decouple these cognitive domains without resorting to serial bottlenecks (which collapse contextual nuance) or parallel duplication (which incurs redundant $2\times\mathrm{FLOPs}$ overhead), I introduce **HySA (Hybrid Semantic Architecture)**: a unified, single-substrate paradigm delimited not by separate physical networks, but by **neuronal semanticity** and **internal dimensionality (cardinality $|\mathcal{C}(u)|$)**. Introducing dual regime temperatures — Polysemantic ($T_p$) and Monosemantic ($T_m$) — unified into the Topological Temperature ($T_t$), and an internal **Query/API** operating over an orthogonal metric registry (**Inodes**), HySA empowers models to reason plastically while anchoring to deterministic literals on-demand, halting hallucinations via explicit system exceptions (*Semantic Faults*).
 
 ---
 
 ## 1. The Core Problem: Fluid Abstraction vs. Factual Verification
 
-In deep artificial neural networks, individual units consistently exhibit mixed selectivity. Mechanistic interpretability researchers view this behavior (*polysemanticity*) as a limitation resulting from compressing more semantic concepts ($M$) than physical dimensions available ($D$) [3]. The dominant industry response consists of training Sparse Autoencoders (SAEs) [4, 5] to unpack these neurons into dictionaries of isolated monosemantic feature directions.
+In deep artificial neural networks, individual units consistently exhibit mixed selectivity [1, 2, 3]. Mechanistic interpretability researchers view this behavior (*polysemanticity*) as a limitation resulting from compressing more semantic concepts ($M$) than physical dimensions available ($D$) [3]. The dominant industry response consists of training Sparse Autoencoders (SAEs) [4, 5] to unpack these neurons into dictionaries of isolated monosemantic feature directions.
 
 However, utilizing SAEs as an external diagnostic lens must not be conflated with an operational architecture objective. Enforcing monosemantic purity as an operational architectural foundation represents a conceptual dead end: it mistakes the primary mechanism by which neural networks generate relational abstraction for statistical noise.
 
@@ -53,7 +53,7 @@ Modern LLMs hallucinate because they entangle both regimes within homogeneous, d
 HySA resolves this by decoupling fluid reasoning from factual verification. Once segregated conceptually, the central engineering challenge is **indexing**: enabling fluid intelligence to retrieve rigid literals with sub-millisecond efficiency, zero false positives, and deterministic integrity, without altering the plasticity of the transformer.
 
 ![Figure 1: Contrastive Superposition Tensors](assets/fig1_imprinted_tensors.png)
-*Figure 1: **Contrastive Superposition Tensors ($I_n$) and Algebraic Semantic Queries on the $32 \times 32$ Benchmark.** Columns 1–4 display polysemantic representations learned by a 4-neuron bottleneck. Each tensor captures multiple geometric primitives. Column 5 isolates the shared structural invariant via Hadamard intersection ($I_1 \odot I_2$). Column 6 extracts differential divergence via rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$), demonstrating algebraic feature isolation without destroying polysemantic connectivity.*
+*Figure 1: **Contrastive Superposition Tensors ($I_n$) and Algebraic Emulation on the $32 \times 32$ Synthetic Manifold.** The contrastive block emulates and reconstructs binary matrices $X \in \{0, 1\}^{32 \times 32}$ spanning two structural regimes: a rigid monosemantic Inode header $N_m$ ($2 \times 2$ pixels top-left, columns $2, 5, 8, 11$) and a polysemantic structural manifold $N_p$ encoding geometric digits `'0'`, `'6'`, `'8'`, and `'9'` under spatial jitter ($\Delta x, \Delta y \in \{-1, 0, 1\}$). **Columns 1–4 ($I_1 \dots I_4$):** Polysemantic representations learned by the 4-neuron bottleneck ($z \in \mathbb{R}^4$), where each tensor reconstructs superimposed digit combinations ($I_1 \to \text{'8'}$, $I_2 \to \text{'6'}$, $I_3 \to \text{'0'}$, $I_4 \to \text{'9'}$) alongside their class Inodes. **Column 5 ($I_1 \odot I_2$):** Hadamard intersection isolates the shared structural invariant between digits `'8'` and `'6'` (common lower loop). **Column 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):** Rectified difference extracts morphological divergence (upper loop of `'8'`), completely suppressing the shared Inode header and demonstrating exact algebraic queryability without shattering relational plasticity.*
 
 > [!definition] Definition 1 (Relational Rank of Semantic Units)
 > Let $u$ be a neuronal unit and $\Omega$ the concept space. Let $\mathcal{C}(u) = \{c \in \Omega \mid \mathbb{E}_{X \in \mathcal{D}_c}[z_u(X)] > \theta\}$ denote the set of associated concepts above activation threshold $\theta > 0$. The **Relational Rank** $\mathcal{R}(u)$ is the cardinality of pairwise associative transfer paths enabled by the unit:
@@ -71,21 +71,28 @@ When designing systems to handle both abstraction and ground truth, standard eng
 * **Why Not Serial ($N_p \to N_m$ or vice versa):** Placing a rigid monosemantic layer downstream of a polysemantic network creates a mechanical bottleneck that prematurely collapses relational nuances into discrete categories. Conversely, placing it upstream strips away contextual cues before polysemantic abstraction can emerge.
 * **Why Not Parallel ($N_p \parallel N_m$):** Running duplicate independent networks in parallel is computationally wasteful, doubling parameter footprint and memory bandwidth ($2\times \mathrm{FLOPs}$), while introducing the unresolved problem of designing heuristic arbitration heads to reconcile divergent outputs.
 
-### The Solution: Internal Dimensionality and Cardinality $[M]$
+### The Solution: Internal Dimensionality and Conceptual Cardinality $|\mathcal{C}(u)|$
 
-In HySA, the model operates on a **single unified latent substrate** in Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. There are no separate physical networks: segregation is defined by functional logic and by the degree of neuronal semanticity, parameterized by **Cardinality $[M]$**:
+In HySA, the model operates on a **single unified latent substrate** in Hilbert space $\mathcal{S} \subset \mathbb{R}^D$. There are no separate physical networks: segregation is defined by functional logic and by the degree of neuronal semanticity, parameterized by its **Conceptual Cardinality $|\mathcal{C}(u)|$**:
 
-* Cardinality $M$ represents a **higher-order level of abstraction**: it quantifies how many distinct concepts or instances converge onto a given logical node.
-* **High-cardinality nodes ($N_p$, $M \gg 1$)** aggregate isomorphic concepts, forming the relational fabric for fluid reasoning.
-Contrastive Superposition Tensors $I_n$ on the synthetic $32 \times 32$ digits benchmark demonstrate that inside a compact 4-neuron bottleneck ($N_p=4$), concepts do not degrade each other, but superimpose in an orderly geometry: a simple Hadamard intersection ($I_1 \odot I_2$) isolates the shared invariant loop, while rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates distinct features, without exploding the model into millions of isolated monosemantic dictionaries.
+* Conceptual cardinality $|\mathcal{C}(u)|$ represents a **higher-order level of abstraction**: it quantifies how many distinct concepts or instances converge onto a given logical node.
+* **High-cardinality nodes ($N_p$, $|\mathcal{C}(u)| \gg 1$)** aggregate isomorphic concepts, forming the relational fabric for fluid reasoning.
+* **Unit-cardinality nodes ($N_m$, $|\mathcal{C}(u)|=1$)** are rigid metric centroids devoid of lateral associative branches, anchoring an immutable factual literal.
 
-We formalize the Contrastive Superposition Tensor $I_n$ as:
+Contrastive Superposition Tensors $I_n$ on the synthetic $32 \times 32$ digits benchmark demonstrate that inside a compact 4-neuron bottleneck ($N_p=4$) trained with rigid checksum Inodes, concepts do not degrade each other, but superimpose in an orderly geometry: a simple Hadamard intersection ($I_1 \odot I_2$) isolates shared structural segments, while rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates distinct features, without exploding the model into millions of isolated monosemantic dictionaries.
+
+I formalize the Contrastive Superposition Tensor $I_n$ as:
 $$
 I_n = \frac{1}{\sum_{X_k \in \mathcal{X}^+} z_{k,n} + \eta} \left[ \sum_{X_k \in \mathcal{X}^+} z_{k,n} \cdot \Phi_{\mathrm{net}}(X_k \mid n) - \gamma \sum_{X_j \in \mathcal{X}^-} z_{j,n} \cdot \Phi_{\mathrm{net}}(X_j \mid n) \right]
 $$
 
+To formalize the capacity boundary between fluid representation and rigid indexing, Figure 2 characterizes the thermodynamic transitions of the architecture:
+* **Hypersphere Volume Transition ($T_t^D$, Fig. 2a):** As the Determinism Constraint $\mathcal{D}$ increases, the available monosemantic volume $\mathcal{V}_m$ expands as $(T_t / R)^D$, undergoing a sharp phase transition that constrains ungrounded exploration $\mathcal{V}_p$.
+* **Capacity Balancing and Critical Point ($P_c$, Fig. 2b):** Balancing the compression gradient $\Delta q = \frac{N_p}{N_m \cdot M}$ yields an instability cost landscape where $P_c$ marks the optimal stationary point, avoiding both associative drift ($\Delta q \gg 1$) and dictionary lookup saturation ($\Delta q \ll 1$).
+* **Factual Literal Corruption ($T_p$ vs. $T_t$, Fig. 2c):** Under rising polysemantic temperature $T_p$, unconstrained decoding suffers rapid corruption ($>40\%$), whereas HySA maintains $0.0\%$ corruption on verified queries by converting ambiguous trajectories into explicit *Semantic Faults*.
+
 ![Figure 2: Thermodynamic Transitions and Critical Point](assets/fig2_phase_transition.png)
-*Figure 2: **Compression Gradient Balancing and Factual Verification in HySA.** **(a)** Volumetric transition between fluid exploration and indexed constraint space. **(b)** The stationary Critical Point $P_c$, balancing associative drift against over-indexed dictionary saturation. **(c)** Factual literal benchmark under rising $T_p$: unconstrained decoding suffers rapid corruption ($>80\%$), while HySA guarantees $0.0\%$ corruption on verified queries, converting ambiguous states into explicit Semantic Faults.*
+*Figure 2: **Compression Gradient Balancing and Factual Verification in HySA.** **(a)** Volumetric transition ($T_t^D$) between fluid exploration $\mathcal{V}_p$ and indexed constraint space $\mathcal{V}_m$ under Determinism Constraint $\mathcal{D}$. **(b)** The stationary Critical Point $P_c$, balancing associative drift ($\Delta q \gg 1$) against over-indexed dictionary saturation ($\Delta q \ll 1$). **(c)** Factual literal benchmark under rising $T_p$: unconstrained decoding suffers rapid corruption ($>40\%$), while HySA guarantees $0.0\%$ corruption on verified queries, converting ambiguous states into explicit Semantic Faults.*
 
 ---
 
@@ -185,7 +192,7 @@ The optimal balance between associative capacity ($N_p$) and indexed literal cou
 
 ## 4. Empirical Validation on Real Transformer (`Pythia-70m`)
 
-To validate this geometric behavior, we inspect the residual stream at Layer 3 ($D=512$) on `EleutherAI/pythia-70m`.
+To validate this geometric behavior, I inspect the residual stream at Layer 3 ($D=512$) on `EleutherAI/pythia-70m`.
 
 Adopting a compact model not specifically trained on dense factual memorization is a deliberate methodological choice: on the technical prompts evaluated, unconstrained `Pythia-70m` fails 100% of the time, producing generic stochastic tokens (`' 1'`, `' used'`, `' 0'`, `' the'`). This provides unambiguous empirical proof that anchoring to HySA Inodes establishes 100% deterministic precision without requiring parameter fine-tuning or retraining.
 
@@ -238,7 +245,7 @@ Validating mechanics on a curated set of Inodes demonstrates feasibility. Scalin
 
 Attempting to eliminate polysemanticity to force interpretability resembles dismantling associative cognition because it does not mirror a relational database.
 
-HySA advances an engineering grounded in real systems: permitting polysemantic units to perform fluid, associative reasoning (governed by $T_p$), complemented by a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Rather than two disconnected models in series or parallel, HySA formalizes a unified substrate querying internal metric APIs whenever fluid narrative must yield to factual precision.
+With **HySA**, I propose an engineering paradigm grounded in real systems: permitting polysemantic units to perform fluid, associative reasoning (governed by $T_p$), complemented by a deterministic verification substrate anchored by monosemantic Inodes ($T_m$). Rather than two disconnected models in series or parallel, HySA formalizes a unified substrate querying internal metric APIs whenever fluid narrative must yield to factual precision.
 
 ---
 

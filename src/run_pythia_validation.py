@@ -6,8 +6,9 @@ Author: Francesco Mariani
 Validates the three key systems properties of HySA:
   1. Polysemantic Manifold Convergence (Np): Natural relational abstraction across isomorphic prompts
   2. Semantic Hypersphere Radial Distances: Probing conceptual geometry with pure English tokens (CAT, FELINE, WEIGHT, TRUCK)
-  3. Autonomous Entropy Gate & Inode Verification: Automatic trigger via logit entropy (killing the manual flag)
-     yielding 100% deterministic precision on valid facts and raising Semantic Faults on unindexed drift.
+  3. Intermediate Layer Concentric Geometric Gating & Early-Exit (Layer 3): Probing latent states prior to
+     lexical projection (eliminating logit entropy flaws), yielding 100% deterministic precision on valid Inodes,
+     raising Semantic Faults on unindexed factual drift, and letting fluid discourse pass untrammeled.
 """
 
 import torch

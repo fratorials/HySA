@@ -1,21 +1,22 @@
 # HySA: Hybrid Semantic Architecture
 
-> **Preserving Polysemantic Abstraction via Contrastive Superposition Tensors, Monosemantic Inodes, and Topological Temperature ($T_t$)**
+> **Decoupling Fluid Reasoning from Deterministic Verification via Neuronal Semanticity and Inode Indexing**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23459635.svg)](https://doi.org/10.5281/zenodo.23459635)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0008--1319--3573-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0008-1319-3573)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![Paper: 12-Page Extended](https://img.shields.io/badge/Paper-12--Page%20Extended%20Edition-success.svg)](papers/extended/HySA_Extended_EN.pdf)
-[![Paper: 4-Page Condensed](https://img.shields.io/badge/Paper-4--Page%20Condensed%20Edition-blue.svg)](papers/condensed/HySA_Short_EN.pdf)
+[![Paper: 9-Page Extended](https://img.shields.io/badge/Paper-9--Page%20Extended%20Edition-success.svg)](papers/extended/HySA_Extended_EN.pdf)
+[![Paper: 8-Page Two-Column](https://img.shields.io/badge/Paper-8--Page%20Two--Column-purple.svg)](papers/extended/HySA_Extended_TwoColumn_EN.pdf)
+[![Paper: 3-Page Condensed](https://img.shields.io/badge/Paper-3--Page%20Condensed%20Edition-blue.svg)](papers/condensed/HySA_Short_EN.pdf)
 
 ---
 
 > *"The AI industry views polysemanticity as a curse... yet perhaps it is the very blessing that made intelligence possible."*
 
 Official open-source repository and codebase for the research paper:  
-**"HySA: Hybrid Semantic Architecture — Preserving Polysemantic Abstraction via Contrastive Superposition Tensors, Monosemantic Inodes, and Topological Temperature ($T_t$)"**  
+**"HySA (Hybrid Semantic Architecture): Decoupling Fluid Reasoning from Deterministic Verification via Neuronal Semanticity and Inode Indexing"**  
 *Author:* **Francesco Mariani** (*Independent Systems Architect*, Umbria, Italy — `fratorials@gmail.com`)  
 *ORCID:* [0009-0008-1319-3573](https://orcid.org/0009-0008-1319-3573)  
 *DOI:* [10.5281/zenodo.23459635](https://doi.org/10.5281/zenodo.23459635)
@@ -92,17 +93,17 @@ $$Q(q_l, \mathcal{F}_{\mathrm{mono}}, T_t, R_{\mathrm{dom}}) = \begin{cases}
 The capacity allocation between fluid associative units and rigid factual Inodes is defined by:
 $$\Delta q = \frac{N_p}{N_m \cdot M}$$
 where $M$ is the internal cardinality of indexed literals. This governs three operational regimes:
-* **Under-Indexing ($\Delta q \ll 1$, Associative Drift):** Polysemantic nodes dominate without adequate anchors. The model excels at cross-domain synthesis but hallucinates exact values.
-* **Over-Indexing ($\Delta q \gg 1$, Lookup Saturation):** Inodes saturate the latent volume, engulfing associative pathways. The network degrades into an inflexible lookup table.
+* **Under-Indexing ($\Delta q \gg 1$, Associative Drift):** Polysemantic nodes dominate without adequate anchors. The model excels at cross-domain synthesis but hallucinates exact values.
+* **Over-Indexing ($\Delta q \ll 1$, Lookup Saturation):** Inodes saturate the latent volume, engulfing associative pathways. The network degrades into an inflexible lookup table.
 * **The Critical Point ($P_c$):** The optimal systems operating point where metric tolerance radii $T_t$ leave ample volume for fluid exploration while intercepting factual queries with surgical precision.
 
 ---
 
 ## 📊 Experimental Results
 
-### Figure 1: Contrastive Superposition Tensors & Algebraic Queries ($32 \times 32$ Manifold)
+### Figure 1: Contrastive Superposition Tensors & Algebraic Emulation ($32 \times 32$ Manifold)
 ![Figure 1: Imprinted Tensors](assets/fig1_imprinted_tensors.png)
-*Learned polysemantic representations in a 4-neuron bottleneck. Hadamard intersection ($I_1 \odot I_2$) isolates shared circular loops; rectified subtraction ($\mathrm{ReLU}(I_1 - 0.7 I_2)$) isolates differential features without destroying polysemantic connectivity.*
+*The contrastive block emulates and reconstructs binary matrices $X \in \{0, 1\}^{32 \times 32}$ structured into rigid monosemantic Inode headers $N_m$ ($2 \times 2$ pixels top-left, columns 2, 5, 8, 11) and a polysemantic structural manifold $N_p$ (digits `'0'`, `'6'`, `'8'`, `'9'` under spatial jitter). **Cols 1–4 ($I_1 \dots I_4$):** 4-neuron bottleneck ($z \in \mathbb{R}^4$) superimposing digit primitives ($I_1 \to \text{'8'}$, $I_2 \to \text{'6'}$, $I_3 \to \text{'0'}$, $I_4 \to \text{'9'}$) alongside Inodes. **Col 5 ($I_1 \odot I_2$):** Hadamard intersection isolating shared structural segments between `'8'` and `'6'`. **Col 6 ($\mathrm{ReLU}(I_1 - 0.7 I_2)$):** Rectified subtraction isolating differential morphology (upper loop of `'8'`), completely suppressing the shared Inode header.*
 
 ---
 
@@ -110,7 +111,7 @@ where $M$ is the internal cardinality of indexed literals. This governs three op
 ![Figure 2: Phase Transition & Critical Point](assets/fig2_phase_transition.png)
 * **(a) Metric Volume Trade-Off:** High-dimensional regime allocation ($D=32$) between fluid volume $\mathcal{V}_p$ and deterministic Inode volume $\mathcal{V}_m$.
 * **(b) Capacity Landscape:** Architectural instability cost identifying the stationary Critical Point $P_c$.
-* **(c) Factual Verification Benchmark:** Unconstrained decoding suffers $>80\%$ literal corruption under rising $T_p$, whereas HySA maintains **$0.0\%$ corruption** on confirmed queries, intercepting drift as explicit Semantic Faults.
+* **(c) Factual Verification Benchmark:** Unconstrained decoding suffers $>40\%$ literal corruption under rising $T_p$, whereas HySA maintains **$0.0\%$ corruption** on confirmed queries, intercepting drift as explicit Semantic Faults.
 
 ---
 
@@ -184,21 +185,25 @@ python3 src/generate_figures.py
 
 ### 3. Compile LaTeX Manuscripts
 ```bash
-# Compile Flagship 12-page Extended English edition (single-column)
+# Compile Flagship 9-page Extended English edition (single-column)
 cd papers/extended
 pdflatex -interaction=nonstopmode HySA_Extended_EN.tex
 pdflatex -interaction=nonstopmode HySA_Extended_EN.tex
 
-# Compile Flagship 12-page Extended Italian edition (single-column)
+# Compile Flagship 9-page Extended Italian edition (single-column)
 pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
 pdflatex -interaction=nonstopmode HySA_Extended_IT.tex
 
-# Compile 4-page Condensed English Conference Short-Paper (two-column)
+# Compile 8-page Extended Two-Column English edition
+pdflatex -interaction=nonstopmode HySA_Extended_TwoColumn_EN.tex
+pdflatex -interaction=nonstopmode HySA_Extended_TwoColumn_EN.tex
+
+# Compile 3-page Condensed English Conference Short-Paper (two-column)
 cd ../condensed
 pdflatex -interaction=nonstopmode HySA_Short_EN.tex
 pdflatex -interaction=nonstopmode HySA_Short_EN.tex
 
-# Compile 4-page Condensed Italian Conference Short-Paper (two-column)
+# Compile 3-page Condensed Italian Conference Short-Paper (two-column)
 pdflatex -interaction=nonstopmode HySA_Short_IT.tex
 pdflatex -interaction=nonstopmode HySA_Short_IT.tex
 ```
@@ -209,20 +214,32 @@ pdflatex -interaction=nonstopmode HySA_Short_IT.tex
 
 ```text
 HySA/
-├── README.md                      # Overview, paradigm shift, BibTeX citation
+├── README.md                      # Overview, mathematical formulation, BibTeX citation
 ├── LICENSE                        # MIT License
 ├── requirements.txt               # Reproducible dependencies
-├── .gitignore                     # Ignores LaTeX builds, venv, and large archives
+├── .gitignore                     # Ignores build artifacts, venv, and large archives
 │
 ├── papers/                        # 📄 Official Manuscripts & Vector Figures
 │   ├── figures/                   # Shared vector PDF figures (Fig 1, 2, 3)
-│   ├── extended/                  # 12-page Flagship Journal Editions
-│   │   ├── HySA_Extended_EN.pdf   # English Flagship
-│   │   ├── HySA_Extended_IT.pdf   # Italian Flagship
-│   │   └── HySA_Extended_TwoColumn_EN.pdf # 8-page 2-Column Reference
-│   └── condensed/                 # 4-page Conference Short-Papers
-│       ├── HySA_Short_EN.pdf      # English Short Paper (NeurIPS/ICLR style)
-│       └── HySA_Short_IT.pdf      # Italian Short Paper
+│   │   ├── fig1_imprinted_tensors.pdf
+│   │   ├── fig2_phase_transition.pdf
+│   │   └── fig3_hypersphere_geometry.pdf
+│   ├── extended/                  # 9-page Flagship Journal Editions & 8-page Two-Column
+│   │   ├── HySA_Extended_EN.tex   # English LaTeX source (9 pages)
+│   │   ├── HySA_Extended_EN.pdf   # English Flagship PDF
+│   │   ├── HySA_Extended_IT.tex   # Italian LaTeX source (9 pages)
+│   │   ├── HySA_Extended_IT.pdf   # Italian Flagship PDF
+│   │   ├── HySA_Extended_TwoColumn_EN.tex # English Two-Column LaTeX (8 pages)
+│   │   ├── HySA_Extended_TwoColumn_EN.pdf # English Two-Column PDF
+│   │   ├── HySA_Extended_EN.md    # English Markdown edition
+│   │   └── HySA_Extended_IT.md    # Italian Markdown edition
+│   └── condensed/                 # 3-page Conference Short-Papers
+│       ├── HySA_Short_EN.tex      # English Short Paper LaTeX (3 pages)
+│       ├── HySA_Short_EN.pdf      # English Short Paper PDF
+│       ├── HySA_Short_IT.tex      # Italian Short Paper LaTeX (3 pages)
+│       ├── HySA_Short_IT.pdf      # Italian Short Paper PDF
+│       ├── HySA_Short_EN.md       # English Condensed Markdown
+│       └── HySA_Short_IT.md       # Italian Condensed Markdown
 │
 ├── src/                           # 🧠 Python Source Code
 │   ├── run_synthetic_benchmark.py # Synthetic 32x32 manifold bottleneck experiment
@@ -252,7 +269,7 @@ If you find HySA relevant to your research in mechanistic interpretability, neur
 
 ```bibtex
 @article{mariani2026hysa,
-  title={{HySA: Hybrid Semantic Architecture — Preserving Polysemantic Abstraction via Contrastive Superposition Tensors, Monosemantic Inodes, and Topological Temperature ($T_t$)}},
+  title={{HySA (Hybrid Semantic Architecture): Decoupling Fluid Reasoning from Deterministic Verification via Neuronal Semanticity and Inode Indexing}},
   author={Mariani, Francesco},
   journal={arXiv preprint / Zenodo},
   year={2026},
